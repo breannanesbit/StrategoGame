@@ -1,6 +1,6 @@
 # StrategoGame
 
-- [ ] Use of Local Storage
+- [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
 - [ ] Client side state stores (e.g. redux or context)
 - [ ] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
 - [ ] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
