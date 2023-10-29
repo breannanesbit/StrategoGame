@@ -1,7 +1,7 @@
 # StrategoGame
 
 - [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
-- [ ] Client side state stores (e.g. redux or context)
+- [ ] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
 - [ ] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
 - [ ] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
 - [ ] Network Calls
@@ -28,7 +28,12 @@
 - [ ] 3+ generic form input components
   - [ ] text input
   - [ ] select input w/ custom options
+  - [ ] Radio input
+  - [ ] Text entry input
 - [ ] 4+ generic layout components
   - [ ]   Borad
+  - [ ]   Player icon and name
+  - [ ]   leader board
+  - [ ]   Making Player for initial start and edit
 - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
   - [ ] admin pages and public pages - our admin pages will be a settings page to add new achivements people can achive. Most other pages will be for users
