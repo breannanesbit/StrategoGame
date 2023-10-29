@@ -10,11 +10,25 @@
   - [ ] websocket - two players will play the game together on different computers so websockets needed
 - [ ] Developer type helping (typescript) - we will be using typescript
 - [ ] 10+ pages via a router
+  - [ ] Home page w/ start the game button
+  - [ ] rules page
+  - [ ] decide your borad
+  - [ ] play
+  - [ ] leader borad
+  - [ ] gameover showing who won
+  - [ ] saved defualt borads
+  - [ ] create new defualt borads to save
+  - [ ] settings page/user info
+  - [ ] achivements page
+  - [ ] admin create achivements page
 - [ ] CI/CD pipeline
-  - [ ] https support
+  - [ ] https support - we will have an api that handles http requests
   - [ ] Live production environment - we will have our deployment.yml and use github actions to host our site on the class server. 
   - [ ] Automated testing and linting in the pipeline (abort build if fails) - to our deployment file we make it build tests and use the linter in our deployment like we did for the linter assignment. 
 - [ ] 3+ generic form input components
+  - [ ] text input
+  - [ ] select input w/ custom options
 - [ ] 4+ generic layout components
-- [ ] authentication and user account support 
-  - [ ] admin pages and public pages
+  - [ ]   Borad
+- [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
+  - [ ] admin pages and public pages - our admin pages will be a settings page to add new achivements people can achive. Most other pages will be for users
