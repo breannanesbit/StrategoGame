@@ -1,5 +1,45 @@
 # StrategoGame
+## Nov 4th
+  - [ ] CI/CD pipeline
+  - [ ] Home page w/ start the game button
+  - [ ] rules page
+  - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
+  - [ ]   Borad generic (start)
+  - [ ] decide your borad page (start)
+  - [ ] generic input 
 
+## Nov 11th ( 8 items by date)
+  - [ ] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
+  - [ ] Network Calls
+    - [ ] read data - will read when moves are made, when website is loaded etc. 
+    - [ ] write data - will write a new move, new board or when user informations is added
+    - [ ] websocket - two players will play the game together on different computers so websockets needed
+  - [ ] play page
+  - [ ] 3+ generic form input components
+  - [ ] gameover showing who won page
+
+## Nov 18th ( 13 items by date)
+  - [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
+  - [ ] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
+  - [ ] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
+  - [ ] leader borad
+  - [ ] leader board generic
+## Nov 25th 
+  - [ ]   Player icon and name
+  - [ ]   Making Player for initial start and edit genaric
+  - [ ] settings page/user info
+
+## Dec 2nd (22 items by date)
+  - [ ] admin pages and public pages - our admin pages will be a settings page to add new achivements people can achive. Most other pages will be for users
+  - [ ] admin create achivements page
+  - [ ] achivements page
+
+## Dec 9 (26 items by date)
+  - uncompleted tasks
+
+## Extra
+
+# 
 - [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
 - [ ] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
 - [ ] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
