@@ -11,7 +11,6 @@ jobs:
 
       - name: redeploy application
         run: |
-
           docker build -t breanna_lint -f lint.Dockerfile .
           docker run -i --rm breanna_lint
           docker compose pull
