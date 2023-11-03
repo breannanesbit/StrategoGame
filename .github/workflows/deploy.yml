@@ -13,6 +13,7 @@ jobs:
         run: |
           docker build -t breanna_lint -f lint.Dockerfile .
           docker run -i --rm breanna_lint
+          ls
           docker compose pull
           docker compose build
           docker compose down
