@@ -12,6 +12,7 @@ services:
   #   volumes:
   #     - /home/stratego/data/apiStorage:/app/storage 
   
+  
   swag:
     image: lscr.io/linuxserver/swag
     container_name: stratego
