@@ -1,9 +1,13 @@
 import "../styles/homepage.css";
+import { Link } from 'react-router-dom';
 
 export const HomePage = () => {
   return (
     <div className="bg-image">
-        <button className="btn btn-outline-danger m-2">Rules</button>
+        <button className="btn btn-outline-danger m-2">
+          <Link style={{textDecoration: 'none',color: 'red'}} to={'/rules'}>Rules</Link>
+        </button>
+        <h1 className="text-center">Welcome to Stratego</h1>
       <div className="container-fluid d-flex justify-content-center align-items-center max-height">
         <div className="col col-7">
         <div className="row">
