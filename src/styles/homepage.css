@@ -1,0 +1,12 @@
+.bg-image {
+    background-image: url('/src/styles/images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+     color: white;  
+  }
+
+.max-height {
+    height:85%;
+}
