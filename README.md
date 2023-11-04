@@ -1,7 +1,7 @@
 # StrategoGame
 ## Nov 4th
   - [ ] CI/CD pipeline
-  - [ ] Home page w/ start the game button
+  - [X] Home page w/ start the game button
   - [x] rules page
   - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
   - [ ]   Borad generic (start)
