@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 export const GameRules = () => {
@@ -51,6 +52,8 @@ export const GameRules = () => {
           <h2>Game End:</h2>
           <p>The game ends when a player captures their opponent's flag or when one player can no longer make any legal moves.</p>
           <p>Stratego is a game of both skill and strategy, as players must deduce the ranks of their opponent's hidden pieces and use their own pieces effectively to achieve victory. It's a game that combines elements of chess and memory, making it an enjoyable and challenging strategy game for two players.</p>
+        
+          <Link style={{textDecoration: 'none',color: 'red'}} to={'/buildborad'}>Play</Link>
         </div>
       );
     }

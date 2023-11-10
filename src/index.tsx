@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { GameRules } from './pages/GameRules';
+import GameBoard from './pages/GameBorad';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,14 @@ const router = createBrowserRouter([
     element: (
       <GameRules/>
     ),
-  }])
+  },
+  {
+    path: 'buildborad',
+    element: (
+      <GameBoard/>
+    ),
+  },
+])
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
