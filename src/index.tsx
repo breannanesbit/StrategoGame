@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { GameRules } from './pages/GameRules';
 import GameBoard from './pages/GameBorad';
 import ErrorPage, { ErrorBoundary } from './component/error-page';
+import { PlayGame } from './pages/PlayGame';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
     element: (
       <ErrorBoundary fallback={<ErrorPage />}>
         <GameBoard />
+      </ErrorBoundary>
+    ),
+  },
+  {
+    path: 'playGame',
+    element: (
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <PlayGame/>
       </ErrorBoundary>
     ),
   },

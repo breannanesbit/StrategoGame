@@ -13,8 +13,8 @@ export const HomePage = () => {
           <div className="row">
             <div className="col col-6 d-flex justify-content-end">
               <button className="btn btn-outline-danger mx-5 ">          
-              </button>
               <Link style={{ textDecoration: 'none', color: 'red' }} to={'/buildborad'}>Play</Link>
+              </button>
             </div>
             <div className="col col-6">
               <button className="btn btn-outline-danger mx-5">Join Game</button>

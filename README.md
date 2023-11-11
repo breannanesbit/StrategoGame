@@ -4,11 +4,15 @@
   - [X] Home page w/ start the game button
   - [x] rules page
   - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
-  - [x] piece generic (start)
-  - [x] decide your borad page (start)
+  - [ ] piece generic (start)
+  - [ ] decide your borad page (start)
   - [ ] generic input 
 
 ## Nov 11th ( 8 items by date)
+  - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
+  - [x] piece generic (start)
+  - [x] decide your borad page (start)
+  - [ ] generic input 
   - [x] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
   - [ ] Network Calls
     - [ ] read data - will read when moves are made, when website is loaded etc. 

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../styles/gameborad.css";
-import Piece from '../component/piece';
+import Piece from "../component/piece";
+import { Link } from "react-router-dom";
 
 const numRows = 10;
 const numCols = 10;
 
 const initialBoardState: string[][] = Array(numRows)
   .fill(null)
-  .map(() => Array(numCols).fill(''));
+  .map(() => Array(numCols).fill(""));
 
 const GameBoard: React.FC = () => {
   const [board, setBoard] = useState(initialBoardState);
@@ -32,9 +33,9 @@ const GameBoard: React.FC = () => {
     if (row && col) {
       const parsedRow = parseInt(row);
       if (!isNaN(parsedRow) && parsedRow > numRows / 2) {
-        e.dataTransfer.dropEffect = 'copy'; // Allow dropping on the bottom half
+        e.dataTransfer.dropEffect = "copy"; // Allow dropping on the bottom half
       } else {
-        e.dataTransfer.dropEffect = 'none'; // Disallow dropping on the top half
+        e.dataTransfer.dropEffect = "none"; // Disallow dropping on the top half
       }
     }
   };
@@ -44,7 +45,7 @@ const GameBoard: React.FC = () => {
     const cell = e.currentTarget as HTMLElement;
     const row = cell.dataset.row;
     const col = cell.dataset.col;
-    const pieceType = e.dataTransfer.getData('text/plain');
+    const pieceType = e.dataTransfer.getData("text/plain");
     if (row && col) {
       const parsedRow = parseInt(row);
       if (!isNaN(parsedRow) && parsedRow > numRows / 2) {
@@ -52,43 +53,43 @@ const GameBoard: React.FC = () => {
         updatedBoard[parsedRow][parseInt(col)] = pieceType;
         setBoard(updatedBoard);
 
-        switch(pieceType) {
-            case "Bomb":
-                setBoomCount(Bomb - 1)
-                break
-            case "Flag":
-                setFlagCount(Flag-1)
-                break
-            case "Marshal":
-                setMarshalCount(Marshal-1)
-                break
-            case "General":
-                setGeneralCount(General-1)
-                break
-            case "Colonel":
-                setColonelCount(Colonel-1)
-                break
-            case "Major":
-                setMajorCount(Major-1)
-                break
-            case "Captain":
-                setCaptainCount(Captain-1)
-                break
-            case "Lieutenant":
-                setLieutenantCount(Lieutenant-1)
-                break
-            case "Sergeant":
-                setSergeantCount(Sergeant-1)
-                break
-            case "Miner":
-                setMinerCount(Miner-1)
-                break
-            case "Scout":
-                setScoutCount(Scout-1)
-                break
-            case "Spy":
-                setSpyCount(Spy-1)
-                break  
+        switch (pieceType) {
+          case "Bomb":
+            setBoomCount(Bomb - 1);
+            break;
+          case "Flag":
+            setFlagCount(Flag - 1);
+            break;
+          case "Marshal":
+            setMarshalCount(Marshal - 1);
+            break;
+          case "General":
+            setGeneralCount(General - 1);
+            break;
+          case "Colonel":
+            setColonelCount(Colonel - 1);
+            break;
+          case "Major":
+            setMajorCount(Major - 1);
+            break;
+          case "Captain":
+            setCaptainCount(Captain - 1);
+            break;
+          case "Lieutenant":
+            setLieutenantCount(Lieutenant - 1);
+            break;
+          case "Sergeant":
+            setSergeantCount(Sergeant - 1);
+            break;
+          case "Miner":
+            setMinerCount(Miner - 1);
+            break;
+          case "Scout":
+            setScoutCount(Scout - 1);
+            break;
+          case "Spy":
+            setSpyCount(Spy - 1);
+            break;
         }
       }
     }
@@ -108,7 +109,7 @@ const GameBoard: React.FC = () => {
             onDrop={handleDrop}
             onDragOver={allowDrop}
           >
-            {board[row][col] && <Piece type={board[row][col]} rank='0' />}
+            {board[row][col] && <Piece type={board[row][col]} rank="0" />}
           </div>
         );
       }
@@ -119,58 +120,72 @@ const GameBoard: React.FC = () => {
 
   return (
     <div>
-
-    <div className="game-board">
-      {renderCells()}
-    </div>
-    {Flag && 
-      <div className="piece-container">
-        <Piece type="Flag" rank={"F"} />
-      </div> }
-      {Bomb &&
-      <div className="piece-container">
-        <Piece type="Bomb" rank={"B"} />
-      </div>}
-      {Spy &&
-      <div className="piece-container">
-        <Piece type="Spy" rank={"1"} />
-      </div>}
-      {Scout &&
-      <div className="piece-container">
-        <Piece type="Scout" rank={"2"} />
-      </div>}
-      {Miner &&
-      <div className="piece-container">
-        <Piece type="Miner" rank={"3"} />
-      </div>}
-      {Sergeant &&
-      <div className="piece-container">
-        <Piece type="Sergeant" rank={"4"} />
-      </div>}
-      {Lieutenant &&
-      <div className="piece-container">
-        <Piece type="Lieutenant" rank={"5"} />
-      </div>}
-      {Captain && 
-      <div className="piece-container">
-        <Piece type="Captain" rank={"6"} />
-      </div>}
-      {Major &&
-      <div className="piece-container">
-        <Piece type="Major" rank={"7"} />
-      </div>}
-      {Colonel &&
-      <div className="piece-container">
-        <Piece type="Colonel" rank={"8"} />
-      </div>}
-      {General &&
-      <div className="piece-container">
-        <Piece type="General" rank={"9"} />
-      </div>}
-      {Marshal && 
-      <div className="piece-container">
-        <Piece type="Marshal" rank={"10"} />
-      </div>}
+      <div className=" d-flex justify-content-end">
+        <button className="btn btn-outline-danger mx-5">
+          <Link style={{ textDecoration: 'none', color: 'red' }} to={'/playGame'}>Start Game</Link>
+        </button>
+      </div>
+      <div className="game-board">{renderCells()}</div>
+      {Flag && (
+        <div className="piece-container">
+          <Piece type="Flag" rank={"F"} />
+        </div>
+      )}
+      {Bomb && (
+        <div className="piece-container">
+          <Piece type="Bomb" rank={"B"} />
+        </div>
+      )}
+      {Spy && (
+        <div className="piece-container">
+          <Piece type="Spy" rank={"1"} />
+        </div>
+      )}
+      {Scout && (
+        <div className="piece-container">
+          <Piece type="Scout" rank={"2"} />
+        </div>
+      )}
+      {Miner && (
+        <div className="piece-container">
+          <Piece type="Miner" rank={"3"} />
+        </div>
+      )}
+      {Sergeant && (
+        <div className="piece-container">
+          <Piece type="Sergeant" rank={"4"} />
+        </div>
+      )}
+      {Lieutenant && (
+        <div className="piece-container">
+          <Piece type="Lieutenant" rank={"5"} />
+        </div>
+      )}
+      {Captain && (
+        <div className="piece-container">
+          <Piece type="Captain" rank={"6"} />
+        </div>
+      )}
+      {Major && (
+        <div className="piece-container">
+          <Piece type="Major" rank={"7"} />
+        </div>
+      )}
+      {Colonel && (
+        <div className="piece-container">
+          <Piece type="Colonel" rank={"8"} />
+        </div>
+      )}
+      {General && (
+        <div className="piece-container">
+          <Piece type="General" rank={"9"} />
+        </div>
+      )}
+      {Marshal && (
+        <div className="piece-container">
+          <Piece type="Marshal" rank={"10"} />
+        </div>
+      )}
     </div>
   );
 };
