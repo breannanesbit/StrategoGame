@@ -4,7 +4,8 @@ import "../styles/homepage.css";
 import React from 'react';
 
 interface PieceProps {
-  type: string; // You can customize this to represent different piece types
+  type: string; 
+  rank: string;
 }
 
 const Piece: React.FC<PieceProps> = ({ type }) => {
