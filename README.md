@@ -9,7 +9,7 @@
   - [ ] generic input 
 
 ## Nov 11th ( 8 items by date)
-  - [ ] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
+  - [x] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
   - [ ] Network Calls
     - [ ] read data - will read when moves are made, when website is loaded etc. 
     - [ ] write data - will write a new move, new board or when user informations is added

@@ -7,24 +7,31 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { GameRules } from './pages/GameRules';
 import GameBoard from './pages/GameBorad';
+import ErrorPage, { ErrorBoundary } from './component/error-page';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
+      <ErrorBoundary fallback={<ErrorPage />}>
         <App />
+      </ErrorBoundary>
     ),
   },
   {
     path: 'rules',
     element: (
-      <GameRules/>
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <GameRules />
+      </ErrorBoundary>
     ),
   },
   {
     path: 'buildborad',
     element: (
-      <GameBoard/>
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <GameBoard />
+      </ErrorBoundary>
     ),
   },
 ])
@@ -34,7 +41,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ErrorBoundary fallback={<ErrorPage />}>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
     {/* <App /> */}
   </React.StrictMode>
 );
