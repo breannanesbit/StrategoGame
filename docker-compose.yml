@@ -5,12 +5,12 @@ services:
     restart: unless-stopped
     mem_limit: 512M
 
-  # stratego-api:
-  #   restart: unless-stopped
-  #   image: stratego/store-api:latest
-  #   container_name: stratego-api
-  #   volumes:
-  #     - /home/stratego/data/apiStorage:/app/storage 
+  stratego-api:
+    restart: unless-stopped
+    image: stratego/store-api:latest
+    container_name: stratego-api
+    volumes:
+      - /home/stratego/data/apiStorage:/app/storage 
   
 
   swag:
