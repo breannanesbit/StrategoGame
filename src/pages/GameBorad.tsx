@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/gameborad.css";
 import Piece from "../component/piece";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import {User} from '../models/user';
 
 const numRows = 10;
 const numCols = 10;
 
 const initialBoardState: string[][] = Array(numRows)
-  .fill(null)
-  .map(() => Array(numCols).fill(""));
+.fill(null)
+.map(() => Array(numCols).fill(""));
 
 const GameBoard: React.FC = () => {
   const [board, setBoard] = useState(initialBoardState);
@@ -24,6 +26,14 @@ const GameBoard: React.FC = () => {
   const [General, setGeneralCount] = useState(1);
   const [Marshal, setMarshalCount] = useState(1);
   const [Flag, setFlagCount] = useState(1);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setUser(user);
+    }
+  }, []);
 
   const allowDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -118,10 +128,28 @@ const GameBoard: React.FC = () => {
     return cells;
   };
 
+  const getUser = () => {
+    return {id: '0',
+    userName: 'player1',
+    points: 0,
+    board: board,}
+     // get userid from authentication
+  }
+  const handleSubmit = async () => {
+    try{
+      const response = await axios.post('api/board/new',{user} );
+      if (response.status === 200){
+        console.log('Board saved:', response.data);
+      }
+    } catch( e){
+        console.log('Board try to send:', {board})
+        console.error(e);
+      }
+  }
   return (
     <div>
       <div className=" d-flex justify-content-end">
-        <button className="btn btn-outline-danger mx-5">
+        <button className="btn btn-outline-danger mx-5" type="submit" onClick={handleSubmit}>
           <Link style={{ textDecoration: 'none', color: 'red' }} to={'/playGame'}>Start Game</Link>
         </button>
       </div>
