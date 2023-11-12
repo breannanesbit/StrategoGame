@@ -7,29 +7,9 @@ import axios from "axios";
 
 const numRows = 10;
 const numCols = 10;
-
+  
 const initialBoardState: string[][] = [
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  [
-    "Scout",
-    "Scout",
-    "Scout",
-    "Scout",
-    "Scout",
-    "Bomb",
-    "Bomb",
-    "Bomb",
-    "Bomb",
-    "Bomb",
-  ],
-  ["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],
-  ["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", "Flag"],
+  ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
 ];
 
 const initialPlayers: User[] = [
@@ -44,9 +24,19 @@ export const PlayGame = () => {
     row: number;
     col: number;
   } | null>(null);
-  const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [selectedPiece, setSelectedPiece] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState<User | null>(null);
   const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
+
+  useEffect(() => {
+    if (selectedPiece) {
+      setSelectedCell({ row: selectedPiece.row, col: selectedPiece.col });
+    }
+  }, [selectedPiece]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -68,131 +58,149 @@ export const PlayGame = () => {
       } catch (error) {
         console.log("Getting users had a problem");
         console.error("Error fetching users:", error);
+        setCurrentPlayer(players[1]);
       }
     };
     getUsers();
   }, [isPlayer1Turn]);
 
-  const combinedBoard = () => {
-    const collaborativeBoard: JSX.Element[] = [];
-    const halfRows = numRows / 2;
-
-    for (let row = halfRows - 1; row >= 0; row--) {
-        const rowElements: JSX.Element[] = [];
-        for (let col = numCols - 1; col >= 0; col--) {
-          const piece = players[0].board[row + halfRows][col];
-          const isSelected =
-            selectedPiece && selectedPiece.row === row + halfRows && selectedPiece.col === col;
-      
-          rowElements.push(
-            <button
-              key={`${row}-${col}`}
-              style={{ color: isSelected ? "green" : "blue" }}
-              className="cell"
-              onClick={() => handlePieceClick(row + halfRows, col)}
-            >
-              {piece && <Piece type={piece} rank="0" />}
-            </button>
-          );
-        }
-        collaborativeBoard.push(
-          <div
-            key={`player1-${row}`}
-            className="row d-flex justify-content-center"
-          >
-            {rowElements}
-          </div>
-        );
-      }
-      
-      // Render the second player's board
-      for (let row = halfRows; row < numRows; row++) {
-        const rowElements: JSX.Element[] = [];
-        for (let col = 0; col < numCols; col++) {
-          const piece = players[1].board[row][col];
-          const isSelected = selectedPiece && selectedPiece.row === row && selectedPiece.col === col;
-      
-          rowElements.push(
-            <button
-              key={`${row}-${col}`}
-              style={{ color: isSelected ? "green" : "red" }}
-              className="cell"
-              onClick={() => handlePieceClick(row, col)}
-            >
-              {piece && <Piece type={piece} rank="0" />}
-            </button>
-          );
-        }
-        collaborativeBoard.push(
-          <div
-            key={`player2-${row}`}
-            className="row d-flex justify-content-center"
-          >
-            {rowElements}
-          </div>
-        );
-      }
-      
-      return collaborativeBoard;
+  const flipAndInvertBoard = (originalBoard: string[][]) => {
+    const flippedv = originalBoard.slice().reverse();
+    const flippedh = flippedv.map(row => row.slice().reverse());
+    console.log(flippedh)
+    return flippedh
   };
+  const handleCellClick = (row: number, col: number) => {
+    setCurrentPlayer(players[1]);
+    console.log("currentplayer", currentPlayer);
 
-  const handlePieceClick = (row: number, col: number) => {
-    if (
-      (isPlayer1Turn && row < numRows / 2 && players[0].board[row][col]) ||
-      (!isPlayer1Turn && row >= numRows / 2 && players[1].board[row][col])
-    ) {
-      // If the clicked cell contains a piece of the current player
-      setSelectedPiece({ row, col });
+    console.log("clicked button", isSelected);
+    if (!selectedPiece) {
+      const piece = board[row][col];
+      console.log("row and col", row, col);
+      console.log("board", board[row][col]);
+
+      console.log("piece ", piece, "currentplayer ", currentPlayer);
+      if (piece && currentPlayer && piece !== "Flag") {
+        if (
+          (currentPlayer.id === players[0].id && row < numRows / 2) ||
+          (currentPlayer.id === players[1].id && row >= numRows / 2)
+        ) {
+          setSelectedPiece({ row, col });
+          setSelectedCell({ row, col });
+          console.log("cell", row, col);
+        }
+      }
     } else {
-      setSelectedPiece(null);
+      console.log("move piece");
+      movePiece(row, col);
     }
   };
 
-  const movePiece = (direction: "up" | "down" | "left" | "right") => {
+  const movePiece = (directionRow: number, directionCol: number) => {
     if (selectedPiece) {
       const { row, col } = selectedPiece;
-
-      // Update the board based on the movement direction
-      const updatedBoard = [...players[isPlayer1Turn ? 0 : 1].board];
-
-      switch (direction) {
-        case "up":
-          if (row > 0) {
-            updatedBoard[row - 1][col] = players[isPlayer1Turn ? 0 : 1].board[row][col];
-            updatedBoard[row][col] = "";
+      const toRow = row + directionRow;
+      const toCol = col + directionCol;
+  
+      if (isValidMove(row, col, toRow, toCol)) {
+        const updatedBoard = [...board];
+  
+        if (updatedBoard[toRow][toCol] !== "") {
+          const attackingPiece = updatedBoard[row][col];
+          const defendingPiece = updatedBoard[toRow][toCol];
+  
+          if (isOpponentsPiece(attackingPiece, defendingPiece)) {
+            const attackerWins = compareRanks(attackingPiece, defendingPiece);
+  
+            if (attackerWins) {
+              updatedBoard[toRow][toCol] = attackingPiece;
+              updatedBoard[row][col] = "";
+              updateScores(attackingPiece, defendingPiece);
+            } else {
+              updatedBoard[row][col] = "";
+            }
           }
-          break;
-        case "down":
-          if (row < numRows - 1) {
-            updatedBoard[row + 1][col] = players[isPlayer1Turn ? 0 : 1].board[row][col];
-            updatedBoard[row][col] = "";
-          }
-          break;
-        case "left":
-          if (col > 0) {
-            updatedBoard[row][col - 1] = players[isPlayer1Turn ? 0 : 1].board[row][col];
-            updatedBoard[row][col] = "";
-          }
-          break;
-        case "right":
-          if (col < numCols - 1) {
-            updatedBoard[row][col + 1] = players[isPlayer1Turn ? 0 : 1].board[row][col];
-            updatedBoard[row][col] = "";
-          }
-          break;
-        default:
-          break;
+        } else {
+          updatedBoard[toRow][toCol] = updatedBoard[row][col];
+          updatedBoard[row][col] = "";
+        }
+  
+        setBoard(updatedBoard);
+        setSelectedPiece({ row: toRow, col: toCol });
       }
-
-      const updatedPlayers = [...players];
-      updatedPlayers[isPlayer1Turn ? 0 : 1].board = updatedBoard;
-
-      setPlayers(updatedPlayers);
-      setSelectedPiece(null);
-      setIsPlayer1Turn((prevIsPlayer1Turn) => !prevIsPlayer1Turn);
     }
   };
   
+  const isOpponentsPiece = (attacker: string, defender: string): boolean => {
+    const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+    const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
+  
+    return attackerPlayerIndex !== currentPlayerIndex;
+  };
+  const compareRanks = (attacker: string, defender: string): boolean => {
+    const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3  };
+    return rankMap[attacker] >= rankMap[defender];
+  };
+  
+  const updateScores = (attackingPiece: string, defendingPiece: string) => {
+    const newPlayers = [...players];
+    const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+    const opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
+    newPlayers[currentPlayerIndex].points += 1;
+  
+    setPlayers(newPlayers);
+  };
+  const isValidMove = (
+    fromRow: number,
+    fromCol: number,
+    toRow: number,
+    toCol: number
+  ) => {
+    return true;
+  };
+  const renderCellButton = (row: number, col: number) => {
+    const piece = board[row][col];
+    const isSelected = selectedCell
+      ? selectedCell.row === row && selectedCell.col === col
+      : false;
+
+    console.log("isSelected loaded", isSelected);
+    return (
+      <button
+        key={`${row}-${col}`}
+        onClick={() => handleCellClick(row, col)}
+        disabled={!!selectedPiece}
+        style={{
+          backgroundColor: isSelected ? "lightgreen" : "gray",
+          minHeight: "45px",
+          minWidth: "45px",
+          padding: "0px",
+        }}
+      >
+        {piece && <Piece type={piece} rank={"0"} />}
+      </button>
+    );
+  };
+
+  const combinedBoard = () => {
+    const player1LastHalf = flipAndInvertBoard(players[0].board).slice(0, numRows/2);
+    console.log("half",player1LastHalf)
+    const player2LastHalf = players[1].board.slice(numRows / 2, numRows);
+    console.log("half2",player2LastHalf)
+    const setupBoard = player1LastHalf.concat(player2LastHalf)
+    console.log("half2",setupBoard)
+
+    return (
+      <div>
+        {setupBoard.map((row, rowIndex) => (
+          <div key={rowIndex} className="board-row">
+            {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -215,29 +223,28 @@ export const PlayGame = () => {
         </h3>
       </div>
       <div className="row d-flex justify-content-center">
-        <div className="col col-7">{combinedBoard()}</div>
-        <div className="col col-5">
-          <div className="row d-flex justify-content-center">
-            <button onClick={() => movePiece("up")}>Move Up</button>
-          </div>
-          <div className="row">
-            <div className="col col-6 justify-content-end">
-              <button onClick={() => movePiece("left")}>Move Left</button>
-            </div>
-            <div className="col col-6 justify-content-start">
-            <button onClick={() => movePiece("right")}>Move Right</button>
-            </div>
-          </div>
-          <div className="row d-flex justify-content-center">
-            <button onClick={() => movePiece("down")}>Move Down</button>
-
-          </div>
-        </div>
+        <div className="col col-11">{combinedBoard()}</div>
       </div>
       <div className=" row d-flex justify-content-end">
         <h3>
           {players[1].userName} score: {players[1].points}
         </h3>
+      </div>
+      <div className="col col-3">
+        <div className="row d-flex justify-content-center">
+          <button onClick={() => movePiece(-1, 0)}>Move Up</button>
+        </div>
+        <div className="row">
+          <div className="col col-6 justify-content-end">
+            <button onClick={() => movePiece(0, -1)}>Move Left</button>
+          </div>
+          <div className="col col-6 justify-content-start">
+            <button onClick={() => movePiece(0, 1)}>Move Right</button>
+          </div>
+        </div>
+        <div className="row d-flex justify-content-center">
+          <button onClick={() => movePiece(1, 0)}>Move Down</button>
+        </div>
       </div>
     </div>
   );
