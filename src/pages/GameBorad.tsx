@@ -137,7 +137,7 @@ const GameBoard: React.FC = () => {
   }
   const handleSubmit = async () => {
     try{
-      const response = await axios.post('api/board/new',{user} );
+      const response = await axios.post('api/user/board',{user} );
       if (response.status === 200){
         console.log('Board saved:', response.data);
       }
