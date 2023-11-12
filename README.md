@@ -1,6 +1,6 @@
 # StrategoGame
 ## Nov 4th
-  - [ ] CI/CD pipeline
+  - [/] CI/CD pipeline
   - [X] Home page w/ start the game button
   - [x] rules page
   - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
@@ -18,7 +18,7 @@
     - [x] read data - will read when moves are made, when website is loaded etc. 
     - [x] write data - will write a new move, new board or when user informations is added
     - [ ] websocket - two players will play the game together on different computers so websockets needed
-  - [ ] play page
+  - [/] play page
   - [ ] 3+ generic form input components
   - [ ] gameover showing who won page
 
