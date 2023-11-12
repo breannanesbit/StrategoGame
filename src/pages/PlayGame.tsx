@@ -62,6 +62,7 @@ export const PlayGame = () => {
       }
     };
     getUsers();
+    combinedBoard()
   }, [isPlayer1Turn]);
 
   const flipAndInvertBoard = (originalBoard: string[][]) => {
@@ -71,7 +72,6 @@ export const PlayGame = () => {
     return flippedh
   };
   const handleCellClick = (row: number, col: number) => {
-    setCurrentPlayer(players[1]);
     console.log("currentplayer", currentPlayer);
 
     console.log("clicked button", isSelected);
@@ -190,18 +190,19 @@ export const PlayGame = () => {
     console.log("half2",player2LastHalf)
     const setupBoard = player1LastHalf.concat(player2LastHalf)
     console.log("half2",setupBoard)
-
-    return (
-      <div>
-        {setupBoard.map((row, rowIndex) => (
-          <div key={rowIndex} className="board-row">
-            {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
-          </div>
-        ))}
-      </div>
-    );
+    setBoard(setupBoard)
   };
-
+  const display=() => {
+    return (
+        <div>
+          {board.map((row, rowIndex) => (
+            <div key={rowIndex} className="board-row">
+              {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
+            </div>
+          ))}
+        </div>
+      );
+  }
   return (
     <div>
       <div className="row">
@@ -223,7 +224,7 @@ export const PlayGame = () => {
         </h3>
       </div>
       <div className="row d-flex justify-content-center">
-        <div className="col col-11">{combinedBoard()}</div>
+        <div className="col col-11">{display()}</div>
       </div>
       <div className=" row d-flex justify-content-end">
         <h3>
