@@ -97,22 +97,19 @@ export const PlayGame = () => {
     }
   };
 
-  const movePiece = (directionRow: number, directionCol: number) => {
+  const movePiece = async (directionRow: number, directionCol: number) => {
     if (selectedPiece) {
       const { row, col } = selectedPiece;
       const toRow = row + directionRow;
       const toCol = col + directionCol;
-  
+
       if (isValidMove(row, col, toRow, toCol)) {
         const updatedBoard = [...board];
-  
         if (updatedBoard[toRow][toCol] !== "") {
           const attackingPiece = updatedBoard[row][col];
           const defendingPiece = updatedBoard[toRow][toCol];
-  
           if (isOpponentsPiece(attackingPiece, defendingPiece)) {
             const attackerWins = compareRanks(attackingPiece, defendingPiece);
-  
             if (attackerWins) {
               updatedBoard[toRow][toCol] = attackingPiece;
               updatedBoard[row][col] = "";
@@ -125,10 +122,23 @@ export const PlayGame = () => {
           updatedBoard[toRow][toCol] = updatedBoard[row][col];
           updatedBoard[row][col] = "";
         }
-  
+        await saveBoardToServer(updatedBoard);
+        setIsPlayer1Turn(!isPlayer1Turn);
         setBoard(updatedBoard);
         setSelectedPiece({ row: toRow, col: toCol });
       }
+    }
+  };
+  const saveBoardToServer = async (updatedBoard: string[][]) => {
+    try {
+      const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+      const currentPlayerId = players[currentPlayerIndex].id;
+      await axios.post(`api/user/board/${currentPlayerId}`, {
+        board: updatedBoard,
+      });
+      console.log("Board saved to server successfully");
+    } catch (error) {
+      console.error("Error saving board to server:", error);
     }
   };
   
