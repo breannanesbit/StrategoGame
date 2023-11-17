@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    image: bitnami/keycloak
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN_USER=admin
+      - KEYCLOAK_ADMIN_PASSWORD=password
+      - KEYCLOAK_DATABASE_HOST=database
+      - KEYCLOAK_DATABASE_NAME=keycloak
+      - KEYCLOAK_DATABASE_USER=keycloak
+      - KEYCLOAK_DATABASE_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
+
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
+      - POSTGRES_DB=keycloak
+    volumes:
+      - /tmp/postgres:/var/lib/postgresql/data

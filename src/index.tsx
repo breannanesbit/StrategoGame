@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
@@ -10,6 +10,18 @@ import GameBoard from './pages/GameBorad';
 import ErrorPage, { ErrorBoundary } from './component/error-page';
 import { PlayGame } from './pages/PlayGame';
 import NavBar from './component/navBar';
+import keycloak from './component/keycloak';
+
+
+
+keycloak
+  .init({ onLoad: 'login-required' })
+  .then((authenticated) => {
+    console.log('Keycloak initialized');
+  })
+  .catch((error) => {
+    console.error('Keycloak initialization error', error);
+  });
 
 
 const router = createBrowserRouter([

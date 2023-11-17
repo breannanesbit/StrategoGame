@@ -1,21 +1,45 @@
 import React, {useState, useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/navbar.css";
+import keycloak from "./keycloak";
 
 const Navbar = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     useEffect(() => {
       checkIsMobile();
-  
+
+      const updateLoginStatus = () => {
+        setIsLoggedIn(keycloak.authenticated);
+        console.log(isLoggedIn)
+      };
+
+      keycloak.onAuthSuccess = updateLoginStatus;
+      keycloak.onAuthError = updateLoginStatus;
+      keycloak.onAuthRefreshSuccess = updateLoginStatus;
+      keycloak.onAuthRefreshError = updateLoginStatus;
+      keycloak.onAuthLogout = updateLoginStatus;
+
       window.addEventListener("resize", checkIsMobile);
   
+
       return () => {
         window.removeEventListener("resize", checkIsMobile);
       };
-    }, []);
+    }, [isLoggedIn]);
+
+    const login = () => {
+      keycloak.login();
+     
+    };
+  
+    const logout = () => {
+      keycloak.logout();
+    };
   
     return (
       <nav className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? "mobile" : ""}`}>
@@ -34,7 +58,9 @@ const Navbar = () => {
             <div className="col col-5"></div>
             <div className="col col-2 text-end mx-2">
               <NavLink className ="nav-link"  to="/">
-                <span>login</span>
+              
+              {!isLoggedIn && <button onClick={login}>Login</button>}
+              {isLoggedIn && <button onClick={logout}>Logout</button>} 
               </NavLink>
             </div>
           </div>
