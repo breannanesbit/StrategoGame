@@ -1,0 +1,14 @@
+.nav-link{
+    text-decoration: none;
+    color: #fff;
+    transition: letter-spacing 0.2s ease;
+}
+
+.nav-link:hover{
+    color: rgb(135, 152, 250);
+    letter-spacing: 0.1em;
+}
+
+.navbar {
+    background-color: rgb(54, 30, 85)
+}

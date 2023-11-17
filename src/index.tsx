@@ -9,38 +9,52 @@ import { GameRules } from './pages/GameRules';
 import GameBoard from './pages/GameBorad';
 import ErrorPage, { ErrorBoundary } from './component/error-page';
 import { PlayGame } from './pages/PlayGame';
+import NavBar from './component/navBar';
+
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
+      <>
+      <NavBar/>
       <ErrorBoundary fallback={<ErrorPage />}>
         <App />
       </ErrorBoundary>
+      </>
     ),
   },
   {
     path: 'rules',
     element: (
+      <>
+      <NavBar/>
       <ErrorBoundary fallback={<ErrorPage />}>
         <GameRules />
       </ErrorBoundary>
+      </>
     ),
   },
   {
     path: 'buildborad',
     element: (
+      <>
+      <NavBar/>
       <ErrorBoundary fallback={<ErrorPage />}>
         <GameBoard />
       </ErrorBoundary>
+      </>
     ),
   },
   {
     path: 'playGame',
     element: (
+      <>
+      <NavBar/>
       <ErrorBoundary fallback={<ErrorPage />}>
         <PlayGame/>
       </ErrorBoundary>
+      </>
     ),
   },
 ])
