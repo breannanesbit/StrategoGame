@@ -1,90 +1,93 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { GameRules } from './pages/GameRules';
-import GameBoard from './pages/GameBorad';
-import ErrorPage, { ErrorBoundary } from './component/error-page';
-import { PlayGame } from './pages/PlayGame';
-import NavBar from './component/navBar';
-import keycloak from './component/keycloak';
-import LeaderBoard from './pages/LeaderBoard';
-
-
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { GameRules } from "./pages/GameRules";
+import GameBoard from "./pages/GameBorad";
+import ErrorPage, { ErrorBoundary } from "./component/error-page";
+import { PlayGame } from "./pages/PlayGame";
+import NavBar from "./component/navBar";
+import keycloak from "./component/keycloak";
+import LeaderBoard from "./pages/LeaderBoard";
+import { Toaster } from "react-hot-toast";
 
 keycloak
-  .init({ onLoad: 'login-required' })
+  .init({ onLoad: "login-required" })
   .then((authenticated) => {
-    console.log('Keycloak initialized');
+    console.log("Keycloak initialized");
   })
   .catch((error) => {
-    console.error('Keycloak initialization error', error);
+    console.error("Keycloak initialization error", error);
   });
-
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: (
       <>
-      <NavBar/>
-      <ErrorBoundary fallback={<ErrorPage />}>
-        <App />
-      </ErrorBoundary>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <App />
+        </ErrorBoundary>
       </>
     ),
   },
   {
-    path: 'rules',
+    path: "rules",
     element: (
       <>
-      <NavBar/>
-      <ErrorBoundary fallback={<ErrorPage />}>
-        <GameRules />
-      </ErrorBoundary>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <GameRules />
+        </ErrorBoundary>
       </>
     ),
   },
   {
-    path: 'buildborad',
+    path: "buildborad",
     element: (
       <>
-      <NavBar/>
-      <ErrorBoundary fallback={<ErrorPage />}>
-        <GameBoard />
-      </ErrorBoundary>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <GameBoard />
+        </ErrorBoundary>
       </>
     ),
   },
   {
-    path: 'playGame',
+    path: "playGame",
     element: (
       <>
-      <NavBar/>
-      <ErrorBoundary fallback={<ErrorPage />}>
-        <PlayGame/>
-      </ErrorBoundary>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <PlayGame />
+        </ErrorBoundary>
       </>
     ),
   },
   {
-    path: 'LeaderBoard',
+    path: "LeaderBoard",
     element: (
       <>
-      <NavBar/>
-      <ErrorBoundary fallback={<ErrorPage />}>
-        <LeaderBoard />
-      </ErrorBoundary>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <LeaderBoard />
+        </ErrorBoundary>
       </>
     ),
   },
-])
+]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>

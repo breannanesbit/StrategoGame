@@ -4,6 +4,7 @@ import Piece from "../component/piece";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import {User} from '../models/user';
+import {toast} from "react-hot-toast";
 
 const numRows = 10;
 const numCols = 10;
@@ -142,7 +143,9 @@ const GameBoard: React.FC = () => {
       if (response.status === 200){
         console.log('Board saved:', response.data);
       }
+      toast.success('Board has been saved');
     } catch( e){
+        toast.error("Board coudn't be save");
         console.log('Board try to send:', {board})
         console.error(e);
       }
