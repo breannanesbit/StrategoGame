@@ -9,10 +9,11 @@
   - [ ] generic input 
 
 ## Nov 11th ( 8 items by date)
-  - [x] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
+  - [/] CI/CD pipeline
+  - [ ] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
   - [x] piece generic (start)
   - [x] decide your borad page (start)
-  - [x] generic input 
+  - [ ] generic input 
   - [x] Error handling (both on api requests and render errors) - we plan to create our own error page to catch errors and stop the site from crashing. On our api if a 400 or 505 is thrown we will report the code and message 
   - [ ] Network Calls
     - [x] read data - will read when moves are made, when website is loaded etc. 
@@ -23,6 +24,14 @@
   - [ ] gameover showing who won page
 
 ## Nov 18th ( 13 items by date)
+  - [/] CI/CD pipeline
+  - [x] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
+  - [x] generic input
+  - [ ] Network Calls
+    - [ ] websocket - two players will play the game together on different computers so websockets needed
+  - [/] play page
+  - [ ] 3+ generic form input components
+  - [ ] gameover showing who won page
   - [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
   - [ ] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
   - [ ] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
