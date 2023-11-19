@@ -59,8 +59,8 @@ const Navbar = () => {
             <div className="col col-2 text-end mx-2">
               <NavLink className ="nav-link"  to="/">
               
-              {!isLoggedIn && <button onClick={login}>Login</button>}
-              {isLoggedIn && <button onClick={logout}>Logout</button>} 
+              {!isLoggedIn && <button className="navbutton btn " onClick={login}>Login</button>}
+              {isLoggedIn && <button className="navbutton" onClick={logout}>Logout</button>} 
               </NavLink>
             </div>
           </div>
