@@ -11,6 +11,7 @@ import ErrorPage, { ErrorBoundary } from './component/error-page';
 import { PlayGame } from './pages/PlayGame';
 import NavBar from './component/navBar';
 import keycloak from './component/keycloak';
+import LeaderBoard from './pages/LeaderBoard';
 
 
 
@@ -65,6 +66,17 @@ const router = createBrowserRouter([
       <NavBar/>
       <ErrorBoundary fallback={<ErrorPage />}>
         <PlayGame/>
+      </ErrorBoundary>
+      </>
+    ),
+  },
+  {
+    path: 'LeaderBoard',
+    element: (
+      <>
+      <NavBar/>
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <LeaderBoard />
       </ErrorBoundary>
       </>
     ),

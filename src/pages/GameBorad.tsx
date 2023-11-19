@@ -132,7 +132,8 @@ const GameBoard: React.FC = () => {
     return {id: '0',
     userName: 'player1',
     points: 0,
-    board: board,}
+    board: board,
+    gamesPlayed: 0}
      // get userid from authentication
   }
   const handleSubmit = async () => {

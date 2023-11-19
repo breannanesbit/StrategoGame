@@ -13,8 +13,8 @@ const initialBoardState: string[][] = [
 ];
 
 const initialPlayers: User[] = [
-  { id: "1", userName: "Player1", points: 0, board: initialBoardState },
-  { id: "2", userName: "Player2", points: 0, board: initialBoardState },
+  { id: "1", userName: "Player1", points: 0, board: initialBoardState , gamesPlayed: 20},
+  { id: "2", userName: "Player2", points: 0, board: initialBoardState , gamesPlayed: 0},
 ];
 
 export const PlayGame = () => {

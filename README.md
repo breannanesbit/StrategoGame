@@ -35,8 +35,8 @@
   - [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
   - [ ] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
   - [ ] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
-  - [ ] leader borad
-  - [ ] leader board generic
+  - [x] leader borad
+  - [x] leader board generic
 ## Nov 25th 
   - [ ]   Player icon and name
   - [ ]   Making Player for initial start and edit genaric

@@ -55,7 +55,12 @@ const Navbar = () => {
                 <span>Rules</span>
               </NavLink>
             </div>
-            <div className="col col-5"></div>
+            <div className="col col-2">
+              <NavLink className="nav-link" to="/LeaderBoard">
+              <span>LeaderBoard</span>
+              </NavLink>
+            </div>
+            <div className="col col-3"></div>
             <div className="col col-2 text-end mx-2">
               <NavLink className ="nav-link"  to="/">
               
