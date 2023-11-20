@@ -62,11 +62,12 @@ const Navbar = () => {
             </div>
             <div className="col col-3"></div>
             <div className="col col-2 text-end mx-2">
-              <NavLink className ="nav-link"  to="/">
+              
               
               {!isLoggedIn && <button className="navbutton btn " onClick={login}>Login</button>}
               {isLoggedIn && <button className="navbutton" onClick={logout}>Logout</button>} 
-              </NavLink>
+
+            
             </div>
           </div>
         </div>
