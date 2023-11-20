@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
@@ -16,7 +16,7 @@ import { Toaster } from "react-hot-toast";
 
 keycloak
   .init({ onLoad: "login-required" })
-  .then((authenticated) => {
+  .then((_authenticated) => {
     console.log("Keycloak initialized");
   })
   .catch((error) => {

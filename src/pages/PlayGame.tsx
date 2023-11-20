@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../styles/gameborad.css";
 import Piece from "../component/piece";
-import { Link } from "react-router-dom";
 import { User } from "../models/user";
 import axios from "axios";
 
 const numRows = 10;
-const numCols = 10;
+const _numCols = 10;
   
 const initialBoardState: string[][] = [
   ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
@@ -24,7 +23,7 @@ export const PlayGame = () => {
     row: number;
     col: number;
   } | null>(null);
-  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [isSelected, _setIsSelected] = useState<boolean>(false);
   const [selectedPiece, setSelectedPiece] = useState<{
     row: number;
     col: number;
@@ -37,6 +36,9 @@ export const PlayGame = () => {
       setSelectedCell({ row: selectedPiece.row, col: selectedPiece.col });
     }
   }, [selectedPiece]);
+
+
+  
 
   useEffect(() => {
     const getUsers = async () => {
@@ -61,9 +63,19 @@ export const PlayGame = () => {
         setCurrentPlayer(players[1]);
       }
     };
+
+    const combinedBoard = () => {
+      const player1LastHalf = flipAndInvertBoard(players[0].board).slice(0, numRows/2);
+      console.log("half",player1LastHalf)
+      const player2LastHalf = players[1].board.slice(numRows / 2, numRows);
+      console.log("half2",player2LastHalf)
+      const setupBoard = player1LastHalf.concat(player2LastHalf)
+      console.log("half2",setupBoard)
+      setBoard(setupBoard)
+    };
     getUsers();
     combinedBoard()
-  }, [isPlayer1Turn]);
+  }, [isPlayer1Turn, players]);
 
   const flipAndInvertBoard = (originalBoard: string[][]) => {
     const flippedv = originalBoard.slice().reverse();
@@ -143,6 +155,8 @@ export const PlayGame = () => {
   };
   
   const isOpponentsPiece = (attacker: string, defender: string): boolean => {
+    console.log(attacker)
+    console.log(defender)
     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
     const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
   
@@ -154,19 +168,22 @@ export const PlayGame = () => {
   };
   
   const updateScores = (attackingPiece: string, defendingPiece: string) => {
+    console.log(attackingPiece)
+    console.log(defendingPiece)
     const newPlayers = [...players];
     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-    const opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
+    const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
     newPlayers[currentPlayerIndex].points += 1;
   
     setPlayers(newPlayers);
   };
   const isValidMove = (
-    fromRow: number,
-    fromCol: number,
-    toRow: number,
-    toCol: number
+    _fromRow: number,
+    _fromCol: number,
+    _toRow: number,
+    _toCol: number
   ) => {
+    
     return true;
   };
   const renderCellButton = (row: number, col: number) => {
@@ -193,15 +210,7 @@ export const PlayGame = () => {
     );
   };
 
-  const combinedBoard = () => {
-    const player1LastHalf = flipAndInvertBoard(players[0].board).slice(0, numRows/2);
-    console.log("half",player1LastHalf)
-    const player2LastHalf = players[1].board.slice(numRows / 2, numRows);
-    console.log("half2",player2LastHalf)
-    const setupBoard = player1LastHalf.concat(player2LastHalf)
-    console.log("half2",setupBoard)
-    setBoard(setupBoard)
-  };
+
   const display=() => {
     return (
         <div>

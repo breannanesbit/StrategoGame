@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../styles/gameborad.css";
 import Piece from "../component/piece";
 import { Link } from "react-router-dom";
@@ -29,12 +29,22 @@ const GameBoard: React.FC = () => {
   const [Flag, setFlagCount] = useState(1);
   const [user, setUser] = useState<User | null>(null);
 
+
+  const getUser = useCallback(() => {
+    return {id: '0',
+    userName: 'player1',
+    points: 0,
+    board: board,
+    gamesPlayed: 0}
+     // get userid from authentication
+  }, [board])
+
   useEffect(() => {
     const user = getUser();
     if (user) {
       setUser(user);
     }
-  }, []);
+  }, [getUser]);
 
   const allowDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -129,14 +139,7 @@ const GameBoard: React.FC = () => {
     return cells;
   };
 
-  const getUser = () => {
-    return {id: '0',
-    userName: 'player1',
-    points: 0,
-    board: board,
-    gamesPlayed: 0}
-     // get userid from authentication
-  }
+  
   const handleSubmit = async () => {
     try{
       const response = await axios.post('api/user/board',{user} );
