@@ -3,6 +3,7 @@ import "../styles/gameborad.css";
 import Piece from "../component/piece";
 import { User } from "../models/user";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const numRows = 10;
 const _numCols = 10;
