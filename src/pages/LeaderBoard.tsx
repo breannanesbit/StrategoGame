@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import { GenericLeaderBoard } from "../component/GenericLeaderBoard";
 import "../styles/leaderboard.css";
 import { User } from "../models/user";
@@ -39,7 +37,7 @@ export const exampleGamesList = [
 ];
 
 const LeaderBoard: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [_users, _setUsers] = useState<User[]>([]);
   const [pointsList, setPointsList] = useState<Player[]>([]);
   const [gamesList, setGamesList] = useState<Player[]>([]);
 
