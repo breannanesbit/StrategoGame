@@ -218,14 +218,14 @@ export const PlayGame = () => {
       <div className="row">
         <h1 className="col col-7">Game in Progress</h1>
         <div className="col col-5 d-flex justify-content-end">
-          {/* <button className="btn btn-outline-danger mx-5">
+          <button className="btn btn-outline-danger mx-5">
             <Link
               style={{ textDecoration: "none", color: "red" }}
               to={"/gameOver"}
             >
               Game Over
             </Link>
-          </button> */}
+          </button>
         </div>
       </div>
       <div className=" row d-flex justify-content-start">

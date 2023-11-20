@@ -13,6 +13,7 @@ import NavBar from "./component/navBar";
 import keycloak from "./component/keycloak";
 import LeaderBoard from "./pages/LeaderBoard";
 import { Toaster } from "react-hot-toast";
+import { GameOver } from "./pages/GameOver";
 
 keycloak
   .init({ onLoad: "login-required" })
@@ -80,6 +81,18 @@ const router = createBrowserRouter([
         <ErrorBoundary fallback={<ErrorPage />}>
           <Toaster />
           <LeaderBoard />
+        </ErrorBoundary>
+      </>
+    ),
+  },
+  {
+    path: "GameOver",
+    element: (
+      <>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <GameOver />
         </ErrorBoundary>
       </>
     ),

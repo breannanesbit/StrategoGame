@@ -1,0 +1,24 @@
+.bg-image-red {
+    background: 
+    linear-gradient(rgb(96, 11, 11,.50), rgb(96, 11, 11,.50))
+    ,url('/src/styles/images/chessBackdrop.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+    color: white;  
+  }
+.bg-image-blue {
+    background: 
+    linear-gradient(rgb(96, 11, 11,.50), rgb(96, 11, 11,.50))
+    ,url('/src/styles/images/chessBackdrop.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+    color: white; 
+}
+
+.max-height {
+    height:70%;
+}
