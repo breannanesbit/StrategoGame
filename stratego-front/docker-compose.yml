@@ -6,6 +6,7 @@ services:
     mem_limit: 512M
 
   stratego-api:
+    build: ../stratego-api
     restart: unless-stopped
     image: stratego/store-api:latest
     container_name: stratego-api

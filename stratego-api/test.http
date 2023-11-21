@@ -1,0 +1,31 @@
+POST https://100.68.122.57:3006/store-api/myApi?key=comments
+Content-Type: application/json
+
+[
+  {
+  "id": "2",
+  "text": "maple canyon1",
+  "detailId": "1697248528807"
+  }
+]
+
+###
+POST https://100.68.122.57:3006/store-api/myApi?key=comments
+Content-Type: application/json
+
+[
+  "Bo",
+  "Steve",
+  "Joe",
+  "Billy"
+]
+
+###
+
+GET https://100.68.122.57:3006/store-api/myApi?key=comments
+
+###
+GET https://100.68.122.57:3006/store-api/myApi?key=secondTest
+
+###
+DELETE https://snowttt.duckdns.org:3000/store-api/store?key=restclient
