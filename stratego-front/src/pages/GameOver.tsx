@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import "../styles/gameover.css";
-import { Link } from 'react-router-dom';
-import keycloak from "../component/keycloak";
+// import { Link } from 'react-router-dom';
+// import keycloak from "../component/keycloak";
 
 export const GameOver = () => {
 
