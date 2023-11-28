@@ -35,4 +35,4 @@ services:
     #   - /home/stratego/data/swag:/config
     #   - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
     ports:
-    - 0.0.0.0:2002:443 # note using port 443
+    - 0.0.0.0:2002:443 
