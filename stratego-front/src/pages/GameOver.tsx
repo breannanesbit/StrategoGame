@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { User } from "../models/user";
 import "../styles/gameover.css";
 // import { Link } from 'react-router-dom';
@@ -13,14 +13,10 @@ const initialPlayers: User[] = [
   { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
 ];
 export const GameOver = () => {
-  const [players, setPlayers] = useState<User[]>(initialPlayers);
+  const [players, _setPlayers] = useState<User[]>(initialPlayers);
   const [winningPlayer, setWinningPlayer] = useState(true);
 
-  useEffect (()=> {
-    whoWins();
-  }, [players,winningPlayer])
-
-  const whoWins=()=>{
+  const whoWins = useCallback(() => {
     if(players[0].points > players[1].points)
       setWinningPlayer(true)
     if(players[0].points < players[1].points)
@@ -28,7 +24,12 @@ export const GameOver = () => {
     else
       console.log("both groups win")
 
-  }
+  },[players])
+  useEffect (()=> {
+    whoWins();
+  }, [players,winningPlayer,whoWins])
+
+  
 
   const getBackgroundColor = () => {
     return winningPlayer ? "bg-image-red" : "bg-image-blue";
