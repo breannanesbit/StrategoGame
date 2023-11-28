@@ -65,9 +65,14 @@ const Navbar = () => {
               
               
               {!isLoggedIn && <button className="navbutton btn " onClick={login}>Login</button>}
-              {isLoggedIn && <button className="navbutton" onClick={logout}>Logout</button>} 
+              {isLoggedIn && <button className="navbutton btn" onClick={logout}>Logout</button>} 
 
             
+            </div>
+            <div className="col col-2">
+              <NavLink className="nav-link" to="/settings">
+              <span>Settings</span>
+              </NavLink>
             </div>
           </div>
         </div>

@@ -1,0 +1,20 @@
+/* SettingsPage.css */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Make the container take the full height of the viewport */
+  }
+  
+  .user-icon-container {
+    margin-top: 20px; /* Add some margin to separate the icon from other content */
+  }
+  
+  .user-icon {
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Maintain the aspect ratio and cover the container */
+  }
+  

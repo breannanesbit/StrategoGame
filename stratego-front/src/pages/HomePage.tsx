@@ -10,8 +10,9 @@ export const HomePage = () => {
   useEffect(() => {
     const loadUserProfile = async () => {
       try {
-        const userProfile = await keycloak.loadUserProfile();
-        setUsername(userProfile.username);
+        //const userProfile = await keycloak.loadUserProfile();
+        const username = keycloak.tokenParsed?.preferred_username;
+        setUsername(username);
         setLoading(false);
       } catch (error) {
         console.error('Error loading user profile', error);
