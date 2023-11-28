@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import fs from 'fs';
 
 const app = express();
-const port = 2023;
+const port = 2002;
 const dataFile = 'data.json';
 
 app.use(express.json());
