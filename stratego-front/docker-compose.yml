@@ -29,7 +29,10 @@ services:
       - DUCKDNSTOKEN=${DUCKDNSTOKEN}
       - STAGING=false
     volumes:
-      - /home/stratego/data/swag:/config
-      - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
+      - ./swag-default.conf:/config/nginx/site-confs/default.conf
+
+    # volumes:
+    #   - /home/stratego/data/swag:/config
+    #   - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
     ports:
     - 0.0.0.0:2002:443 # note using port 443
