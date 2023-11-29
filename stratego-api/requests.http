@@ -1,4 +1,4 @@
-POST https://stratego2023.duckdns.org:2002/stratego-api/myApi?key=firstTest
+POST https://100.68.122.57:2002/stratego-api/myApi?key=firstTest
 Content-Type: application/json
 
 {
@@ -6,4 +6,5 @@ Content-Type: application/json
   "location": "maple canyon"
 }
 
-GET https://stratego2023.duckdns.org:2002/stratego-api/myApi?key=firstTest
+###
+GET https://100.68.122.57:2002/stratego-api/myApi?key=firstTest

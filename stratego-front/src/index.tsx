@@ -15,6 +15,8 @@ import LeaderBoard from "./pages/LeaderBoard";
 import { Toaster } from "react-hot-toast";
 import { GameOver } from "./pages/GameOver";
 import Settings from "./pages/Settings";
+import { getQueryClient } from "./query/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 keycloak
   .init({ onLoad: "login-required" })
@@ -112,15 +114,18 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = getQueryClient();
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ErrorBoundary fallback={<ErrorPage />}>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
-    {/* <App /> */}
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

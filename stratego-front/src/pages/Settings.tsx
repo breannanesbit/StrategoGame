@@ -3,6 +3,7 @@ import keycloak from "../component/keycloak";
 import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/settings.css'; // Import your CSS file for additional styling
+import { useUserInforQuery } from "../query/hook";
 
 
 export interface User {
@@ -54,8 +55,9 @@ export const Settings = () => {
         }
     };
 
-
+    
     const username = keycloak.tokenParsed?.preferred_username;
+    const userInfo = useUserInforQuery(username)
 
 
 
@@ -66,6 +68,13 @@ export const Settings = () => {
                 <div className="user-icon-container">
 
                     {formData.imageBase64 ? (<img src={formData.imageBase64} className="user-icon" alt="icon"/>) : (<i className="fa-regular fa-user user-icon"></i>)}
+                    {userInfo && (
+                        <div>
+                            <h6>Points: {userInfo.data?.points}</h6>
+                            <h6>Games played: {userInfo.data?.gamesPlayed}</h6>
+
+                            </div>
+                    )}
                 </div>
                 <form>
                     <label htmlFor="image" className="form-label"></label>

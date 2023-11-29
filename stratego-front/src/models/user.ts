@@ -2,6 +2,6 @@ export interface User {
     id: string,
     userName: string,
     points: number,
-    board: string[][],
+    //board: string[][],
     gamesPlayed: number,
 }
