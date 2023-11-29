@@ -14,6 +14,8 @@ export interface User {
 }
 
 export const Settings = () => {
+    const username = keycloak.tokenParsed?.preferred_username;
+    const userInfo = useUserInforQuery(username)
     const [formData, setFormData] = useState<User>({
         id: "0",
         name: "",
@@ -56,8 +58,6 @@ export const Settings = () => {
     };
 
     
-    const username = keycloak.tokenParsed?.preferred_username;
-    const userInfo = useUserInforQuery(username)
 
 
 

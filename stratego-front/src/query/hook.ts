@@ -36,7 +36,7 @@ export const useMutationPostUserInfo = (user: User) => useMutation({
     }
 });
 
-const boardKeys = {
-    all: [`boards`] as const
+// const boardKeys = {
+//     all: [`boards`] as const
 
-}
+// }
