@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/gameborad.css";
 import Piece from "../component/piece";
 import { User } from "../models/user";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Game } from "../models/game";
 
 const numRows = 10;
 const _numCols = 10;
@@ -12,14 +13,14 @@ const initialBoardState: string[][] = [
   ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
 ];
 
-const initialPlayers: User[] = [
-  { id: "1", userName: "Player1", points: 0, board: initialBoardState , gamesPlayed: 20},
-  { id: "2", userName: "Player2", points: 0, board: initialBoardState , gamesPlayed: 0},
+const initialPlayers: Game[] = [
+  { id: "1", Player1: "Player1", Player2: "Player2", Player1Points: 0, Player2Points:0 , board: initialBoardState },
+  // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
 ];
 
 export const PlayGame = () => {
   const [board, setBoard] = useState(initialBoardState);
-  const [players, setPlayers] = useState<User[]>(initialPlayers);
+  const [players, setPlayers] = useState<Game[]>(initialPlayers);
   const [selectedCell, setSelectedCell] = useState<{
     row: number;
     col: number;
@@ -29,7 +30,7 @@ export const PlayGame = () => {
     row: number;
     col: number;
   } | null>(null);
-  const [currentPlayer, setCurrentPlayer] = useState<User | null>(null);
+  const [currentPlayer, setCurrentPlayer] = useState<User | number | null>();
   const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export const PlayGame = () => {
       } catch (error) {
         console.log("Getting users had a problem");
         console.error("Error fetching users:", error);
-        setCurrentPlayer(players[1]);
+        setCurrentPlayer(1);
       }
     };
 
@@ -96,8 +97,8 @@ export const PlayGame = () => {
       console.log("piece ", piece, "currentplayer ", currentPlayer);
       if (piece && currentPlayer && piece !== "Flag") {
         if (
-          (currentPlayer.id === players[0].id && row < numRows / 2) ||
-          (currentPlayer.id === players[1].id && row >= numRows / 2)
+          (currentPlayer === 0 && row < numRows / 2) ||
+          (currentPlayer === 1 && row >= numRows / 2)
         ) {
           setSelectedPiece({ row, col });
           setSelectedCell({ row, col });
@@ -174,7 +175,11 @@ export const PlayGame = () => {
     const newPlayers = [...players];
     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
     const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
-    newPlayers[currentPlayerIndex].points += 1;
+    if(currentPlayerIndex === 0) {
+      newPlayers[0].Player1Points += 1;
+    } else {
+      newPlayers[0].Player2Points += 1; 
+    }
   
     setPlayers(newPlayers);
   };
@@ -240,7 +245,7 @@ export const PlayGame = () => {
       </div>
       <div className=" row d-flex justify-content-start">
         <h3>
-          {players[0].userName} score: {players[0].points}
+          {players[0].Player1} score: {players[0].Player1Points}
         </h3>
       </div>
       <div className="row d-flex justify-content-center">
@@ -248,7 +253,7 @@ export const PlayGame = () => {
       </div>
       <div className=" row d-flex justify-content-end">
         <h3>
-          {players[1].userName} score: {players[1].points}
+          {players[0].Player2} score: {players[0].Player2Points}
         </h3>
       </div>
       <div className="col col-3">

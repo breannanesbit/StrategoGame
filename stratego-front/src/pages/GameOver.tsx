@@ -1,25 +1,26 @@
 // import { useEffect, useState } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { User } from "../models/user";
+//import { User } from "../models/user";
 import "../styles/gameover.css";
+import { Game } from "../models/game";
 // import { Link } from 'react-router-dom';
 // import keycloak from "../component/keycloak";
 
 const initialBoardState: string[][] = [
   ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
 ];
-const initialPlayers: User[] = [
-  { id: "1", userName: "Player1", points: 250, board: initialBoardState , gamesPlayed: 20},
-  { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
+const initialPlayers: Game[] = [
+  { id: "1", Player1: "Player1", Player2: "Player2",Player1Points: 0, Player2Points:0 ,board: initialBoardState },
+  // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
 ];
 export const GameOver = () => {
-  const [players, _setPlayers] = useState<User[]>(initialPlayers);
+  const [players, _setPlayers] = useState<Game[]>(initialPlayers);
   const [winningPlayer, setWinningPlayer] = useState(true);
 
   const whoWins = useCallback(() => {
-    if(players[0].points > players[1].points)
+    if(players[0].Player1Points > players[1].Player2Points)
       setWinningPlayer(true)
-    if(players[0].points < players[1].points)
+    if(players[0].Player1Points < players[1].Player2Points)
       setWinningPlayer(false)
     else
       console.log("both groups win")
@@ -48,7 +49,7 @@ export const GameOver = () => {
               <h3>Red points: </h3>
             </div>
             <div className="col col-6">
-              <h3>{players[0].points}</h3>
+              <h3>{players[0].Player1Points}</h3>
             </div>
           </div>
           <div className="row">
@@ -56,7 +57,7 @@ export const GameOver = () => {
               <h3>Blue points:</h3>
             </div>
             <div className="col col-6">
-              <h3>{players[1].points}</h3>
+              <h3>{players[1].Player2Points}</h3>
             </div>
           </div>
         </div>
