@@ -1,9 +1,11 @@
 import { useState } from "react";
-import keycloak from "../component/keycloak";
+// import keycloak from "../component/keycloak";
 import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import '../styles/settings.css'; // Import your CSS file for additional styling
+import '../styles/settings.css'; 
 import { useUserInforQuery } from "../query/hook";
+import { Link } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
 
 
 export interface User {
@@ -11,11 +13,14 @@ export interface User {
     name: string,
     username: string,
     imageBase64: string
-}
+} 
 
 export const Settings = () => {
-    const username = keycloak.tokenParsed?.preferred_username;
+    const auth = useAuth();
+    const username = auth.user?.profile.sub || '';
+   
     const userInfo = useUserInforQuery(username)
+   
     const [formData, setFormData] = useState<User>({
         id: "0",
         name: "",
@@ -35,7 +40,7 @@ export const Settings = () => {
         initialValue: formData.username,
     })
 
-    if (!keycloak.authenticated) {
+    if (!auth.activeNavigator) {
         // Redirect to login or handle unauthenticated user
         return <div>Not authenticated. Redirecting...</div>;
     }
@@ -89,6 +94,9 @@ export const Settings = () => {
                     <GenericTextInput control={customInputControl2} />
                 </form>
 
+                <button className="btn btn-primary">
+                    <Link to={"/seeboards"}>See your boards</Link>
+                </button>
             </div>
         </div>
     );

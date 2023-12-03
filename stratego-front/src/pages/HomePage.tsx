@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import "../styles/homepage.css";
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import keycloak from "../component/keycloak";
+import { useAuth } from 'react-oidc-context';
+import '../styles/homepage.css';
 
 export const HomePage = () => {
-  const [username, setUsername] = useState<string | null>();
+  const auth = useAuth();
+  const [username, setUsername] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadUserProfile = async () => {
       try {
-        //const userProfile = await keycloak.loadUserProfile();
-        const username = keycloak.tokenParsed?.preferred_username;
+        const username = auth.user?.profile.sub || null;
         setUsername(username);
         setLoading(false);
       } catch (error) {
@@ -21,7 +21,7 @@ export const HomePage = () => {
     };
 
     const updateLoginStatus = () => {
-      if (keycloak.authenticated) {
+      if (auth.isAuthenticated) {
         loadUserProfile();
       } else {
         setUsername(null);
@@ -29,21 +29,20 @@ export const HomePage = () => {
       }
     };
 
-    keycloak.onAuthLogout = () => {
-      updateLoginStatus();
-      window.location.href = '/';
-    } ;
-
+    // Load user profile and update login status when the component mounts
     updateLoginStatus();
 
+    // Use the useEffect hook to listen for changes in the authentication status
+    const intervalId = setInterval(() => {
+      updateLoginStatus();
+    }, 1000);
 
+    // Cleanup function
     return () => {
-      keycloak.onAuthLogout = undefined;
+      // Clear interval when the component unmounts
+      clearInterval(intervalId);
     };
-  }, []);
-
-    
-
+  }, [auth]);
 
   return (
     <div className="bg-image">
@@ -53,7 +52,9 @@ export const HomePage = () => {
           <div className="row">
             <div className="col col-6 d-flex justify-content-end">
               <button className="btn btn-outline-danger mx-5 ">
-                <Link style={{ textDecoration: 'none', color: 'red' }} to={'/buildborad'}>Play</Link>
+                <Link style={{ textDecoration: 'none', color: 'red' }} to={'/buildborad'}>
+                  Play
+                </Link>
               </button>
             </div>
             <div className="col col-6">
@@ -65,3 +66,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;

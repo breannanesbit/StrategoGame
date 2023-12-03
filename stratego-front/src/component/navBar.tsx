@@ -1,77 +1,61 @@
-import React, {useState, useEffect} from "react";
-import { NavLink } from "react-router-dom";
-import "../styles/navbar.css";
-import keycloak from "./keycloak";
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useAuth } from 'react-oidc-context';
+import '../styles/navbar.css';
 
 const Navbar = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+  const auth = useAuth();
+  const [isMobile, setIsMobile] = useState(false);
 
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+  const checkIsMobile = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  useEffect(() => {
+    checkIsMobile();
+
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
     };
-    useEffect(() => {
-      checkIsMobile();
+  }, []);
 
-      const updateLoginStatus = () => {
-        setIsLoggedIn(keycloak.authenticated);
-        console.log(isLoggedIn)
-      };
+  if (auth.isLoading) {
+    return <div>Loading...</div>;
+  }
 
-      keycloak.onAuthSuccess = updateLoginStatus;
-      keycloak.onAuthError = updateLoginStatus;
-      keycloak.onAuthRefreshSuccess = updateLoginStatus;
-      keycloak.onAuthRefreshError = updateLoginStatus;
-      keycloak.onAuthLogout = updateLoginStatus;
+  if (auth.error) {
+    return <div>Oops... {auth.error.message}</div>;
+  }
 
-      window.addEventListener("resize", checkIsMobile);
-  
-
-      return () => {
-        window.removeEventListener("resize", checkIsMobile);
-      };
-    }, [isLoggedIn]);
-
-    const login = () => {
-      keycloak.login();
-     
-    };
-  
-    const logout = () => {
-      keycloak.logout();
-    };
-  
+  if (auth.isAuthenticated) {
     return (
-      <nav className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? "mobile" : ""}`}>
+      <nav className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? 'mobile' : ''}`}>
         <div className="navbar-brand col col-12 ">
           <div className="row mx-auto">
             <div className="col col-2">
-              <NavLink className ="nav-link" to="/">
+              <NavLink className="nav-link" to="/">
                 <span>Home</span>
               </NavLink>
             </div>
             <div className="col col-2">
-              <NavLink className ="nav-link" to="/rules">
+              <NavLink className="nav-link" to="/rules">
                 <span>Rules</span>
               </NavLink>
             </div>
             <div className="col col-2">
               <NavLink className="nav-link" to="/LeaderBoard">
-              <span>LeaderBoard</span>
+                <span>LeaderBoard</span>
               </NavLink>
             </div>
             <div className="col col-3"></div>
             <div className="col col-2 text-end mx-2">
-              
-              
-              {!isLoggedIn && <button className="navbutton btn " onClick={login}>Login</button>}
-              {isLoggedIn && <button className="navbutton btn" onClick={logout}>Logout</button>} 
-
-            
+              <button className="navbutton btn" onClick={() => void auth.removeUser()}>Logout</button>
             </div>
             <div className="col col-2">
               <NavLink className="nav-link" to="/settings">
-              <span>Settings</span>
+                <span>Settings</span>
               </NavLink>
             </div>
           </div>
@@ -79,6 +63,41 @@ const Navbar = () => {
       </nav>
     );
   };
-  
-  export default Navbar;
-  
+
+
+  return (
+    <nav className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? 'mobile' : ''}`}>
+      <div className="navbar-brand col col-12 ">
+        <div className="row mx-auto">
+          <div className="col col-2">
+            <NavLink className="nav-link" to="/">
+              <span>Home</span>
+            </NavLink>
+          </div>
+          <div className="col col-2">
+            <NavLink className="nav-link" to="/rules">
+              <span>Rules</span>
+            </NavLink>
+          </div>
+          <div className="col col-2">
+            <NavLink className="nav-link" to="/LeaderBoard">
+              <span>LeaderBoard</span>
+            </NavLink>
+          </div>
+          <div className="col col-3"></div>
+          <div className="col col-2 text-end mx-2">
+
+            <button className="navbutton btn " onClick={() => void auth.signinRedirect()}>Login</button>
+          </div>
+          <div className="col col-2">
+            <NavLink className="nav-link" to="/settings">
+              <span>Settings</span>
+            </NavLink>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
