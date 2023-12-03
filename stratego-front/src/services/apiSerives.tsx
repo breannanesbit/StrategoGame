@@ -2,7 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { User } from "../models/user";
 
-const url = "/stratego-api/myApi"
+const url = "/stratego-api"
 
 export const postABorad = async (user: string, board: string[][]) => {
     try {
@@ -52,7 +52,7 @@ export const getAUsersBorad = async (user: string): Promise<string> => {
 
 export const getUserInfo = async (username: string): Promise<User | unknown> => {
     try {
-        const response = await axios.get(`${url}?ley=${username}`)
+        const response = await axios.get(`${url}?key=${username}`)
         return response.data
     } catch (e) {
         console.log(e)
@@ -62,7 +62,7 @@ export const getUserInfo = async (username: string): Promise<User | unknown> => 
 
 export const postUserInfo = async (username: User) => {
     try {
-        const response = await axios.post(`${url}?ley=${username.userName}`)
+        const response = await axios.post(`${url}?key=${username.userName}`)
         return response.data
     } catch (e) {
         console.log(e)

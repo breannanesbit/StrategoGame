@@ -7,7 +7,7 @@ const dataFile = 'data.json';
 
 app.use(express.json());
 
-app.post('/stratego-api/myApi', (req: Request, res: Response) => {
+app.post('/stratego-api', (req: Request, res: Response) => {
   const key = req.query.key as string;
   const value = req.body;
 
@@ -25,7 +25,7 @@ app.post('/stratego-api/myApi', (req: Request, res: Response) => {
   res.json({ message: 'Data stored successfully' });
 });
 
-app.get('/stratego-api/myApi', (req: Request, res: Response) => {
+app.get('/stratego-api', (req: Request, res: Response) => {
   const key = req.query.key as string;
 
   if (!key) return res.status(400).send('Key is required');
@@ -39,7 +39,7 @@ app.get('/stratego-api/myApi', (req: Request, res: Response) => {
   res.status(404).send('Key not found');
 });
 
-app.delete('/stratgeo-api/myApi', (req: Request, res: Response) => {
+app.delete('/stratgeo-api', (req: Request, res: Response) => {
   const key = req.query.key as string;
 
   if (!key) return res.status(400).send('Key is required');
@@ -54,6 +54,73 @@ app.delete('/stratgeo-api/myApi', (req: Request, res: Response) => {
   }
 
   res.status(404).send('Key not found');
+});
+
+app.post('/stratego-api/:user/board/:gameID', (req: Request, res: Response) => {
+  const { user, gameID } = req.params;
+  const board = req.body.board;
+
+  if (!user || !gameID || !board) {
+    return res.status(400).send('Invalid request data');
+  }
+
+  let data: { [key: string]: any } = {};
+
+  // let data = {};
+  // if (fs.existsSync(dataFile)) {
+  //   data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+  // }
+
+  if (!data[user]) {
+    data[user] = {};
+  }
+
+  data[user][gameID] = { board };
+  fs.writeFileSync(dataFile, JSON.stringify(data));
+  res.json({ message: 'Board saved successfully' });
+});
+
+// Endpoint to save a default board
+app.post('/stratego-api/:user/default/:boardName', (req, res) => {
+  const { user, boardName } = req.params;
+  const boards = req.body.boards;
+
+  if (!user || !boardName || !boards) {
+    return res.status(400).send('Invalid request data');
+  }
+
+  let data: { [key: string]: any } = {};
+  // let data = {};
+  // if (fs.existsSync(dataFile)) {
+  //   data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+  // }
+
+  if (!data[user]) {
+    data[user] = {};
+  }
+
+  data[user][boardName] = { boards };
+  fs.writeFileSync(dataFile, JSON.stringify(data));
+  res.json({ message: 'Default board saved successfully' });
+});
+
+// Endpoint to get all default boards for a user
+app.get('/stratego-api/:user/default', (req, res) => {
+  const { user } = req.params;
+
+  if (!user) {
+    return res.status(400).send('Invalid request data');
+  }
+
+  let data: { [key: string]: any } = {};
+
+  // let data = {};
+  // if (fs.existsSync(dataFile)) {
+  //   data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+  // }
+
+  const userBoards = data[user] || {};
+  res.json(userBoards);
 });
 
 app.listen(port, () => {
