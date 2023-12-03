@@ -1,0 +1,30 @@
+h1 {
+    padding-top: 150px;
+}
+.bg-image-red {
+    background: 
+    linear-gradient(rgb(96, 11, 11,.50), rgb(96, 11, 11,.50))
+    ,url('/src/styles/images/chessBackdrop.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+    color: red;  
+  }
+.bg-image-blue {
+    background: 
+    linear-gradient(rgb(5, 5, 96,.50), rgba(5, 5, 196, 0.5))
+    ,url('/src/styles/images/chessBackdrop.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+    color: #4479ec; 
+}
+
+.max-height {
+    height: 20%;
+}
+.col {
+    color:white;
+}

@@ -1,6 +1,0 @@
-build/
-node_modules/
-README.md
-.gitignore
-Dockerfile
-.env

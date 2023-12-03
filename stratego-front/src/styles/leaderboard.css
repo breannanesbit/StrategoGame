@@ -1,0 +1,5 @@
+.scrollable-leaderboard {
+    max-height: 400px;
+    overflow-y: auto; 
+  }
+  

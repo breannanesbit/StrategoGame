@@ -1,0 +1,10 @@
+POST https://100.68.122.57:2002/stratego-api/myApi?key=firstTest
+Content-Type: application/json
+
+{
+  "Item1": "Cool hike",
+  "location": "maple canyon"
+}
+
+###
+GET https://100.68.122.57:2002/stratego-api/myApi?key=firstTest
