@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from 'react-oidc-context';
-import '../styles/homepage.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
+import "../styles/homepage.css";
 
 export const HomePage = () => {
   const auth = useAuth();
@@ -15,7 +15,7 @@ export const HomePage = () => {
         setUsername(username);
         setLoading(false);
       } catch (error) {
-        console.error('Error loading user profile', error);
+        console.error("Error loading user profile", error);
         setLoading(false);
       }
     };
@@ -46,13 +46,21 @@ export const HomePage = () => {
 
   return (
     <div className="bg-image">
-      <h1 className="text-center py-5">Welcome {loading ? 'Loading...' : username || 'Guest'} to Stratego</h1>
+      <button className="btn btn-outline-danger mx-5">
+        <Link to={"/acheivements"}> acheivements</Link>
+      </button>
+      <h1 className="text-center py-5">
+        Welcome {loading ? "Loading..." : username || "Guest"} to Stratego
+      </h1>
       <div className="container-fluid d-flex justify-content-center align-items-center max-height">
         <div className="col col-7">
           <div className="row">
             <div className="col col-6 d-flex justify-content-end">
               <button className="btn btn-outline-danger mx-5 ">
-                <Link style={{ textDecoration: 'none', color: 'red' }} to={'/buildborad'}>
+                <Link
+                  style={{ textDecoration: "none", color: "red" }}
+                  to={"/buildborad"}
+                >
                   Play
                 </Link>
               </button>

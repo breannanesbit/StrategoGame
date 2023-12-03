@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {Acheivements} from "./pages/Acheivements";
 import { GameRules } from "./pages/GameRules";
 import GameBoard from "./pages/GameBorad";
 import ErrorPage, { ErrorBoundary } from "./component/error-page";
@@ -142,6 +143,18 @@ const router = createBrowserRouter([
         <ErrorBoundary fallback={<ErrorPage />}>
           <Toaster />
           <NewDefaultBoard/>
+        </ErrorBoundary>
+      </>
+    ),
+  },
+  {
+    path: "acheivements",
+    element: (
+      <>
+        <NavBar />
+        <ErrorBoundary fallback={<ErrorPage />}>
+          <Toaster />
+          <Acheivements/>
         </ErrorBoundary>
       </>
     ),

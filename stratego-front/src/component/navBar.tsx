@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useAuth } from 'react-oidc-context';
-import '../styles/navbar.css';
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
+import "../styles/navbar.css";
 
 const Navbar = () => {
   const auth = useAuth();
@@ -14,10 +14,10 @@ const Navbar = () => {
   useEffect(() => {
     checkIsMobile();
 
-    window.addEventListener('resize', checkIsMobile);
+    window.addEventListener("resize", checkIsMobile);
 
     return () => {
-      window.removeEventListener('resize', checkIsMobile);
+      window.removeEventListener("resize", checkIsMobile);
     };
   }, []);
 
@@ -31,7 +31,11 @@ const Navbar = () => {
 
   if (auth.isAuthenticated) {
     return (
-      <nav className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? 'mobile' : ''}`}>
+      <nav
+        className={`navbar container-fluid navbar-expand-lg  px-0 ${
+          isMobile ? "mobile" : ""
+        }`}
+      >
         <div className="navbar-brand col col-12 ">
           <div className="row mx-auto">
             <div className="col col-2">
@@ -49,9 +53,19 @@ const Navbar = () => {
                 <span>LeaderBoard</span>
               </NavLink>
             </div>
-            <div className="col col-3"></div>
+            <div className="col col-3">
+              <NavLink className="nav-link" to="/acheivements">
+                <span>Acheivements</span>
+              </NavLink>
+            </div>
+
             <div className="col col-2 text-end mx-2">
-              <button className="navbutton btn" onClick={() => void auth.removeUser()}>Logout</button>
+              <button
+                className="navbutton btn"
+                onClick={() => void auth.removeUser()}
+              >
+                Logout
+              </button>
             </div>
             <div className="col col-2">
               <NavLink className="nav-link" to="/settings">
@@ -62,11 +76,14 @@ const Navbar = () => {
         </div>
       </nav>
     );
-  };
-
+  }
 
   return (
-    <nav className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? 'mobile' : ''}`}>
+    <nav
+      className={`navbar container-fluid navbar-expand-lg  px-0 ${
+        isMobile ? "mobile" : ""
+      }`}
+    >
       <div className="navbar-brand col col-12 ">
         <div className="row mx-auto">
           <div className="col col-2">
@@ -86,8 +103,12 @@ const Navbar = () => {
           </div>
           <div className="col col-3"></div>
           <div className="col col-2 text-end mx-2">
-
-            <button className="navbutton btn " onClick={() => void auth.signinRedirect()}>Login</button>
+            <button
+              className="navbutton btn "
+              onClick={() => void auth.signinRedirect()}
+            >
+              Login
+            </button>
           </div>
           <div className="col col-2">
             <NavLink className="nav-link" to="/settings">
