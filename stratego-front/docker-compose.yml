@@ -13,7 +13,8 @@ services:
     volumes:
       - /home/stratego/data/apiStorage:/app/storage 
   
-  stratego-swag:
+
+  swag:
     image: lscr.io/linuxserver/swag
     container_name: stratego
     restart: unless-stopped
