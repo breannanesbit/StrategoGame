@@ -46,9 +46,6 @@ export const HomePage = () => {
 
   return (
     <div className="bg-image">
-      <button className="btn btn-outline-danger mx-5">
-        <Link to={"/acheivements"}> acheivements</Link>
-      </button>
       <h1 className="text-center py-5">
         Welcome {loading ? "Loading..." : username || "Guest"} to Stratego
       </h1>

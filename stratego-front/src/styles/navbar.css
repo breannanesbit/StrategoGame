@@ -7,6 +7,7 @@
 .nav-link:hover{
     color: rgb(135, 152, 250);
     letter-spacing: 0.1em;
+    padding: 0px;
 }
 
 .navbar {
