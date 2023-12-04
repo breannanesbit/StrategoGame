@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import "../styles/navbar.css";
+import { SettingsIcon } from "../styles/images/gear-solid";
 
 const Navbar = () => {
   const auth = useAuth();
@@ -67,9 +68,11 @@ const Navbar = () => {
                 Logout
               </button>
             </div>
-            <div className="col col-2">
+            <div className="col col-1">
               <NavLink className="nav-link" to="/settings">
-                <span>Settings</span>
+                <span className="icon">
+                  <SettingsIcon />
+                </span>
               </NavLink>
             </div>
           </div>
@@ -91,7 +94,7 @@ const Navbar = () => {
               <span>Home</span>
             </NavLink>
           </div>
-          <div className="col col-2">
+          <div className="col col-1">
             <NavLink className="nav-link" to="/rules">
               <span>Rules</span>
             </NavLink>
@@ -101,7 +104,11 @@ const Navbar = () => {
               <span>LeaderBoard</span>
             </NavLink>
           </div>
-          <div className="col col-3"></div>
+          <div className="col col-2">
+            <NavLink className="nav-link" to="/acheivements">
+              <span>Acheivements</span>
+            </NavLink>
+          </div>
           <div className="col col-2 text-end mx-2">
             <button
               className="navbutton btn "
@@ -110,9 +117,11 @@ const Navbar = () => {
               Login
             </button>
           </div>
-          <div className="col col-2">
+          <div className="col col-1">
             <NavLink className="nav-link" to="/settings">
-              <span>Settings</span>
+              <span className="icon">
+                <SettingsIcon />
+              </span>
             </NavLink>
           </div>
         </div>
