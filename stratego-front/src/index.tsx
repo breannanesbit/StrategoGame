@@ -5,7 +5,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import {Acheivements} from "./pages/Acheivements";
+import {Acheivement} from "./pages/Acheivements";
 import { AdminAcheivements } from "./pages/AdminAcheivements";
 import { GameRules } from "./pages/GameRules";
 import GameBoard from "./pages/GameBorad";
@@ -155,7 +155,7 @@ const router = createBrowserRouter([
         <NavBar />
         <ErrorBoundary fallback={<ErrorPage />}>
           <Toaster />
-          <Acheivements/>
+          <Acheivement/>
         </ErrorBoundary>
       </>
     ),
@@ -181,11 +181,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-  <AuthProvider
-      authority={oidcConfig.authority}
-      client_id={oidcConfig.client_id}
-      redirect_uri={oidcConfig.redirect_uri}
-    >
+  <AuthProvider {...oidcConfig}>
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary fallback={<ErrorPage />}>
         <RouterProvider router={router} />

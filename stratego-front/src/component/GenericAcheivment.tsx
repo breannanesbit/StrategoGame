@@ -31,7 +31,7 @@ export const GenericAcheivements: React.FC<AcheivementsProps> = ({
               <div key={index} className={`col card col-12 mb-4 ${
                 (achievement.conditionVariable === "points" &&
             playerPoints >= achievement.conditionValue) ||
-        (achievement.conditionVariable =="gamesPlayed" && playerGamesPlayed >= achievement.conditionValue)
+        (achievement.conditionVariable ==="gamesPlayed" && playerGamesPlayed >= achievement.conditionValue)
     ? "card-not-valid": "card-valid" }`}>
                   <div className="card-body">
                     <div className="card-title row">
