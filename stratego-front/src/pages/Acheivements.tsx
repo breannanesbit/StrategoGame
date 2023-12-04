@@ -20,7 +20,7 @@ export const exampleAcheivmentList = [
   { title: "acheivment 6", description: "description of acheivement 6", conditionVariable: "gamesPlayed", conditionValue: 75 },
 ];
 
-export const Acheivements = () => {
+export const Acheivement = () => {
   const [_user, _setUser] = useState<User>(examplePlayerList[0]);
   const [acheivementsList, setAcheivementsList] = useState<Acheivements[]>([]);
 

@@ -5,7 +5,6 @@ import {
   useCustomInputControl,
 } from "../component/GenericInput";
 import {
-  GenericSelect,
   GenericSelectInput,
   useCustomSelectControl,
 } from "../component/GenericSelect";
