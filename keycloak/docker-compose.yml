@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  web-keycloak-strat:
     image: bitnami/keycloak
     ports:
       - 8080:8080
@@ -12,7 +12,7 @@ services:
       - KEYCLOAK_DATABASE_USER=keycloak
       - KEYCLOAK_DATABASE_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
 
-  database:
+  database-keycloak-strat:
     image: postgres
     environment:
       - POSTGRES_USER=keycloak
@@ -20,3 +20,26 @@ services:
       - POSTGRES_DB=keycloak
     volumes:
       - /tmp/postgres:/var/lib/postgresql/data
+
+  swag-keycloak:
+    image: lscr.io/linuxserver/swag
+    container_name: swag_keycloak
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - URL=stratego2023.duckdns.org
+      - VALIDATION=duckdns
+      - DUCKDNSTOKEN=${DUCKDNSTOKEN}
+      - STAGING=false
+    volumes:
+      - ./swag-default.conf:/config/nginx/site-confs/default.conf
+
+    # volumes:
+    #   - /home/stratego/data/swag:/config
+    #   - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
+    ports:
+    - 0.0.0.0:2004:443 
