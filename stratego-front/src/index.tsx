@@ -28,8 +28,6 @@ const oidcConfig = {
   client_id: 'stratgeoClient',
   redirect_uri: 'https://stratego2023.duckdns.org:2002',
 };
-  
-
 
 const router = createBrowserRouter([
   {
