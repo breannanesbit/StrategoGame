@@ -8,7 +8,6 @@ services:
   stratego-api:
     build: ../stratego-api
     restart: unless-stopped
-    # image: stratego/store-api:latest
     container_name: stratego-api
     volumes:
       - /home/stratego/data/apiStorage:/app/storage 
