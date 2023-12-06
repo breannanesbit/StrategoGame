@@ -32,7 +32,6 @@ jobs:
         run: |
           cd keycloak
           docker compose build 
-
           docker compose pull
           docker compose build 
           docker compose down
