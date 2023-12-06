@@ -36,47 +36,47 @@ services:
     ports:
     - 0.0.0.0:2002:443 
 
-  web-keycloak-strat:
-    image: bitnami/keycloak
-    ports:
-      - 8080:8080
-    environment:
-      - KEYCLOAK_ADMIN_USER=admin
-      - KEYCLOAK_ADMIN_PASSWORD=password
-      - KEYCLOAK_DATABASE_HOST=database
-      - KEYCLOAK_DATABASE_NAME=keycloak
-      - KEYCLOAK_DATABASE_USER=keycloak
-      - KEYCLOAK_DATABASE_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
+  # web-keycloak-strat:
+  #   image: bitnami/keycloak
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - KEYCLOAK_ADMIN_USER=admin
+  #     - KEYCLOAK_ADMIN_PASSWORD=password
+  #     - KEYCLOAK_DATABASE_HOST=database
+  #     - KEYCLOAK_DATABASE_NAME=keycloak
+  #     - KEYCLOAK_DATABASE_USER=keycloak
+  #     - KEYCLOAK_DATABASE_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
 
-  database-keycloak-strat:
-    image: postgres
-    environment:
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
-      - POSTGRES_DB=keycloak
-    volumes:
-      - /tmp/postgres:/var/lib/postgresql/data
+  # database-keycloak-strat:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_USER=keycloak
+  #     - POSTGRES_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
+  #     - POSTGRES_DB=keycloak
+  #   volumes:
+  #     - /tmp/postgres:/var/lib/postgresql/data
 
-  swag-keycloak:
-    image: lscr.io/linuxserver/swag
-    container_name: swag_keycloak
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Denver
-      - URL=stratego2023.duckdns.org
-      - VALIDATION=duckdns
-      - DUCKDNSTOKEN=${DUCKDNSTOKEN}
-      - STAGING=false
-    volumes:
-      - ./swag-default.conf:/config/nginx/site-confs/default.conf
+  # swag-keycloak:
+  #   image: lscr.io/linuxserver/swag
+  #   container_name: swag_keycloak
+  #   restart: unless-stopped
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=America/Denver
+  #     - URL=stratego2023.duckdns.org
+  #     - VALIDATION=duckdns
+  #     - DUCKDNSTOKEN=${DUCKDNSTOKEN}
+  #     - STAGING=false
+  #   volumes:
+  #     - ./swag-default.conf:/config/nginx/site-confs/default.conf
 
-    # volumes:
-    #   - /home/stratego/data/swag:/config
-    #   - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
-    ports:
-    - 0.0.0.0:2004:443 
+  #   # volumes:
+  #   #   - /home/stratego/data/swag:/config
+  #   #   - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
+  #   ports:
+  #   - 0.0.0.0:2004:443 
     
