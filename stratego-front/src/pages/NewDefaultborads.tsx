@@ -34,4 +34,5 @@ export const NewDefaultBoard = () => {
             <GenericBorad handleSubmit={(board) => handleSubmitBoard(board) }/>
         </div>
     )
+    
 }
