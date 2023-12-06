@@ -3,18 +3,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh; /* Make the container take the full height of the viewport */
   }
   
   .user-icon-container {
-    margin-top: 20px; /* Add some margin to separate the icon from other content */
+    margin-top: 20px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border: 4px solid #fff;
+    border-radius: 10%;
   }
   
   .user-icon {
     width: 150px; /* Adjust the width as needed */
     height: 150px; /* Adjust the height as needed */
-    border-radius: 50%; /* Make it circular */
-    object-fit: cover; /* Maintain the aspect ratio and cover the container */
+    border-radius: 50%;
+    border-color: aliceblue;
+    object-fit: cover; 
+    align-items: center;
   }
   

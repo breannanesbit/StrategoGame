@@ -23,10 +23,16 @@ import { NewDefaultBoard } from "./pages/NewDefaultborads";
 import { AuthProvider } from "react-oidc-context";
 
 
+// const oidcConfig = {
+//   authority: 'https://stratego2023.duckdns.org:2004/realms/Stratego',
+//   client_id: 'stratgeoClient',
+//   redirect_uri: 'https://stratego2023.duckdns.org:2002',
+// };
+
 const oidcConfig = {
-  authority: 'https://stratego2023.duckdns.org:2004/realms/Stratego',
+  authority: 'http://localhost:8080/realms/Stratego',
   client_id: 'stratgeoClient',
-  redirect_uri: 'https://stratego2023.duckdns.org:2002',
+  redirect_uri: 'http://localhost:3000', 
 };
 
 const router = createBrowserRouter([

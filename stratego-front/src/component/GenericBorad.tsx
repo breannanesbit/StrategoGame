@@ -120,10 +120,12 @@ export const GenericBorad: React.FC<{
 
     for (let row = 0; row < numRows; row++) {
       for (let col = 0; col < numCols; col++) {
+        const isTopHalf = row < numRows / 2 ;
+
         cells.push(
           <div
             key={`${row}-${col}`}
-            className="cell"
+            className={`cell ${isTopHalf ? 'top-half' : 'bottom-half'}`}
             data-row={row}
             data-col={col}
             onDrop={handleDrop}
@@ -140,71 +142,28 @@ export const GenericBorad: React.FC<{
 
   return (
     <div>
-      <div className=" d-flex justify-content-end">
-        <button className="btn btn-outline-danger mx-5" type="submit" onClick={() => handleSubmit(board)}>Submit</button>
-      </div>
-      <div className="game-board">{renderCells()}</div>
-      {Flag && (
-        <div className="piece-container">
-          <Piece type="Flag" rank={"F"} />
-        </div>
-      )}
-      {Bomb && (
-        <div className="piece-container">
-          <Piece type="Bomb" rank={"B"} />
-        </div>
-      )}
-      {Spy && (
-        <div className="piece-container">
-          <Piece type="Spy" rank={"1"} />
-        </div>
-      )}
-      {Scout && (
-        <div className="piece-container">
-          <Piece type="Scout" rank={"2"} />
-        </div>
-      )}
-      {Miner && (
-        <div className="piece-container">
-          <Piece type="Miner" rank={"3"} />
-        </div>
-      )}
-      {Sergeant && (
-        <div className="piece-container">
-          <Piece type="Sergeant" rank={"4"} />
-        </div>
-      )}
-      {Lieutenant && (
-        <div className="piece-container">
-          <Piece type="Lieutenant" rank={"5"} />
-        </div>
-      )}
-      {Captain && (
-        <div className="piece-container">
-          <Piece type="Captain" rank={"6"} />
-        </div>
-      )}
-      {Major && (
-        <div className="piece-container">
-          <Piece type="Major" rank={"7"} />
-        </div>
-      )}
-      {Colonel && (
-        <div className="piece-container">
-          <Piece type="Colonel" rank={"8"} />
-        </div>
-      )}
-      {General && (
-        <div className="piece-container">
-          <Piece type="General" rank={"9"} />
-        </div>
-      )}
-      {Marshal && (
-        <div className="piece-container">
-          <Piece type="Marshal" rank={"10"} />
-        </div>
-      )}
+  <div className="container">
+    <div className="game-board">{renderCells()}</div>
+    <div className="piece-container">
+      {Flag && <Piece type="Flag" rank={"F"} />}
+      {Bomb && <Piece type="Bomb" rank={"B"} />}
+      {Spy && <Piece type="Spy" rank={"1"} />}
+      {Scout && <Piece type="Scout" rank={"2"} />}
+      {Miner && <Piece type="Miner" rank={"3"} />}
+      {Sergeant && <Piece type="Sergeant" rank={"4"} />}
+      {Lieutenant && <Piece type="Lieutenant" rank={"5"} />}
+      {Captain && <Piece type="Captain" rank={"6"} />}
+      {Major && <Piece type="Major" rank={"7"} />}
+      {Colonel && <Piece type="Colonel" rank={"8"} />}
+      {General && <Piece type="General" rank={"9"} />}
+      {Marshal && <Piece type="Marshal" rank={"10"} />}
     </div>
+  </div>
+  <div className="d-flex justify-content-end">
+    <button className="btn btn-outline-danger mx-5" type="submit" onClick={() => handleSubmit(board)}>Submit</button>
+  </div>
+</div>
+
   );
 };
 

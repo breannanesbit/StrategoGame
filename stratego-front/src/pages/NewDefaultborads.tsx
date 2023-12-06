@@ -26,8 +26,11 @@ export const NewDefaultBoard = () => {
     })
     return (
         <div>
+            <div style={{ margin: '2%' }}>
             <h2>Create a new Board</h2>
             <GenericTextInput control={inputControl}/>
+
+            </div>
             <GenericBorad handleSubmit={(board) => handleSubmitBoard(board) }/>
         </div>
     )

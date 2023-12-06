@@ -2,7 +2,7 @@ import { useState } from "react";
 // import keycloak from "../component/keycloak";
 import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import '../styles/settings.css'; 
+import '../styles/settings.css';
 import { useUserInforQuery } from "../query/hook";
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
@@ -13,14 +13,14 @@ export interface User {
     name: string,
     username: string,
     imageBase64: string
-} 
+}
 
 export const Settings = () => {
     const auth = useAuth();
     const username = auth.user?.profile.preferred_username || '';
     console.log(username)
     const userInfo = useUserInforQuery(username)
-   
+
     const [formData, setFormData] = useState<User>({
         id: "0",
         name: "",
@@ -40,7 +40,7 @@ export const Settings = () => {
         initialValue: formData.username,
     })
 
-    if (!auth.activeNavigator) {
+    if (!auth.isAuthenticated) {
         // Redirect to login or handle unauthenticated user
         return <div>Not authenticated. Redirecting...</div>;
     }
@@ -62,42 +62,41 @@ export const Settings = () => {
         }
     };
 
-    
+
 
 
 
     return (
         <div>
-            <h2>Welcome, {username}</h2>
+            <h2 style={{margin: '2%'}}>Welcome, {username}</h2>
             <div className="settings-container">
                 <div className="user-icon-container">
 
-                    {formData.imageBase64 ? (<img src={formData.imageBase64} className="user-icon" alt="icon"/>) : (<i className="fa-regular fa-user user-icon"></i>)}
+                    {formData.imageBase64 ? (<img src={formData.imageBase64} className="user-icon" alt="icon" />) : (<i className="fa-regular fa-user user-icon fa-7x" ></i>)}
                     {userInfo && (
                         <div>
-                            <h6>Points: {userInfo.data?.points}</h6>
-                            <h6>Games played: {userInfo.data?.gamesPlayed}</h6>
+                            <h4>Points: {userInfo.data?.points}</h4>
+                            <h4>Games played: {userInfo.data?.gamesPlayed}</h4>
 
-                            </div>
+                        </div>
                     )}
-                </div>
-                <form>
-                    <label htmlFor="image" className="form-label"></label>
-                    <input
-                        id="image"
-                        className="form-control"
-                        type="file"
-                        accept="image/png, image/jpeg"
-                        onChange={handleImageUpload}
-                    />
-                    <GenericTextInput control={customInputControl} />
-                    <GenericTextInput control={customInputControl2} />
-                </form>
-
-                <button className="btn btn-primary">
                     <Link to={"/seeboards"}>See your boards</Link>
-                </button>
+                </div>
             </div>
+            <form>
+                <h6>Edit your information</h6>
+                <label htmlFor="image" className="form-label"></label>
+                <input
+                    id="image"
+                    className="form-control"
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={handleImageUpload}
+                />
+                <GenericTextInput control={customInputControl} />
+                <GenericTextInput control={customInputControl2} />
+            </form>
+
         </div>
     );
 }
