@@ -62,10 +62,6 @@ export const Settings = () => {
         }
     };
 
-
-
-
-
     return (
         <div>
             <h2 style={{margin: '2%'}}>Welcome, {username}</h2>
