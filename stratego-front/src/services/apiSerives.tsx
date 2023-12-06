@@ -2,7 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { User } from "../models/user";
 
-const url = "/stratego-api"
+const url = "https://100.68.122.57:2002/stratego-api"
 
 export const postABorad = async (user: string, board: string[][]) => {
     try {

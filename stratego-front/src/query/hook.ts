@@ -59,10 +59,10 @@ export const useMutationPostBoard1 = () => {
     });
   };
 
-export const useMutationPostUserInfo = (user: User) => useMutation({
-    mutationFn: () => postUserInfo(user),
-    onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [user] });
+export const useMutationPostUserInfo = () => useMutation({
+    mutationFn: (params: {user: User}) => postUserInfo(params.user),
+    onSuccess: (_, variables) => {
+        queryClient.invalidateQueries({ queryKey: [variables.user] });
     }
 });
 

@@ -22,22 +22,14 @@ import { SeeDefaultBoard } from "./pages/SeeDefaultBoard";
 import { NewDefaultBoard } from "./pages/NewDefaultborads";
 import { AuthProvider } from "react-oidc-context";
 
-// keycloak
-//   .init({ onLoad: "login-required" })
-//   .then((_authenticated) => {
-//     console.log("Keycloak initialized");
-//   })
-//   .catch((error) => {
-//     console.error("Keycloak initialization error", error);
-//   });
 
-  const oidcConfig = {
-    authority: 'http://localhost:8080/Stratego',
-    client_id: 'stratgeoClient',
-    redirect_uri: 'http://localhost:3000/redirect-uri', 
-  };
+const oidcConfig = {
+  authority: 'https://stratego2023.duckdns.org:2004/realms/Stratego',
+  client_id: 'stratgeoClient',
+  redirect_uri: 'https://stratego2023.duckdns.org:2002',
+};
   
-  
+
 
 const router = createBrowserRouter([
   {

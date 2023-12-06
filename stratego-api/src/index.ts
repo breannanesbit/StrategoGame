@@ -2,10 +2,13 @@ import express, { Request, Response } from 'express';
 import fs from 'fs';
 
 const app = express();
+const cors = require('cors');
 const port = 2002;
 const dataFile = 'data.json';
 
 app.use(express.json());
+
+app.use(cors());
 
 app.post('/stratego-api', (req: Request, res: Response) => {
   const key = req.query.key as string;

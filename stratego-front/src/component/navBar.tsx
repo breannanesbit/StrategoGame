@@ -3,10 +3,39 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import "../styles/navbar.css";
 import { SettingsIcon } from "../styles/images/gear-solid";
+import { useMutationPostUserInfo, useUserInforQuery } from "../query/hook";
+import { User } from "../models/user";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Navbar = () => {
   const auth = useAuth();
   const [isMobile, setIsMobile] = useState(false);
+  const mutateUser = useMutationPostUserInfo();
+  const username = auth.user?.profile.preferred_username || '';
+  const userInfo = useUserInforQuery(username);
+
+  const LogIn = () => {
+    try {
+      auth.signinRedirect()
+
+      if (username && !userInfo.data) {
+        const randomUniqueId = uuidv4();
+        const user: User = {
+          id: randomUniqueId,
+          userName: username,
+          points: 0,
+          gamesPlayed: 0,
+        };
+        mutateUser.mutate({ user: user });
+        console.log("made it")
+      }
+
+    } catch (e) {
+      console.error('Error fetching user information:', e);
+    }
+  }; 
+
 
   const checkIsMobile = () => {
     setIsMobile(window.innerWidth <= 768);
@@ -30,12 +59,13 @@ const Navbar = () => {
     return <div>Oops... {auth.error.message}</div>;
   }
 
+
+
   if (auth.isAuthenticated) {
     return (
       <nav
-        className={`navbar container-fluid navbar-expand-lg  px-0 ${
-          isMobile ? "mobile" : ""
-        }`}
+        className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? "mobile" : ""
+          }`}
       >
         <div className="navbar-brand col col-12 ">
           <div className="row mx-auto">
@@ -63,7 +93,7 @@ const Navbar = () => {
             <div className="col col-2 text-end mx-2">
               <button
                 className="navbutton btn"
-                onClick={() => void auth.removeUser()}
+                onClick={() => void auth.signoutRedirect()}
               >
                 Logout
               </button>
@@ -83,9 +113,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`navbar container-fluid navbar-expand-lg  px-0 ${
-        isMobile ? "mobile" : ""
-      }`}
+      className={`navbar container-fluid navbar-expand-lg  px-0 ${isMobile ? "mobile" : ""
+        }`}
     >
       <div className="navbar-brand col col-12 ">
         <div className="row mx-auto">
@@ -112,7 +141,7 @@ const Navbar = () => {
           <div className="col col-2 text-end mx-2">
             <button
               className="navbutton btn "
-              onClick={() => void auth.signinRedirect()}
+              onClick={() => LogIn()}
             >
               Login
             </button>

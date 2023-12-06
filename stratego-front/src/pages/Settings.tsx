@@ -17,8 +17,8 @@ export interface User {
 
 export const Settings = () => {
     const auth = useAuth();
-    const username = auth.user?.profile.sub || '';
-   
+    const username = auth.user?.profile.preferred_username || '';
+    console.log(username)
     const userInfo = useUserInforQuery(username)
    
     const [formData, setFormData] = useState<User>({

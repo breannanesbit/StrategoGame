@@ -11,7 +11,7 @@ export const HomePage = () => {
   useEffect(() => {
     const loadUserProfile = async () => {
       try {
-        const username = auth.user?.profile.sub || null;
+        const username = auth.user?.profile.preferred_username || null;
         setUsername(username);
         setLoading(false);
       } catch (error) {
