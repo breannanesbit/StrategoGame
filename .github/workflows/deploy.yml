@@ -31,7 +31,7 @@ jobs:
       - name: redeploy application
         run: |
           cd keycloak
-          docker build 
+          docker compose build 
 
           docker compose pull
           docker compose build 
