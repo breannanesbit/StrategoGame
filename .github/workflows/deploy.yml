@@ -3,7 +3,7 @@ env:
   DUCKDNSTOKEN: ${{ secrets.DUCKDNSTOKEN }}
 on: [push, workflow_dispatch]
 jobs:
-  deploy-application:
+  deploy-stratego:
     runs-on: [ self-hosted ]
     steps:
       - name: checkout repo
@@ -17,6 +17,22 @@ jobs:
           docker build -t breanna_lint -f lint.Dockerfile .
           docker run -i --rm breanna_lint
       
+          docker compose pull
+          docker compose build 
+          docker compose down
+          docker compose up -d
+
+  deploy-keycloak:
+    runs-on: [ self-hosted ]
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: redeploy application
+        run: |
+          cd keycloak
+          docker build 
+
           docker compose pull
           docker compose build 
           docker compose down

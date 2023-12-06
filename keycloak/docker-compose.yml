@@ -37,9 +37,7 @@ services:
       - STAGING=false
     volumes:
       - ./swag-default.conf:/config/nginx/site-confs/default.conf
+      - /home/stratego/data/keycloakswag:/config
 
-    # volumes:
-    #   - /home/stratego/data/swag:/config
-    #   - ./swag-default.conf:/config/nginx/site-confs/default.conf # new part
     ports:
     - 0.0.0.0:2004:443 
