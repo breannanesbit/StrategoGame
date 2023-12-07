@@ -31,7 +31,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Denver
-      - URL=stratego2023.duckdns.org
+      - URL=startegokeycloak.duckdns.org
       - VALIDATION=duckdns
       - DUCKDNSTOKEN=${DUCKDNSTOKEN}
       - STAGING=false
@@ -39,6 +39,6 @@ services:
       - ./swag-default.conf:/config/nginx/site-confs/default.conf
       - /home/stratego/data/keycloakswag:/config
     ports:
-    - 0.0.0.0:2004:443 
+    - 0.0.0.0:2004:443
 
     
