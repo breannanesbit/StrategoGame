@@ -38,7 +38,6 @@ services:
     volumes:
       - ./swag-default.conf:/config/nginx/site-confs/default.conf
       - /home/stratego/data/keycloakswag:/config
-
     ports:
     - 0.0.0.0:2004:443 
 
