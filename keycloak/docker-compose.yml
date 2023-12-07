@@ -8,7 +8,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN_USER=admin
       - KEYCLOAK_ADMIN_PASSWORD=password
-      - KEYCLOAK_DATABASE_HOST=database
+      - KEYCLOAK_DATABASE_HOST=database-keycloak-strat
       - KEYCLOAK_DATABASE_NAME=keycloak
       - KEYCLOAK_DATABASE_USER=keycloak
       - KEYCLOAK_DATABASE_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
