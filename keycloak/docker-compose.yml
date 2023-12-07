@@ -2,6 +2,7 @@ version: '3'
 services:
   web-keycloak-strat:
     image: bitnami/keycloak
+    container_name: web-keycloak-strat
     ports:
       - 8080:8080
     environment:
