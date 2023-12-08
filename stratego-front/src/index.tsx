@@ -97,7 +97,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "GameOver",
+    path: "gameOver",
     element: (
       <>
         <NavBar />
