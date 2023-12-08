@@ -41,5 +41,6 @@ services:
       - /home/stratego/data/keycloakswag:/config
     ports:
     - 0.0.0.0:2004:443
+    
 
     
