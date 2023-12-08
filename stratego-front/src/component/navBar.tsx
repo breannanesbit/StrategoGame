@@ -93,7 +93,7 @@ const Navbar = () => {
             <div className="col col-2 text-end mx-2">
               <button
                 className="navbutton btn"
-                onClick={() => void auth.signoutRedirect()}
+                onClick={() => void auth.removeUser()}
               >
                 Logout
               </button>

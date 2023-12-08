@@ -8,7 +8,6 @@ services:
   stratego-api:
     build: ../stratego-api
     restart: unless-stopped
-    # image: stratego/store-api:latest
     container_name: stratego-api
     volumes:
       - /home/stratego/data/apiStorage:/app/storage 
@@ -33,5 +32,3 @@ services:
 
     ports:
     - 0.0.0.0:2002:443 
-
- 
