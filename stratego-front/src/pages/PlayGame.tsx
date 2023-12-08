@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../styles/gameborad.css";
 import Piece from "../component/piece";
 import { User } from "../models/user";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Game } from "../models/game";
+import { GameContext } from "../context/gameContext";
 
 const numRows = 10;
 const _numCols = 10;
@@ -17,7 +18,8 @@ const initialPlayers: Game[] = [
   { id: "1", Player1: "Player1", Player2: "Player2", Player1Points: 0, Player2Points:0 , board: initialBoardState },
   // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
 ];
-
+//show game id.--------
+// identify which player view it is currently
 //when game first starts the board will flip it with the players pieces,
 //after that the game will use a context and send the current state of the board once a move has been done
 // Then we can switch whos turn it is and the other player will take the current board state and movie their pieces
@@ -25,8 +27,11 @@ const initialPlayers: Game[] = [
 //
 
 export const PlayGame = () => {
-  const [board, setBoard] = useState(initialBoardState);
-  const [players, setPlayers] = useState<Game[]>(initialPlayers);
+  const { game, isPlayer1Turn, player1board, player2board, setGame, setIsPlayer1Turn} = useContext(GameContext);
+  const {board, Player1, Player1Points, Player2, Player2Points} = game;
+  
+  // const [board, setBoard] = useState(initialBoardState);
+  // const [players, setPlayers] = useState<Game[]>(initialPlayers);
   const [selectedCell, setSelectedCell] = useState<{
     row: number;
     col: number;
@@ -36,8 +41,8 @@ export const PlayGame = () => {
     row: number;
     col: number;
   } | null>(null);
-  const [currentPlayer, setCurrentPlayer] = useState<User | number | null>();
-  const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
+  // const [currentPlayer, setCurrentPlayer] = useState<User | number | null>();
+  // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
 
   useEffect(() => {
     if (selectedPiece) {
@@ -48,107 +53,113 @@ export const PlayGame = () => {
 
   
 
-  // useEffect(() => {
-  //   const getUsers = async () => {
-  //     try {
-  //       const response = await axios.get("api/user/board");
-  //       if (response.data && response.data.length >= 2) {
-  //         const fetchedPlayers = response.data.slice(0, 2).map((user: any) => ({
-  //           id: user.id,
-  //           userName: user.userName,
-  //           points: user.points,
-  //           board: user.board,
-  //         }));
-  //         setPlayers(fetchedPlayers);
-  //         setCurrentPlayer(
-  //           isPlayer1Turn ? fetchedPlayers[1] : fetchedPlayers[0]
-  //         );
-  //         console.log("Got players", response);
-  //       }
-  //     } catch (error) {
-  //       console.log("Getting users had a problem");
-  //       console.error("Error fetching users:", error);
-  //       setCurrentPlayer(1);
-  //     }
-  //   };
+  useEffect(() => {
+    // const getUsers = async () => {
+    //   try {
+    //     const response = await axios.get("api/user/board");
+    //     if (response.data && response.data.length >= 2) {
+    //       const fetchedPlayers = response.data.slice(0, 2).map((user: any) => ({
+    //         id: user.id,
+    //         userName: user.userName,
+    //         points: user.points,
+    //         board: user.board,
+    //       }));
+    //       setPlayers(fetchedPlayers);
+    //       setCurrentPlayer(
+    //         isPlayer1Turn ? fetchedPlayers[1] : fetchedPlayers[0]
+    //       );
+    //       console.log("Got players", response);
+    //     }
+    //   } catch (error) {
+    //     console.log("Getting users had a problem");
+    //     console.error("Error fetching users:", error);
+    //     setCurrentPlayer(1);
+    //   }
+    // };
 
-  //   const combinedBoard = () => {
-  //     const player1LastHalf = flipAndInvertBoard(players[0].board).slice(0, numRows/2);
-  //     console.log("half",player1LastHalf)
-  //     const player2LastHalf = players[1].board.slice(numRows / 2, numRows);
-  //     console.log("half2",player2LastHalf)
-  //     const setupBoard = player1LastHalf.concat(player2LastHalf)
-  //     console.log("half2",setupBoard)
-  //     setBoard(setupBoard)
-  //   };
+    const combinedBoard = () => {
+      const player1LastHalf = flipAndInvertBoard(player1board).slice(0, numRows/2);
+      console.log("half",player1LastHalf)
+      const player2LastHalf = player2board.slice(numRows / 2, numRows);
+      console.log("half2",player2LastHalf)
+      const setupBoard = player1LastHalf.concat(player2LastHalf)
+      console.log("half2",setupBoard)
+      setGame((prevGame) => ({
+        ...prevGame,
+        board:setupBoard
+      }));
+    };
   //   getUsers();
-  //   combinedBoard()
-  // }, [isPlayer1Turn, players]);
+    combinedBoard()
+  }, [isPlayer1Turn, player1board, player2board, setGame]);
 
-  // const flipAndInvertBoard = (originalBoard: string[][]) => {
-  //   const flippedv = originalBoard.slice().reverse();
-  //   const flippedh = flippedv.map(row => row.slice().reverse());
-  //   console.log(flippedh)
-  //   return flippedh
-  // };
-  // const handleCellClick = (row: number, col: number) => {
-  //   console.log("currentplayer", currentPlayer);
+  const flipAndInvertBoard = (originalBoard: string[][]) => {
+    const flippedv = originalBoard.slice().reverse();
+    const flippedh = flippedv.map(row => row.slice().reverse());
+    console.log(flippedh)
+    return flippedh
+  };
+  const handleCellClick = (row: number, col: number) => {
+    console.log("player1:", isPlayer1Turn);
 
-  //   console.log("clicked button", isSelected);
-  //   if (!selectedPiece) {
-  //     const piece = board[row][col];
-  //     console.log("row and col", row, col);
-  //     console.log("board", board[row][col]);
+    console.log("clicked button", isSelected);
+    if (!selectedPiece) {
+      const piece = board[row][col];
+      console.log("row and col", row, col);
+      console.log("board", board[row][col]);
 
-  //     console.log("piece ", piece, "currentplayer ", currentPlayer);
-  //     if (piece && currentPlayer && piece !== "Flag") {
-  //       if (
-  //         (currentPlayer === 0 && row < numRows / 2) ||
-  //         (currentPlayer === 1 && row >= numRows / 2)
-  //       ) {
-  //         setSelectedPiece({ row, col });
-  //         setSelectedCell({ row, col });
-  //         console.log("cell", row, col);
-  //       }
-  //     }
-  //   } else {
-  //     console.log("move piece");
-  //     movePiece(row, col);
-  //   }
-  // };
+      console.log("piece ", piece, "player1 ", isPlayer1Turn);
+      if (piece /*&& currentPlayer*/ && piece !== "Flag") {
+        if (
+          (isPlayer1Turn == true && row < numRows / 2) ||
+          (isPlayer1Turn == false && row >= numRows / 2)
+        ) {
+          setSelectedPiece({ row, col });
+          setSelectedCell({ row, col });
+          console.log("cell", row, col);
+        }
+      }
+    } else {
+      console.log("move piece");
+      movePiece(row, col);
+    }
+  };
 
-  // const movePiece = async (directionRow: number, directionCol: number) => {
-  //   if (selectedPiece) {
-  //     const { row, col } = selectedPiece;
-  //     const toRow = row + directionRow;
-  //     const toCol = col + directionCol;
+  const movePiece = async (directionRow: number, directionCol: number) => {
+    if (selectedPiece) {
+      const { row, col } = selectedPiece;
+      const toRow = row + directionRow;
+      const toCol = col + directionCol;
 
-  //     if (isValidMove(row, col, toRow, toCol)) {
-  //       const updatedBoard = [...board];
-  //       if (updatedBoard[toRow][toCol] !== "") {
-  //         const attackingPiece = updatedBoard[row][col];
-  //         const defendingPiece = updatedBoard[toRow][toCol];
-  //         if (isOpponentsPiece(attackingPiece, defendingPiece)) {
-  //           const attackerWins = compareRanks(attackingPiece, defendingPiece);
-  //           if (attackerWins) {
-  //             updatedBoard[toRow][toCol] = attackingPiece;
-  //             updatedBoard[row][col] = "";
-  //             updateScores(attackingPiece, defendingPiece);
-  //           } else {
-  //             updatedBoard[row][col] = "";
-  //           }
-  //         }
-  //       } else {
-  //         updatedBoard[toRow][toCol] = updatedBoard[row][col];
-  //         updatedBoard[row][col] = "";
-  //       }
-  //       await saveBoardToServer(updatedBoard);
-  //       setIsPlayer1Turn(!isPlayer1Turn);
-  //       setBoard(updatedBoard);
-  //       setSelectedPiece({ row: toRow, col: toCol });
-  //     }
-  //   }
-  // };
+      if (isValidMove(row, col, toRow, toCol)) {
+        const updatedBoard = [...board];
+        if (updatedBoard[toRow][toCol] !== "") {
+          const attackingPiece = updatedBoard[row][col];
+          const defendingPiece = updatedBoard[toRow][toCol];
+          if (isOpponentsPiece(attackingPiece, defendingPiece)) {
+            const attackerWins = compareRanks(attackingPiece, defendingPiece);
+            if (attackerWins) {
+              updatedBoard[toRow][toCol] = attackingPiece;
+              updatedBoard[row][col] = "";
+              updateScores(attackingPiece, defendingPiece);
+            } else {
+              updatedBoard[row][col] = "";
+            }
+          }
+        } else {
+          updatedBoard[toRow][toCol] = updatedBoard[row][col];
+          updatedBoard[row][col] = "";
+        }
+        // await saveBoardToServer(updatedBoard);
+        setSelectedPiece({row: toRow, col: toCol})
+        setGame((prevGame) => ({
+          ...prevGame,
+          board:updatedBoard
+        }));
+        setIsPlayer1Turn(!isPlayer1Turn);
+      }
+    }
+  };
   // const saveBoardToServer = async (updatedBoard: string[][]) => {
   //   try {
   //     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
@@ -162,82 +173,83 @@ export const PlayGame = () => {
   //   }
   // };
   
-  // const isOpponentsPiece = (attacker: string, defender: string): boolean => {
-  //   console.log(attacker)
-  //   console.log(defender)
-  //   const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-  //   const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
+  const isOpponentsPiece = (attacker: string, defender: string): boolean => {
+    console.log(attacker)
+    console.log(defender)
+    const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+    const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
   
-  //   return attackerPlayerIndex !== currentPlayerIndex;
-  // };
-  // const compareRanks = (attacker: string, defender: string): boolean => {
-  //   const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3  };
-  //   return rankMap[attacker] >= rankMap[defender];
-  // };
+    return attackerPlayerIndex !== currentPlayerIndex;
+  };
+  const compareRanks = (attacker: string, defender: string): boolean => {
+    const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3  };
+    return rankMap[attacker] >= rankMap[defender];
+  };
   
-  // const updateScores = (attackingPiece: string, defendingPiece: string) => {
-  //   console.log(attackingPiece)
-  //   console.log(defendingPiece)
-  //   const newPlayers = [...players];
-  //   const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-  //   const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
-  //   if(currentPlayerIndex === 0) {
-  //     newPlayers[0].Player1Points += 1;
-  //   } else {
-  //     newPlayers[0].Player2Points += 1; 
-  //   }
-  
-  //   setPlayers(newPlayers);
-  // };
-  // const isValidMove = (
-  //   _fromRow: number,
-  //   _fromCol: number,
-  //   _toRow: number,
-  //   _toCol: number
-  // ) => {
+  const updateScores = (attackingPiece: string, defendingPiece: string) => {
+    console.log(attackingPiece)
+    console.log(defendingPiece)
+    // const newPlayers = [...players];
+
+    //const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+    //const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
+    if(isPlayer1Turn == true) {
+      game.Player1Points += 1;
+    } else {
+      game.Player2Points += 1;
+    }
     
-  //   return true;
-  // };
-  // const renderCellButton = (row: number, col: number) => {
-  //   const piece = board[row][col];
-  //   const isSelected = selectedCell
-  //     ? selectedCell.row === row && selectedCell.col === col
-  //     : false;
+    // setPlayers(newPlayers);
+  };
+  const isValidMove = (
+    _fromRow: number,
+    _fromCol: number,
+    _toRow: number,
+    _toCol: number
+  ) => {
+    
+    return true;
+  };
+  const renderCellButton = (row: number, col: number) => {
+    const piece = board[row][col];
+    const isSelected = selectedCell
+      ? selectedCell.row === row && selectedCell.col === col
+      : false;
 
-  //   console.log("isSelected loaded", isSelected);
-  //   return (
-  //     <button
-  //       key={`${row}-${col}`}
-  //       onClick={() => handleCellClick(row, col)}
-  //       disabled={!!selectedPiece}
-  //       style={{
-  //         backgroundColor: isSelected ? "lightgreen" : "gray",
-  //         minHeight: "45px",
-  //         minWidth: "45px",
-  //         padding: "0px",
-  //       }}
-  //     >
-  //       {piece && <Piece type={piece} rank={"0"} />}
-  //     </button>
-  //   );
-  // };
+    console.log("isSelected loaded", isSelected);
+    return (
+      <button
+        key={`${row}-${col}`}
+        onClick={() => handleCellClick(row, col)}
+        disabled={!!selectedPiece}
+        style={{
+          backgroundColor: isSelected ? "lightgreen" : "gray",
+          minHeight: "45px",
+          minWidth: "45px",
+          padding: "0px",
+        }}
+      >
+        {piece && <Piece type={piece} rank={"0"} />}
+      </button>
+    );
+  };
 
 
-  // const display=() => {
-  //   return (
-  //       <div>
-  //         {board.map((row, rowIndex) => (
-  //           <div key={rowIndex} className="board-row">
-  //             {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
-  //           </div>
-  //         ))}
-  //       </div>
-  //     );
-  // }
+  const display=() => {
+    return (
+        <div>
+          {board.map((row, rowIndex) => (
+            <div key={rowIndex} className="board-row">
+              {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
+            </div>
+          ))}
+        </div>
+      );
+  }
   return (
     <div>
       <div className="row">
-        <h1 className="col col-7">Game in Progress</h1>
+        <h1 className="col col-7">Game {game.id} in Progress</h1>
         <div className="col col-5 d-flex justify-content-end">
           <button className="btn btn-outline-danger mx-5">
             <Link
@@ -251,31 +263,31 @@ export const PlayGame = () => {
       </div>
       <div className=" row d-flex justify-content-start">
         <h3>
-          {players[0].Player1} score: {players[0].Player1Points}
+          {game.Player1} score: {game.Player1Points}
         </h3>
       </div>
       <div className="row d-flex justify-content-center">
-        {/* <div className="col col-11">{display()}</div> */}
+        <div className="col col-11">{display()}</div>
       </div>
       <div className=" row d-flex justify-content-end">
         <h3>
-          {players[0].Player2} score: {players[0].Player2Points}
+          {game.Player2} score: {game.Player2Points}
         </h3>
       </div>
       <div className="col col-3">
         <div className="row d-flex justify-content-center">
-          {/* <button onClick={() => movePiece(-1, 0)}>Move Up</button> */}
+          <button onClick={() => movePiece(-1, 0)}>Move Up</button>
         </div>
         <div className="row">
           <div className="col col-6 justify-content-end">
-            {/* <button onClick={() => movePiece(0, -1)}>Move Left</button> */}
+            <button onClick={() => movePiece(0, -1)}>Move Left</button>
           </div>
           <div className="col col-6 justify-content-start">
-            {/* <button onClick={() => movePiece(0, 1)}>Move Right</button> */}
+            <button onClick={() => movePiece(0, 1)}>Move Right</button>
           </div>
         </div>
         <div className="row d-flex justify-content-center">
-          {/* <button onClick={() => movePiece(1, 0)}>Move Down</button> */}
+          <button onClick={() => movePiece(1, 0)}>Move Down</button>
         </div>
       </div>
     </div>
