@@ -18,6 +18,12 @@ const initialPlayers: Game[] = [
   // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
 ];
 
+//when game first starts the board will flip it with the players pieces,
+//after that the game will use a context and send the current state of the board once a move has been done
+// Then we can switch whos turn it is and the other player will take the current board state and movie their pieces
+//pieces can go into enemy teritory(need id which player they belong to)
+//
+
 export const PlayGame = () => {
   const [board, setBoard] = useState(initialBoardState);
   const [players, setPlayers] = useState<Game[]>(initialPlayers);
@@ -42,192 +48,192 @@ export const PlayGame = () => {
 
   
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await axios.get("api/user/board");
-        if (response.data && response.data.length >= 2) {
-          const fetchedPlayers = response.data.slice(0, 2).map((user: any) => ({
-            id: user.id,
-            userName: user.userName,
-            points: user.points,
-            board: user.board,
-          }));
-          setPlayers(fetchedPlayers);
-          setCurrentPlayer(
-            isPlayer1Turn ? fetchedPlayers[1] : fetchedPlayers[0]
-          );
-          console.log("Got players", response);
-        }
-      } catch (error) {
-        console.log("Getting users had a problem");
-        console.error("Error fetching users:", error);
-        setCurrentPlayer(1);
-      }
-    };
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     try {
+  //       const response = await axios.get("api/user/board");
+  //       if (response.data && response.data.length >= 2) {
+  //         const fetchedPlayers = response.data.slice(0, 2).map((user: any) => ({
+  //           id: user.id,
+  //           userName: user.userName,
+  //           points: user.points,
+  //           board: user.board,
+  //         }));
+  //         setPlayers(fetchedPlayers);
+  //         setCurrentPlayer(
+  //           isPlayer1Turn ? fetchedPlayers[1] : fetchedPlayers[0]
+  //         );
+  //         console.log("Got players", response);
+  //       }
+  //     } catch (error) {
+  //       console.log("Getting users had a problem");
+  //       console.error("Error fetching users:", error);
+  //       setCurrentPlayer(1);
+  //     }
+  //   };
 
-    const combinedBoard = () => {
-      const player1LastHalf = flipAndInvertBoard(players[0].board).slice(0, numRows/2);
-      console.log("half",player1LastHalf)
-      const player2LastHalf = players[1].board.slice(numRows / 2, numRows);
-      console.log("half2",player2LastHalf)
-      const setupBoard = player1LastHalf.concat(player2LastHalf)
-      console.log("half2",setupBoard)
-      setBoard(setupBoard)
-    };
-    getUsers();
-    combinedBoard()
-  }, [isPlayer1Turn, players]);
+  //   const combinedBoard = () => {
+  //     const player1LastHalf = flipAndInvertBoard(players[0].board).slice(0, numRows/2);
+  //     console.log("half",player1LastHalf)
+  //     const player2LastHalf = players[1].board.slice(numRows / 2, numRows);
+  //     console.log("half2",player2LastHalf)
+  //     const setupBoard = player1LastHalf.concat(player2LastHalf)
+  //     console.log("half2",setupBoard)
+  //     setBoard(setupBoard)
+  //   };
+  //   getUsers();
+  //   combinedBoard()
+  // }, [isPlayer1Turn, players]);
 
-  const flipAndInvertBoard = (originalBoard: string[][]) => {
-    const flippedv = originalBoard.slice().reverse();
-    const flippedh = flippedv.map(row => row.slice().reverse());
-    console.log(flippedh)
-    return flippedh
-  };
-  const handleCellClick = (row: number, col: number) => {
-    console.log("currentplayer", currentPlayer);
+  // const flipAndInvertBoard = (originalBoard: string[][]) => {
+  //   const flippedv = originalBoard.slice().reverse();
+  //   const flippedh = flippedv.map(row => row.slice().reverse());
+  //   console.log(flippedh)
+  //   return flippedh
+  // };
+  // const handleCellClick = (row: number, col: number) => {
+  //   console.log("currentplayer", currentPlayer);
 
-    console.log("clicked button", isSelected);
-    if (!selectedPiece) {
-      const piece = board[row][col];
-      console.log("row and col", row, col);
-      console.log("board", board[row][col]);
+  //   console.log("clicked button", isSelected);
+  //   if (!selectedPiece) {
+  //     const piece = board[row][col];
+  //     console.log("row and col", row, col);
+  //     console.log("board", board[row][col]);
 
-      console.log("piece ", piece, "currentplayer ", currentPlayer);
-      if (piece && currentPlayer && piece !== "Flag") {
-        if (
-          (currentPlayer === 0 && row < numRows / 2) ||
-          (currentPlayer === 1 && row >= numRows / 2)
-        ) {
-          setSelectedPiece({ row, col });
-          setSelectedCell({ row, col });
-          console.log("cell", row, col);
-        }
-      }
-    } else {
-      console.log("move piece");
-      movePiece(row, col);
-    }
-  };
+  //     console.log("piece ", piece, "currentplayer ", currentPlayer);
+  //     if (piece && currentPlayer && piece !== "Flag") {
+  //       if (
+  //         (currentPlayer === 0 && row < numRows / 2) ||
+  //         (currentPlayer === 1 && row >= numRows / 2)
+  //       ) {
+  //         setSelectedPiece({ row, col });
+  //         setSelectedCell({ row, col });
+  //         console.log("cell", row, col);
+  //       }
+  //     }
+  //   } else {
+  //     console.log("move piece");
+  //     movePiece(row, col);
+  //   }
+  // };
 
-  const movePiece = async (directionRow: number, directionCol: number) => {
-    if (selectedPiece) {
-      const { row, col } = selectedPiece;
-      const toRow = row + directionRow;
-      const toCol = col + directionCol;
+  // const movePiece = async (directionRow: number, directionCol: number) => {
+  //   if (selectedPiece) {
+  //     const { row, col } = selectedPiece;
+  //     const toRow = row + directionRow;
+  //     const toCol = col + directionCol;
 
-      if (isValidMove(row, col, toRow, toCol)) {
-        const updatedBoard = [...board];
-        if (updatedBoard[toRow][toCol] !== "") {
-          const attackingPiece = updatedBoard[row][col];
-          const defendingPiece = updatedBoard[toRow][toCol];
-          if (isOpponentsPiece(attackingPiece, defendingPiece)) {
-            const attackerWins = compareRanks(attackingPiece, defendingPiece);
-            if (attackerWins) {
-              updatedBoard[toRow][toCol] = attackingPiece;
-              updatedBoard[row][col] = "";
-              updateScores(attackingPiece, defendingPiece);
-            } else {
-              updatedBoard[row][col] = "";
-            }
-          }
-        } else {
-          updatedBoard[toRow][toCol] = updatedBoard[row][col];
-          updatedBoard[row][col] = "";
-        }
-        await saveBoardToServer(updatedBoard);
-        setIsPlayer1Turn(!isPlayer1Turn);
-        setBoard(updatedBoard);
-        setSelectedPiece({ row: toRow, col: toCol });
-      }
-    }
-  };
-  const saveBoardToServer = async (updatedBoard: string[][]) => {
-    try {
-      const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-      const currentPlayerId = players[currentPlayerIndex].id;
-      await axios.post(`api/user/board/${currentPlayerId}`, {
-        board: updatedBoard,
-      });
-      console.log("Board saved to server successfully");
-    } catch (error) {
-      console.error("Error saving board to server:", error);
-    }
-  };
+  //     if (isValidMove(row, col, toRow, toCol)) {
+  //       const updatedBoard = [...board];
+  //       if (updatedBoard[toRow][toCol] !== "") {
+  //         const attackingPiece = updatedBoard[row][col];
+  //         const defendingPiece = updatedBoard[toRow][toCol];
+  //         if (isOpponentsPiece(attackingPiece, defendingPiece)) {
+  //           const attackerWins = compareRanks(attackingPiece, defendingPiece);
+  //           if (attackerWins) {
+  //             updatedBoard[toRow][toCol] = attackingPiece;
+  //             updatedBoard[row][col] = "";
+  //             updateScores(attackingPiece, defendingPiece);
+  //           } else {
+  //             updatedBoard[row][col] = "";
+  //           }
+  //         }
+  //       } else {
+  //         updatedBoard[toRow][toCol] = updatedBoard[row][col];
+  //         updatedBoard[row][col] = "";
+  //       }
+  //       await saveBoardToServer(updatedBoard);
+  //       setIsPlayer1Turn(!isPlayer1Turn);
+  //       setBoard(updatedBoard);
+  //       setSelectedPiece({ row: toRow, col: toCol });
+  //     }
+  //   }
+  // };
+  // const saveBoardToServer = async (updatedBoard: string[][]) => {
+  //   try {
+  //     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+  //     const currentPlayerId = players[currentPlayerIndex].id;
+  //     await axios.post(`api/user/board/${currentPlayerId}`, {
+  //       board: updatedBoard,
+  //     });
+  //     console.log("Board saved to server successfully");
+  //   } catch (error) {
+  //     console.error("Error saving board to server:", error);
+  //   }
+  // };
   
-  const isOpponentsPiece = (attacker: string, defender: string): boolean => {
-    console.log(attacker)
-    console.log(defender)
-    const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-    const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
+  // const isOpponentsPiece = (attacker: string, defender: string): boolean => {
+  //   console.log(attacker)
+  //   console.log(defender)
+  //   const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+  //   const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
   
-    return attackerPlayerIndex !== currentPlayerIndex;
-  };
-  const compareRanks = (attacker: string, defender: string): boolean => {
-    const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3  };
-    return rankMap[attacker] >= rankMap[defender];
-  };
+  //   return attackerPlayerIndex !== currentPlayerIndex;
+  // };
+  // const compareRanks = (attacker: string, defender: string): boolean => {
+  //   const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3  };
+  //   return rankMap[attacker] >= rankMap[defender];
+  // };
   
-  const updateScores = (attackingPiece: string, defendingPiece: string) => {
-    console.log(attackingPiece)
-    console.log(defendingPiece)
-    const newPlayers = [...players];
-    const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-    const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
-    if(currentPlayerIndex === 0) {
-      newPlayers[0].Player1Points += 1;
-    } else {
-      newPlayers[0].Player2Points += 1; 
-    }
+  // const updateScores = (attackingPiece: string, defendingPiece: string) => {
+  //   console.log(attackingPiece)
+  //   console.log(defendingPiece)
+  //   const newPlayers = [...players];
+  //   const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
+  //   const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
+  //   if(currentPlayerIndex === 0) {
+  //     newPlayers[0].Player1Points += 1;
+  //   } else {
+  //     newPlayers[0].Player2Points += 1; 
+  //   }
   
-    setPlayers(newPlayers);
-  };
-  const isValidMove = (
-    _fromRow: number,
-    _fromCol: number,
-    _toRow: number,
-    _toCol: number
-  ) => {
+  //   setPlayers(newPlayers);
+  // };
+  // const isValidMove = (
+  //   _fromRow: number,
+  //   _fromCol: number,
+  //   _toRow: number,
+  //   _toCol: number
+  // ) => {
     
-    return true;
-  };
-  const renderCellButton = (row: number, col: number) => {
-    const piece = board[row][col];
-    const isSelected = selectedCell
-      ? selectedCell.row === row && selectedCell.col === col
-      : false;
+  //   return true;
+  // };
+  // const renderCellButton = (row: number, col: number) => {
+  //   const piece = board[row][col];
+  //   const isSelected = selectedCell
+  //     ? selectedCell.row === row && selectedCell.col === col
+  //     : false;
 
-    console.log("isSelected loaded", isSelected);
-    return (
-      <button
-        key={`${row}-${col}`}
-        onClick={() => handleCellClick(row, col)}
-        disabled={!!selectedPiece}
-        style={{
-          backgroundColor: isSelected ? "lightgreen" : "gray",
-          minHeight: "45px",
-          minWidth: "45px",
-          padding: "0px",
-        }}
-      >
-        {piece && <Piece type={piece} rank={"0"} />}
-      </button>
-    );
-  };
+  //   console.log("isSelected loaded", isSelected);
+  //   return (
+  //     <button
+  //       key={`${row}-${col}`}
+  //       onClick={() => handleCellClick(row, col)}
+  //       disabled={!!selectedPiece}
+  //       style={{
+  //         backgroundColor: isSelected ? "lightgreen" : "gray",
+  //         minHeight: "45px",
+  //         minWidth: "45px",
+  //         padding: "0px",
+  //       }}
+  //     >
+  //       {piece && <Piece type={piece} rank={"0"} />}
+  //     </button>
+  //   );
+  // };
 
 
-  const display=() => {
-    return (
-        <div>
-          {board.map((row, rowIndex) => (
-            <div key={rowIndex} className="board-row">
-              {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
-            </div>
-          ))}
-        </div>
-      );
-  }
+  // const display=() => {
+  //   return (
+  //       <div>
+  //         {board.map((row, rowIndex) => (
+  //           <div key={rowIndex} className="board-row">
+  //             {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
+  //           </div>
+  //         ))}
+  //       </div>
+  //     );
+  // }
   return (
     <div>
       <div className="row">
@@ -249,7 +255,7 @@ export const PlayGame = () => {
         </h3>
       </div>
       <div className="row d-flex justify-content-center">
-        <div className="col col-11">{display()}</div>
+        {/* <div className="col col-11">{display()}</div> */}
       </div>
       <div className=" row d-flex justify-content-end">
         <h3>
@@ -258,18 +264,18 @@ export const PlayGame = () => {
       </div>
       <div className="col col-3">
         <div className="row d-flex justify-content-center">
-          <button onClick={() => movePiece(-1, 0)}>Move Up</button>
+          {/* <button onClick={() => movePiece(-1, 0)}>Move Up</button> */}
         </div>
         <div className="row">
           <div className="col col-6 justify-content-end">
-            <button onClick={() => movePiece(0, -1)}>Move Left</button>
+            {/* <button onClick={() => movePiece(0, -1)}>Move Left</button> */}
           </div>
           <div className="col col-6 justify-content-start">
-            <button onClick={() => movePiece(0, 1)}>Move Right</button>
+            {/* <button onClick={() => movePiece(0, 1)}>Move Right</button> */}
           </div>
         </div>
         <div className="row d-flex justify-content-center">
-          <button onClick={() => movePiece(1, 0)}>Move Down</button>
+          {/* <button onClick={() => movePiece(1, 0)}>Move Down</button> */}
         </div>
       </div>
     </div>
