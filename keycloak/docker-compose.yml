@@ -12,6 +12,7 @@ services:
       - KEYCLOAK_DATABASE_NAME=keycloak
       - KEYCLOAK_DATABASE_USER=keycloak
       - KEYCLOAK_DATABASE_PASSWORD=as;ldkfja;slfnesfanseoccvm,dfirenreuif
+      - KC_PROXY=edge
 
   database-keycloak-strat:
     image: postgres
@@ -36,6 +37,7 @@ services:
       - VALIDATION=duckdns
       - DUCKDNSTOKEN=${DUCKDNSTOKEN}
       - STAGING=false
+     
     volumes:
       - ./swag-default.conf:/config/nginx/site-confs/default.conf
       - /home/stratego/data/keycloakswag:/config
