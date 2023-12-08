@@ -92,7 +92,6 @@ export const Settings = () => {
                 <GenericTextInput control={customInputControl} />
                 <GenericTextInput control={customInputControl2} />
             </form>
-
         </div>
     );
 }
