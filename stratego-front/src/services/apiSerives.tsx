@@ -20,14 +20,17 @@ export const postABorad = async (user: string, board: string[][]) => {
 
 export const postADefaultBorad = async (user: string, board: string[][], boardName: string) => {
     try {
-
-        await axios.post(`${url}/default/${user}/${boardName}`, { boards: board} );
-
+      const response = await axios.post(`${url}/default/${user}/${boardName}`, { boards: board });
+      if (response.status === 200) {
+        console.log('Default board saved:', response.data);
+      }
+      toast.success('Default board has been saved');
     } catch (error) {
-        console.error('Error while saving board:', error);
-        throw error;
+      console.error('Error while saving default board:', error);
+      throw error;
     }
-};
+  };
+  
 
 export const getAllBoards = async (user: string) => {
     try {
@@ -52,7 +55,7 @@ export const getAUsersBorad = async (user: string): Promise<string> => {
 
 export const getUserInfo = async (username: string): Promise<User | unknown> => {
     try {
-        const response = await axios.get(`${url}?key=${username}`)
+        const response = await axios.get(`${url}/user?key=${username}`)
         return response.data
     } catch (e) {
         console.log(e)
@@ -62,7 +65,7 @@ export const getUserInfo = async (username: string): Promise<User | unknown> => 
 
 export const postUserInfo = async (username: User) => {
     try {
-        const response = await axios.post(`${url}?key=${username.userName}`, username)
+        const response = await axios.post(`${url}/user?key=${username.userName}`, username)
         return response.data
     } catch (e) {
         console.log(e)
