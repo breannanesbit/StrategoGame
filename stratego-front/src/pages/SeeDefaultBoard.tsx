@@ -5,7 +5,7 @@ import { useAuth } from "react-oidc-context";
 
 export const SeeDefaultBoard = () => {
   const auth = useAuth();
-  const user = auth.user?.profile.sub || '';
+  const user = auth.user?.profile.preferred_username || '';
 
   // Destructure the query result and handle loading and error states
   const { data: userBoards, isLoading, isError } = useUserBoardsQuery(user);

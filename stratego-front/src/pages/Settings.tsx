@@ -63,7 +63,7 @@ export const Settings = () => {
     };
 
     return (
-        <div className="container">
+        <div className="settings-container">
             <h2 style={{margin: '2%'}}>Welcome, {username}</h2>
             <div className="settings-container">
                 <div className="user-icon-container">

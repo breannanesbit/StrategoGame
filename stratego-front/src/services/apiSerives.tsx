@@ -6,7 +6,7 @@ const url = "/stratego-api"
 
 export const postABorad = async (user: string, board: string[][]) => {
     try {
-        const response = await axios.post(`url/${user}/board/gameID`, { board });
+        const response = await axios.post(`${url}/${user}/board/gameID`, { board });
         if (response.status === 200) {
             console.log('Board saved:', response.data);
         }
@@ -21,7 +21,7 @@ export const postABorad = async (user: string, board: string[][]) => {
 export const postADefaultBorad = async (user: string, board: string[][], boardName: string) => {
     try {
 
-        await axios.post(`url/${user}/default/${boardName}`, { boards: board });
+        await axios.post(`${url}/${user}/default/${boardName}`, board );
 
     } catch (error) {
         console.error('Error while saving board:', error);
@@ -31,7 +31,7 @@ export const postADefaultBorad = async (user: string, board: string[][], boardNa
 
 export const getAllBoards = async (user: string) => {
     try {
-        const response = await axios.get(`/url/${user}/default`);
+        const response = await axios.get(`/${url}/${user}/default`);
         return response.data;
     } catch (error) {
         console.error('Error while fetching boards:', error);
@@ -41,7 +41,7 @@ export const getAllBoards = async (user: string) => {
 
 export const getAUsersBorad = async (user: string): Promise<string> => {
     try {
-        const response = await axios.get(`url/${user}?key=defaultBorads`)
+        const response = await axios.get(`${url}/${user}?key=defaultBorads`)
         return response.data;
     } catch (e) {
         console.log(e)
@@ -62,7 +62,7 @@ export const getUserInfo = async (username: string): Promise<User | unknown> => 
 
 export const postUserInfo = async (username: User) => {
     try {
-        const response = await axios.post(`${url}?key=${username.userName}`)
+        const response = await axios.post(`${url}?key=${username.userName}`, username)
         return response.data
     } catch (e) {
         console.log(e)
