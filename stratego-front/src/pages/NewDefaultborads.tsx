@@ -33,13 +33,20 @@ export const NewDefaultBoard = () => {
     })
 
     return (
-        <div>
-            <div style={{ margin: '2%' }}>
-            <h2>Create a new Board</h2>
-            <GenericTextInput control={inputControl}/>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <div style={{ margin: '2%' }}>
+                <h2>Create a new Board</h2>
+                <GenericTextInput control={inputControl} />
+              </div>
             </div>
-            <GenericBorad handleSubmit={(board) => handleSubmitBoard(board) }/>
+            <div className="row">
+            <div className="col-md-8 mx-auto">
+              <GenericBorad handleSubmit={(board) => handleSubmitBoard(board)} />
+            </div>
+            </div>
+          </div>
         </div>
-    )
-
+      );
 }
