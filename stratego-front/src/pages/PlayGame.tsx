@@ -56,6 +56,7 @@ export const PlayGame = () => {
     setIsPlayer1Turn,
   } = useContext(GameContext);
   const { board, Player1, Player1Points, Player2, Player2Points } = game;
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   // const [board, setBoard] = useState(initialBoardState);
   // const [players, setPlayers] = useState<Game[]>(initialPlayers);
@@ -164,16 +165,20 @@ export const PlayGame = () => {
       if (isValidMove(row, col, toRow, toCol)) {
         const updatedBoard = [...board];
         if (updatedBoard[toRow][toCol] !== "") {
+          console.log("attack")
           const attackingPiece = updatedBoard[row][col];
           const defendingPiece = updatedBoard[toRow][toCol];
           if (isOpponentsPiece(attackingPiece, defendingPiece)) {
+            console.log("attack")
             const attackerWins = compareRanks(attackingPiece, defendingPiece);
             if (attackerWins) {
               updatedBoard[toRow][toCol] = attackingPiece;
               updatedBoard[row][col] = "";
-              updateScores(attackingPiece, defendingPiece);
+              updateScores("win");
+              console.log("points", game.Player1Points,":", game.Player2Points)
             } else {
               updatedBoard[row][col] = "";
+              updateScores("lose");
             }
           }
         } else {
@@ -207,30 +212,38 @@ export const PlayGame = () => {
   const isOpponentsPiece = (attacker: string, defender: string): boolean => {
     console.log(attacker);
     console.log(defender);
-    const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-    const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
+    const currentPlayerNumber = isPlayer1Turn ? "1" : "2";
+    const opponentPlayerNumber = isPlayer1Turn ? "2" : "1";
 
-    return attackerPlayerIndex !== currentPlayerIndex;
+    return attacker.includes(currentPlayerNumber) && defender.includes(opponentPlayerNumber);
   };
   const compareRanks = (attacker: string, defender: string): boolean => {
-    const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3 };
+    const rankMap: { [key: string]: number } = { Scout: 2, Miner: 3, Spy: 1 , Bomb: 12, Sergeant: 4, Lieutenant: 5, Captain: 6, Major: 7, Colonel: 8, General: 9, Marshal: 10, Flag:0};
+    if (attacker.includes('Miner') && defender.includes('Bomb')){
+      return true;
+    }
+    if(defender.includes('Flag')){
+      setGameOver(true)
+      return false;
+    }
     return rankMap[attacker] >= rankMap[defender];
   };
 
-  const updateScores = (attackingPiece: string, defendingPiece: string) => {
-    console.log(attackingPiece);
-    console.log(defendingPiece);
-    // const newPlayers = [...players];
+  const updateScores = (outcome: string/*attackingPiece: string, defendingPiece: string*/) => {
 
-    //const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-    //const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
-    if (isPlayer1Turn == true) {
-      game.Player1Points += 1;
+    if (outcome.includes("win")) {
+      setGame((prevGame) => ({
+        ...prevGame,
+        Player1Points:game.Player1Points += 1,
+      }));
     } else {
-      game.Player2Points += 1;
+      setGame((prevGame) => ({
+        ...prevGame,
+        Player2Points:game.Player2Points += 1,
+      }));
+
     }
 
-    // setPlayers(newPlayers);
   };
   const isValidMove = (
     _fromRow: number,
