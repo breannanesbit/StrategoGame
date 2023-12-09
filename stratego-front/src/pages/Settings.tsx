@@ -89,8 +89,8 @@ export const Settings = () => {
                     accept="image/png, image/jpeg"
                     onChange={handleImageUpload}
                 />
-                <GenericTextInput control={customInputControl} />
-                <GenericTextInput control={customInputControl2} />
+                {/* <GenericTextInput control={customInputControl} />
+                <GenericTextInput control={customInputControl2} /> */}
             </form>
         </div>
     );

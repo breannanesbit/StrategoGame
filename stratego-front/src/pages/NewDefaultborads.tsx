@@ -4,17 +4,23 @@ import { useMutationPostANewDefaultBorad } from "../query/hook"
 import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
+import { useNavigate } from "react-router-dom";
 
 
 export const NewDefaultBoard = () => {
     const [boardName, setBoardName] = useState("")
+
     const defaultMut = useMutationPostANewDefaultBorad()
     const auth = useAuth();
     const user = auth.user?.profile.preferred_username || '';
+    const navigate = useNavigate();
+
     const handleSubmitBoard = (newBoard: string[][]) => {
         try {
             setBoardName(inputControl.value)
             defaultMut.mutateAsync({user, board: newBoard, boardName})
+
+            navigate("/seeboards");
         } catch(error) {
             toast.error("fail to save board try again")
         }
