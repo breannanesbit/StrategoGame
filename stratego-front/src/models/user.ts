@@ -3,4 +3,5 @@ export interface User {
     userName: string,
     points: number,
     gamesPlayed: number,
+    imageBase64: string,
 }

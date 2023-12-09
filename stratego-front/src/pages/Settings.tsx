@@ -1,33 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import keycloak from "../component/keycloak";
 //import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/settings.css';
-import { useUserInforQuery } from "../query/hook";
+import { useMutationPostUserInfo, useUserInforQuery } from "../query/hook";
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
+import { User } from "../models/user";
 
-
-export interface User {
-    id: string,
-    name: string,
-    username: string,
-    imageBase64: string
-}
 
 export const Settings = () => {
     const auth = useAuth();
     const username = auth.user?.profile.preferred_username || '';
     console.log(username)
     const userInfo = useUserInforQuery(username)
+    const userMutation = useMutationPostUserInfo()
 
     const [formData, setFormData] = useState<User>({
-        id: "0",
-        name: "",
-        username: "",
-        imageBase64: "",
+        id: '',
+        userName: '',
+        points: 0,
+        gamesPlayed: 0,
+        imageBase64: ''
     });
 
+    useEffect(() => {
+        if (userInfo.data) {
+            setFormData(userInfo.data);
+        }
+    }, [userInfo.data]);
     // const customInputControl = useCustomInputControl({
     //     label: "Name",
     //     validatemessage: "valid",
@@ -52,47 +53,78 @@ export const Settings = () => {
             const reader = new FileReader();
 
             reader.onload = (event) => {
-                setFormData({
-                    ...formData,
-                    imageBase64: event.target?.result as string,
-                });
+                if (formData) {
+                    setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        imageBase64: event.target?.result as string,
+                    }));
+                }
             };
 
             reader.readAsDataURL(file);
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            // Assuming you have properties like name, username, etc., in your formData
+            await userMutation.mutateAsync({ user: formData});
+
+            // Optionally, you can fetch and update the user information after the mutation
+            userInfo.refetch();
+        } catch (error) {
+            // Handle error
+            console.error("Error submitting user information", error);
+        }
+    };
+
     return (
-        <div className="settings-container">
-            <h2 style={{margin: '2%'}}>Welcome, {username}</h2>
-            <div className="settings-container">
-                <div className="user-icon-container">
-
-                    {formData.imageBase64 ? (<img src={formData.imageBase64} className="user-icon" alt="icon" />) : (<i className="fa-regular fa-user user-icon fa-7x" ></i>)}
-                    {userInfo && (
-                        <div>
-                            <h4>Points: {userInfo.data?.points}</h4>
-                            <h4>Games played: {userInfo.data?.gamesPlayed}</h4>
-
-                        </div>
-                    )}
-                    <Link to={"/seeboards"}>See your boards</Link>
-                </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-10">
+              <h2 style={{ margin: '2%' }}>Welcome, {username}</h2>
             </div>
-            <form>
-                <h6>Edit your information</h6>
+          
+            <div className="col-md-6 mx-auto">
+              <div className="settings-container">
+                <div className="user-icon-container mx-auto">
+                  {formData.imageBase64 ? (
+                    <img src={formData.imageBase64} className="user-icon" alt="icon" />
+                  ) : (
+                    <i className="fa-regular fa-user user-icon fa-7x"></i>
+                  )}
+                  {userInfo && (
+                    <div>
+                      <h4>Points: {userInfo.data?.points}</h4>
+                      <h4>Games played: {userInfo.data?.gamesPlayed}</h4>
+                    </div>
+                  )}
+                  <Link to={"/seeboards"}>See your boards</Link>
+                </div>
+              </div>
+            </div>
+          
+            <div className="col-md-6 mx-auto">
+              <form onSubmit={handleSubmit}>
+                <h4>Edit your information</h4>
                 <label htmlFor="image" className="form-label"></label>
                 <input
-                    id="image"
-                    className="form-control"
-                    type="file"
-                    accept="image/png, image/jpeg"
-                    onChange={handleImageUpload}
+                  id="image"
+                  className="form-control"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={handleImageUpload}
                 />
-                {/* <GenericTextInput control={customInputControl} />
-                <GenericTextInput control={customInputControl2} /> */}
-            </form>
+                 <button type="submit" className="btn btn-primary">
+                            Submit
+                        </button>
+                {/* Add your GenericTextInput components here */}
+              </form>
+            </div>
+          </div>
         </div>
-    );
+      );
+
 }
 export default Settings;

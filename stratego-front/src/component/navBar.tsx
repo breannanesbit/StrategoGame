@@ -33,6 +33,8 @@ const Navbar = () => {
           userName: username,
           points: 0,
           gamesPlayed: 0,
+          imageBase64: '',
+
         };
         await mutateUser.mutate({ user: user });
         console.log("User added successfully");

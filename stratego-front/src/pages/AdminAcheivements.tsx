@@ -18,7 +18,7 @@ interface Acheivements {
   conditionValue: number; //how many games, points
 }
 export const examplePlayerList: User[] = [
-  { id: "0", userName: "admin", points: 0, gamesPlayed: 0 },
+  { id: "0", userName: "admin", points: 0, gamesPlayed: 0, imageBase64: ''},
 ];
 export const exampleAcheivmentList = [
   {
