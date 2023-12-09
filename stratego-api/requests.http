@@ -10,4 +10,4 @@ Content-Type: application/json
 GET https://100.68.122.57:2002/stratego-api/user?key=bre.gibson7
 
 ###
-GET https://100.68.122.57:2002/stratego-api/default/bre.gibson7?key=testBoard
+GET https://100.68.122.57:2002/stratego-api/default?key=testBoard

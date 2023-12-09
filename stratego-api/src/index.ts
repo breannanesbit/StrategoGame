@@ -36,8 +36,8 @@ app.post('/stratego-api/:user/board/:gameID', (req: Request, res: Response) => {
 });
 
 // Endpoint to save a default board
-app.post('/stratego-api/default/:user', (req, res) => {
-  const { user } = req.params;
+app.post('/stratego-api/default', (req, res) => {
+  //const { user } = req.params;
   const key = req.query.key as string;
   const boards = req.body.boards;
 
