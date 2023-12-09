@@ -38,9 +38,10 @@ app.post('/stratego-api/:user/board/:gameID', (req: Request, res: Response) => {
 // Endpoint to save a default board
 app.post('/stratego-api/default/:user', (req, res) => {
   const { user } = req.params;
+  const key = req.query.key as string;
   const boards = req.body.boards;
 
-  if (!user || !boards) {
+  if (!boards) {
     return res.status(400).send('Invalid request data');
   }
 
@@ -50,11 +51,8 @@ app.post('/stratego-api/default/:user', (req, res) => {
   //   data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
   // }
 
-  if (!data[user]) {
-    data[user] = {};
-  }
 
-  data[user] = { boards };
+  data[key] = { boards };
   fs.writeFileSync(dataFile, JSON.stringify(data));
   res.json({ message: 'Default board saved successfully' });
 });
