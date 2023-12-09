@@ -3,7 +3,7 @@ import "../styles/gameborad.css";
 import Piece from "../component/piece";
 import { User } from "../models/user";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Game } from "../models/game";
 import { GameContext } from "../context/gameContext";
 
@@ -55,6 +55,8 @@ export const PlayGame = () => {
     setGame,
     setIsPlayer1Turn,
   } = useContext(GameContext);
+  const navigate = useNavigate();
+
   const { board, Player1, Player1Points, Player2, Player2Points } = game;
   const [gameOver, setGameOver] = useState<boolean>(false);
 
@@ -77,8 +79,9 @@ export const PlayGame = () => {
       setSelectedCell({ row: selectedPiece.row, col: selectedPiece.col });
     }
   }, [selectedPiece]);
-
-  useEffect(() => {//deselects pieces when player switches.
+  
+  useEffect(() => {
+    //deselects pieces when player switches.
     setSelectedPiece(null);
     setSelectedCell(null);
   }, [isPlayer1Turn]);
@@ -142,7 +145,7 @@ export const PlayGame = () => {
       console.log("board", board[row][col]);
 
       console.log("piece ", piece, "player1 ", isPlayer1Turn);
-      if (piece /*&& currentPlayer*/ && piece !== "Flag") {
+      if (piece /*&& currentPlayer*/ && !piece.includes("Flag") && !piece.includes("Bomb")) {
         const currentPlayerNumber = isPlayer1Turn ? "1" : "2";
         if (piece.includes(currentPlayerNumber)) {
           setSelectedPiece({ row, col });
@@ -156,6 +159,15 @@ export const PlayGame = () => {
     }
   };
 
+  const handleGameOver = () => {
+    console.clear();
+    console.log("navigate away");
+    navigate('/gameOver');
+    // <Route path="/gameOver"/>
+            
+
+          
+  }
   const movePiece = async (directionRow: number, directionCol: number) => {
     if (selectedPiece) {
       const { row, col } = selectedPiece;
@@ -165,20 +177,32 @@ export const PlayGame = () => {
       if (isValidMove(row, col, toRow, toCol)) {
         const updatedBoard = [...board];
         if (updatedBoard[toRow][toCol] !== "") {
-          console.log("attack")
+          console.log("attack");
           const attackingPiece = updatedBoard[row][col];
           const defendingPiece = updatedBoard[toRow][toCol];
           if (isOpponentsPiece(attackingPiece, defendingPiece)) {
-            console.log("attack")
+            console.clear();
+            console.log("attack");
             const attackerWins = compareRanks(attackingPiece, defendingPiece);
             if (attackerWins) {
               updatedBoard[toRow][toCol] = attackingPiece;
               updatedBoard[row][col] = "";
               updateScores("win");
-              console.log("points", game.Player1Points,":", game.Player2Points)
+              console.log(
+                "win points",
+                game.Player1Points,
+                ":",
+                game.Player2Points
+              );
             } else {
               updatedBoard[row][col] = "";
               updateScores("lose");
+              console.log(
+                "lose points",
+                game.Player1Points,
+                ":",
+                game.Player2Points
+              );
             }
           }
         } else {
@@ -192,22 +216,10 @@ export const PlayGame = () => {
           board: updatedBoard,
         }));
         setIsPlayer1Turn(!isPlayer1Turn);
-        console.log("players1turn: shoule switch", isPlayer1Turn)
+        console.log("players1turn: shoule switch", isPlayer1Turn);
       }
     }
   };
-  // const saveBoardToServer = async (updatedBoard: string[][]) => {
-  //   try {
-  //     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
-  //     const currentPlayerId = players[currentPlayerIndex].id;
-  //     await axios.post(`api/user/board/${currentPlayerId}`, {
-  //       board: updatedBoard,
-  //     });
-  //     console.log("Board saved to server successfully");
-  //   } catch (error) {
-  //     console.error("Error saving board to server:", error);
-  //   }
-  // };
 
   const isOpponentsPiece = (attacker: string, defender: string): boolean => {
     console.log(attacker);
@@ -215,35 +227,61 @@ export const PlayGame = () => {
     const currentPlayerNumber = isPlayer1Turn ? "1" : "2";
     const opponentPlayerNumber = isPlayer1Turn ? "2" : "1";
 
-    return attacker.includes(currentPlayerNumber) && defender.includes(opponentPlayerNumber);
+    return (
+      attacker.includes(currentPlayerNumber) &&
+      defender.includes(opponentPlayerNumber)
+    );
   };
   const compareRanks = (attacker: string, defender: string): boolean => {
-    const rankMap: { [key: string]: number } = { Scout: 2, Miner: 3, Spy: 1 , Bomb: 12, Sergeant: 4, Lieutenant: 5, Captain: 6, Major: 7, Colonel: 8, General: 9, Marshal: 10, Flag:0};
-    if (attacker.includes('Miner') && defender.includes('Bomb')){
+    const rankMap: { [key: string]: number } = {
+      Scout: 2,
+      Miner: 3,
+      Spy: 1,
+      Bomb: 12,
+      Sergeant: 4,
+      Lieutenant: 5,
+      Captain: 6,
+      Major: 7,
+      Colonel: 8,
+      General: 9,
+      Marshal: 10,
+      Flag: 0,
+    };
+    if (attacker.includes("Miner") && defender.includes("Bomb")) {
       return true;
     }
-    if(defender.includes('Flag')){
-      setGameOver(true)
+    if (defender.includes("Flag")) {
+      setGameOver(true);
       return false;
     }
     return rankMap[attacker] >= rankMap[defender];
   };
 
-  const updateScores = (outcome: string/*attackingPiece: string, defendingPiece: string*/) => {
-
+  const updateScores = (
+    outcome: string /*attackingPiece: string, defendingPiece: string*/
+  ) => {
+    const currentPlayerNumber = isPlayer1Turn? "1": "2"
+    const currentPlayerPieces = board.flat().filter(piece => piece.includes(currentPlayerNumber));
+    const onlyFlagAndBombLeft = currentPlayerPieces.every(piece => piece.includes("Flag") || piece.includes("Bomb"));
+    if(onlyFlagAndBombLeft){
+      console.clear()
+      console.log("game over")
+      setGameOver(true);
+      handleGameOver()
+    }
     if (outcome.includes("win")) {
       setGame((prevGame) => ({
         ...prevGame,
-        Player1Points:game.Player1Points += 1,
+        Player1Points: (game.Player1Points += 1),
       }));
+    } else if (outcome.includes("tie")) {
+      console.log("tied attack");
     } else {
       setGame((prevGame) => ({
         ...prevGame,
-        Player2Points:game.Player2Points += 1,
+        Player2Points: (game.Player2Points += 1),
       }));
-
     }
-
   };
   const isValidMove = (
     _fromRow: number,
@@ -293,14 +331,14 @@ export const PlayGame = () => {
       <div className="row">
         <h1 className="col col-7">Game {game.id} in Progress</h1>
         <div className="col col-5 d-flex justify-content-end">
-          <button className="btn btn-outline-danger mx-5">
+          {/* <button className="btn btn-outline-danger mx-5">
             <Link
               style={{ textDecoration: "none", color: "red" }}
               to={"/gameOver"}
             >
               Game Over
             </Link>
-          </button>
+          </button> */}
         </div>
       </div>
       <div className=" row d-flex justify-content-start">
