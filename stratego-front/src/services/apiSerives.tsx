@@ -66,9 +66,12 @@ export const getUserInfo = async (username: string): Promise<User | unknown> => 
 export const postUserInfo = async (username: User) => {
     try {
         const response = await axios.post(`${url}/user?key=${username.userName}`, username)
+        if (response.status === 200) {
+            toast.success('Info successfully saved');
+          }
         return response.data
     } catch (e) {
-        console.log(e)
+        toast.error('an error ocurred')
         return e
     }
 }

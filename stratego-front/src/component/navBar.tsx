@@ -34,6 +34,7 @@ const Navbar = () => {
           points: 0,
           gamesPlayed: 0,
           imageBase64: '',
+          boards: [],
 
         };
         await mutateUser.mutate({ user: user });

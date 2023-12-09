@@ -21,7 +21,8 @@ export const Settings = () => {
         userName: '',
         points: 0,
         gamesPlayed: 0,
-        imageBase64: ''
+        imageBase64: '',
+        boards: []
     });
 
     useEffect(() => {

@@ -35,7 +35,8 @@ export const GenericBorad: React.FC<{
     points: 0,
     board: board,
     gamesPlayed: 0,
-    imageBase64: ''}
+    imageBase64: '',
+    boards: []}
      // get userid from authentication
   }, [board])
 
