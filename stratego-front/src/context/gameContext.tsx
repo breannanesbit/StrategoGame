@@ -19,6 +19,9 @@ export interface GameContextType {
 const emptyBoard: string[][] = [
     ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
 ];
+const emptyBoard1: string[][] = [
+  ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
+];
 
 
 const defaultGame: Game = {
@@ -59,12 +62,18 @@ export const GameProvider: React.FC<{
   const [isPlayer1Turn, setIsPlayer1Turn] =
     React.useState(initialIsPlayer1Turn);
 
+    const updatePlayerBoardNumber = (originalBoard: string[][], playerNumber: string) => {
+      const updatedBoard = originalBoard.map(row =>
+        row.map(piece => (piece !== ""? `${piece}${playerNumber}`: ""))
+        );
+        return updatedBoard
+    }
 
   const value: GameContextType = {
     game,
     isPlayer1Turn,
-    player1board: player1board || emptyBoard,
-    player2board: player2board || emptyBoard,
+    player1board: updatePlayerBoardNumber(player1board ?? emptyBoard1, '1') ,
+    player2board: updatePlayerBoardNumber(player1board ?? emptyBoard, '2'),
     setGame,
     setIsPlayer1Turn,
   };

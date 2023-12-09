@@ -9,15 +9,35 @@ import { GameContext } from "../context/gameContext";
 
 const numRows = 10;
 const _numCols = 10;
-  
+
 const initialBoardState: string[][] = [
-  ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Scout","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  [
+    "Scout",
+    "Scout",
+    "Scout",
+    "Scout",
+    "Scout",
+    "Bomb",
+    "Bomb",
+    "Bomb",
+    "Bomb",
+    "Bomb",
+  ],
+  ["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],
+  ["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", "Flag"],
 ];
 
-const initialPlayers: Game[] = [
-  { id: "1", Player1: "Player1", Player2: "Player2", Player1Points: 0, Player2Points:0 , board: initialBoardState },
-  // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
-];
+// const initialPlayers: Game[] = [
+//   { id: "1", Player1: "Player1", Player2: "Player2", Player1Points: 0, Player2Points:0 , board: initialBoardState },
+//   // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
+// ];
 //show game id.--------
 // identify which player view it is currently
 //when game first starts the board will flip it with the players pieces,
@@ -27,9 +47,16 @@ const initialPlayers: Game[] = [
 //
 
 export const PlayGame = () => {
-  const { game, isPlayer1Turn, player1board, player2board, setGame, setIsPlayer1Turn} = useContext(GameContext);
-  const {board, Player1, Player1Points, Player2, Player2Points} = game;
-  
+  const {
+    game,
+    isPlayer1Turn,
+    player1board,
+    player2board,
+    setGame,
+    setIsPlayer1Turn,
+  } = useContext(GameContext);
+  const { board, Player1, Player1Points, Player2, Player2Points } = game;
+
   // const [board, setBoard] = useState(initialBoardState);
   // const [players, setPlayers] = useState<Game[]>(initialPlayers);
   const [selectedCell, setSelectedCell] = useState<{
@@ -50,8 +77,10 @@ export const PlayGame = () => {
     }
   }, [selectedPiece]);
 
-
-  
+  useEffect(() => {//deselects pieces when player switches.
+    setSelectedPiece(null);
+    setSelectedCell(null);
+  }, [isPlayer1Turn]);
 
   useEffect(() => {
     // const getUsers = async () => {
@@ -78,26 +107,29 @@ export const PlayGame = () => {
     // };
 
     const combinedBoard = () => {
-      const player1LastHalf = flipAndInvertBoard(player1board).slice(0, numRows/2);
-      console.log("half",player1LastHalf)
+      const player1LastHalf = flipAndInvertBoard(player1board).slice(
+        0,
+        numRows / 2
+      );
+      console.log("half", player1LastHalf);
       const player2LastHalf = player2board.slice(numRows / 2, numRows);
-      console.log("half2",player2LastHalf)
-      const setupBoard = player1LastHalf.concat(player2LastHalf)
-      console.log("half2",setupBoard)
+      console.log("half2", player2LastHalf);
+      const setupBoard = player1LastHalf.concat(player2LastHalf);
+      console.log("half2", setupBoard);
       setGame((prevGame) => ({
         ...prevGame,
-        board:setupBoard
+        board: setupBoard,
       }));
     };
-  //   getUsers();
-    combinedBoard()
-  }, [isPlayer1Turn, player1board, player2board, setGame]);
+    //   getUsers();
+    combinedBoard();
+  }, []);
 
   const flipAndInvertBoard = (originalBoard: string[][]) => {
     const flippedv = originalBoard.slice().reverse();
-    const flippedh = flippedv.map(row => row.slice().reverse());
-    console.log(flippedh)
-    return flippedh
+    const flippedh = flippedv.map((row) => row.slice().reverse());
+    console.log(flippedh);
+    return flippedh;
   };
   const handleCellClick = (row: number, col: number) => {
     console.log("player1:", isPlayer1Turn);
@@ -110,10 +142,8 @@ export const PlayGame = () => {
 
       console.log("piece ", piece, "player1 ", isPlayer1Turn);
       if (piece /*&& currentPlayer*/ && piece !== "Flag") {
-        if (
-          (isPlayer1Turn == true && row < numRows / 2) ||
-          (isPlayer1Turn == false && row >= numRows / 2)
-        ) {
+        const currentPlayerNumber = isPlayer1Turn ? "1" : "2";
+        if (piece.includes(currentPlayerNumber)) {
           setSelectedPiece({ row, col });
           setSelectedCell({ row, col });
           console.log("cell", row, col);
@@ -151,12 +181,13 @@ export const PlayGame = () => {
           updatedBoard[row][col] = "";
         }
         // await saveBoardToServer(updatedBoard);
-        setSelectedPiece({row: toRow, col: toCol})
+        setSelectedPiece({ row: toRow, col: toCol });
         setGame((prevGame) => ({
           ...prevGame,
-          board:updatedBoard
+          board: updatedBoard,
         }));
         setIsPlayer1Turn(!isPlayer1Turn);
+        console.log("players1turn: shoule switch", isPlayer1Turn)
       }
     }
   };
@@ -172,33 +203,33 @@ export const PlayGame = () => {
   //     console.error("Error saving board to server:", error);
   //   }
   // };
-  
+
   const isOpponentsPiece = (attacker: string, defender: string): boolean => {
-    console.log(attacker)
-    console.log(defender)
+    console.log(attacker);
+    console.log(defender);
     const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
     const attackerPlayerIndex = isPlayer1Turn ? 0 : 1;
-  
+
     return attackerPlayerIndex !== currentPlayerIndex;
   };
   const compareRanks = (attacker: string, defender: string): boolean => {
-    const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3  };
+    const rankMap: { [key: string]: number } = { Scout: 1, Miner: 2, Spy: 3 };
     return rankMap[attacker] >= rankMap[defender];
   };
-  
+
   const updateScores = (attackingPiece: string, defendingPiece: string) => {
-    console.log(attackingPiece)
-    console.log(defendingPiece)
+    console.log(attackingPiece);
+    console.log(defendingPiece);
     // const newPlayers = [...players];
 
     //const currentPlayerIndex = isPlayer1Turn ? 0 : 1;
     //const _opponentPlayerIndex = isPlayer1Turn ? 1 : 0;
-    if(isPlayer1Turn == true) {
+    if (isPlayer1Turn == true) {
       game.Player1Points += 1;
     } else {
       game.Player2Points += 1;
     }
-    
+
     // setPlayers(newPlayers);
   };
   const isValidMove = (
@@ -207,7 +238,6 @@ export const PlayGame = () => {
     _toRow: number,
     _toCol: number
   ) => {
-    
     return true;
   };
   const renderCellButton = (row: number, col: number) => {
@@ -234,18 +264,17 @@ export const PlayGame = () => {
     );
   };
 
-
-  const display=() => {
+  const display = () => {
     return (
-        <div>
-          {board.map((row, rowIndex) => (
-            <div key={rowIndex} className="board-row">
-              {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
-            </div>
-          ))}
-        </div>
-      );
-  }
+      <div>
+        {board.map((row, rowIndex) => (
+          <div key={rowIndex} className="board-row">
+            {row.map((cell, colIndex) => renderCellButton(rowIndex, colIndex))}
+          </div>
+        ))}
+      </div>
+    );
+  };
   return (
     <div>
       <div className="row">
