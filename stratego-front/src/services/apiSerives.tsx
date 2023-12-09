@@ -20,7 +20,7 @@ export const postABorad = async (user: string, board: string[][]) => {
 
 export const postADefaultBorad = async (user: string, board: string[][], boardName: string) => {
     try {
-      const response = await axios.post(`${url}/default/${user}/${boardName}`, { boards: board });
+      const response = await axios.post(`${url}/${user}/default?key=${boardName}`, { boards: board });
       if (response.status === 200) {
         console.log('Default board saved:', response.data);
       }

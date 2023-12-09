@@ -20,8 +20,8 @@ export const NewDefaultBoard = () => {
             setBoardName(inputControl.value)
             defaultMut.mutateAsync({user, board: newBoard, boardName})
 
-            navigate("/seeboards");
         } catch(error) {
+            navigate("/seeboards");
             toast.error("fail to save board try again")
         }
     }
