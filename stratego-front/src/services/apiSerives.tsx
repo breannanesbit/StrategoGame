@@ -21,7 +21,7 @@ export const postABorad = async (user: string, board: string[][]) => {
 export const postADefaultBorad = async (user: string, board: string[][], boardName: string) => {
     try {
 
-        await axios.post(`${url}/${user}/default/${boardName}`, board );
+        await axios.post(`${url}/default/${user}/${boardName}`, { boards: board} );
 
     } catch (error) {
         console.error('Error while saving board:', error);
