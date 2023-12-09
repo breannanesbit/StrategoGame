@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import keycloak from "../component/keycloak";
-import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
+//import { GenericTextInput, useCustomInputControl } from "../component/GenericInput";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/settings.css';
 import { useUserInforQuery } from "../query/hook";
@@ -28,17 +28,17 @@ export const Settings = () => {
         imageBase64: "",
     });
 
-    const customInputControl = useCustomInputControl({
-        label: "Name",
-        validatemessage: "valid",
-        initialValue: formData.name,
-    })
+    // const customInputControl = useCustomInputControl({
+    //     label: "Name",
+    //     validatemessage: "valid",
+    //     initialValue: formData.name,
+    // })
 
-    const customInputControl2 = useCustomInputControl({
-        label: "Username",
-        validatemessage: "valid",
-        initialValue: formData.username,
-    })
+    // const customInputControl2 = useCustomInputControl({
+    //     label: "Username",
+    //     validatemessage: "valid",
+    //     initialValue: formData.username,
+    // })
 
     if (!auth.isAuthenticated) {
         // Redirect to login or handle unauthenticated user
