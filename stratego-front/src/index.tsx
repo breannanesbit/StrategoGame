@@ -24,17 +24,17 @@ import { AuthProvider } from "react-oidc-context";
 import { GameProvider } from "./context/gameContext";
 
 
-// const oidcConfig = {
-//   authority: 'https://startegokeycloak.duckdns.org:2004/realms/Stratego',
-//   client_id: 'stratgeoClient',
-//   redirect_uri: 'https://stratego2023.duckdns.org:2002',
-// };
-
 const oidcConfig = {
-  authority: 'http://localhost:8080/realms/Stratego',
+  authority: 'https://startegokeycloak.duckdns.org:2004/realms/Stratego',
   client_id: 'stratgeoClient',
-  redirect_uri: 'http://localhost:3000', 
+  redirect_uri: 'https://stratego2023.duckdns.org:2002',
 };
+
+// const oidcConfig = {
+//   authority: 'http://localhost:8080/realms/Stratego',
+//   client_id: 'stratgeoClient',
+//   redirect_uri: 'http://localhost:3000', 
+// };
 
 const router = createBrowserRouter([
   {
