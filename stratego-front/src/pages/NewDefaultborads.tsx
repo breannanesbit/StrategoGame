@@ -24,7 +24,7 @@ export const NewDefaultBoard = () => {
         }
     }, [userInfo.data]);
 
-    const handleSubmitBoard = (newBoard: string[][]) => {
+    const handleSubmitBoard = async (newBoard: string[][]) => {
         try {
             setBoardName(inputControl.value);
 
@@ -38,11 +38,13 @@ export const NewDefaultBoard = () => {
                 ],
             };
 
-            defaultMut.mutateAsync({ user: updatedUser });
-            toast.success('Default board has been saved');
+            await defaultMut.mutateAsync({ user: updatedUser });
+            //if(response.status === 200) {
+                toast.success('Default board has been saved');
+                navigate("/seeboards");
+            //}
             
         } catch (error) {
-            navigate("/seeboards");
             toast.error("Failed to save board, please try again");
         }
     };
