@@ -52,7 +52,7 @@ export const NewDefaultBoard = () => {
     const inputControl = useCustomInputControl({
         label: "Name",
         validatemessage: "valid",
-        initialValue: '',
+        initialValue: boardName,
     })
 
     return (
