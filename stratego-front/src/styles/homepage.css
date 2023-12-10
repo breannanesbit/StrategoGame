@@ -7,6 +7,27 @@
      color: white;  
   }
 
-.max-height {
-    height:70%;
+  .max-height {
+    height: 70%;
+}
+
+.user-icon {
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    border-radius: 50%;
+    border: 2px solid aliceblue;
+    object-fit: cover; 
+    margin-bottom: 20px; /* Adjust the margin as needed */
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.col {
+    text-align: center;
 }

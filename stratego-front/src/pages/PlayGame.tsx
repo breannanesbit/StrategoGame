@@ -1,38 +1,35 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import "../styles/gameborad.css";
 import Piece from "../component/piece";
-import { User } from "../models/user";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { Game } from "../models/game";
+import { useNavigate } from "react-router-dom";
 import { GameContext } from "../context/gameContext";
 
 const numRows = 10;
 const _numCols = 10;
 
-const initialBoardState: string[][] = [
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  [
-    "Scout",
-    "Scout",
-    "Scout",
-    "Scout",
-    "Scout",
-    "Bomb",
-    "Bomb",
-    "Bomb",
-    "Bomb",
-    "Bomb",
-  ],
-  ["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],
-  ["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", "Flag"],
-];
+// const initialBoardState: string[][] = [
+//   ["", "", "", "", "", "", "", "", "", ""],
+//   ["", "", "", "", "", "", "", "", "", ""],
+//   ["", "", "", "", "", "", "", "", "", ""],
+//   ["", "", "", "", "", "", "", "", "", ""],
+//   ["", "", "", "", "", "", "", "", "", ""],
+//   ["", "", "", "", "", "", "", "", "", ""],
+//   [
+//     "Scout",
+//     "Scout",
+//     "Scout",
+//     "Scout",
+//     "Scout",
+//     "Bomb",
+//     "Bomb",
+//     "Bomb",
+//     "Bomb",
+//     "Bomb",
+//   ],
+//   ["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],
+//   ["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],
+//   ["", "", "", "", "", "", "", "", "", "Flag"],
+// ];
 
 //show game id.--------
 // identify which player view it is currently
@@ -54,7 +51,7 @@ export const PlayGame = () => {
   const navigate = useNavigate();
 
   const { board, Player1, Player1Points, Player2, Player2Points } = game;
-  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [_gameOver, setGameOver] = useState<boolean>(false);
 
   const [selectedCell, setSelectedCell] = useState<{
     row: number;
@@ -96,7 +93,7 @@ export const PlayGame = () => {
     };
     //   getUsers();
     combinedBoard();
-  }, []);
+  }, [player1board, player2board, setGame]);
 
   const flipAndInvertBoard = (originalBoard: string[][]) => {
     const flippedv = originalBoard.slice().reverse();

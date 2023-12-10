@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import "../styles/homepage.css";
@@ -7,6 +7,8 @@ export const HomePage = () => {
   const auth = useAuth();
   const [username, setUsername] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  
 
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -20,6 +22,11 @@ export const HomePage = () => {
       }
     };
 
+    const loadUploadedImage = () => {
+      const dataUrl = localStorage.getItem("uploadedImage");
+      setUploadedImage(dataUrl);
+    };
+
     const updateLoginStatus = () => {
       if (auth.isAuthenticated) {
         loadUserProfile();
@@ -31,6 +38,7 @@ export const HomePage = () => {
 
     // Load user profile and update login status when the component mounts
     updateLoginStatus();
+    loadUploadedImage();
 
     // Use the useEffect hook to listen for changes in the authentication status
     const intervalId = setInterval(() => {
@@ -49,7 +57,8 @@ export const HomePage = () => {
       <h1 className="text-center py-5">
         Welcome {loading ? "Loading..." : username || "Guest"} to Stratego
       </h1>
-      <div className="container-fluid d-flex justify-content-center align-items-center max-height">
+      <div className="container-fluid d-flex flex-column justify-content-center align-items-center max-height">
+        {uploadedImage && <img className="user-icon" src={uploadedImage} alt="Uploaded" />}
         <div className="col col-7">
           <div className="row">
             <div className="col col-6 d-flex justify-content-end">
@@ -62,7 +71,7 @@ export const HomePage = () => {
                 </Link>
               </button>
             </div>
-            <div className="col col-6">
+            <div className="col col-6 d-flex justify-content-start">
               <button className="btn btn-outline-danger mx-5">Join Game</button>
             </div>
           </div>
@@ -71,5 +80,4 @@ export const HomePage = () => {
     </div>
   );
 };
-
 export default HomePage;

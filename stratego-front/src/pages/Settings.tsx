@@ -7,6 +7,7 @@ import { useMutationPostUserInfo, useUserInforQuery } from "../query/hook";
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import { User } from "../models/user";
+import LocalStorageImage from "../component/localstorage";
 
 
 export const Settings = () => {
@@ -120,7 +121,7 @@ export const Settings = () => {
                  <button type="submit" className="btn btn-primary">
                             Submit
                         </button>
-                {/* Add your GenericTextInput components here */}
+                    <LocalStorageImage/>
               </form>
             </div>
           </div>
