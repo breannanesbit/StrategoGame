@@ -33,7 +33,7 @@
   - [ ] 3+ generic form input components
   - [x] gameover showing who won page
   - [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
-  - [ ] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
+  - [x] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
   - [x] Toasts / global notifications or alerts - we intend to have different achivements that players can achive and when awarded these achivements will display as toasts 
   - [x] leader borad
   - [x] leader board generic
@@ -62,18 +62,18 @@
   - [x] write data - will write a new move, new board or when user informations is added
   - [ ] websocket - two players will play the game together on different computers so websockets needed
 - [x] Developer type helping (typescript) - we will be using typescript
-- [ ] 10+ pages via a router
+- [x] 10+ pages via a router
   - [x] Home page w/ start the game button
   - [x] rules page
   - [x] decide your borad
-  - [/] play
+  - [x] play
   - [x] leader borad
   - [x] gameover showing who won
   - [x] saved defualt borads
   - [x] create new defualt borads to save
   - [x] settings page/user info
   - [x] achivements page
-  - [ ] admin create achivements page
+  - [x] admin create achivements page
 - [x] CI/CD pipeline
   - [x] https support - we will have an api that handles http requests
   - [x] Live production environment - we will have our deployment.yml and use github actions to host our site on the class server. 
@@ -89,5 +89,7 @@
   - [x]   leader board
   - [x]   achievements
   - [ ]   Making Player for initial start and edit
+  
 - [x] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
-  - [ ] admin pages and public pages - our admin pages will be a settings page to add new achivements people can achive. Most other pages will be for users
+  - [x] admin pages and public pages - our admin pages will be a settings page to add new achivements people can achive. Most other pages will be for users
+

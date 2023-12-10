@@ -22,6 +22,17 @@ h1 {
     color: #4479ec; 
 }
 
+.bg-image-purple {
+    background: 
+    linear-gradient(rgb(54, 30, 85,.50), rgba(54, 30, 85, 0.5))
+    ,url('/src/styles/images/chessBackdrop.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+    color: rgb(106, 106, 252); 
+}
+
 .max-height {
     height: 20%;
 }

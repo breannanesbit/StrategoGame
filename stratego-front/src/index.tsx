@@ -21,6 +21,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { SeeDefaultBoard } from "./pages/SeeDefaultBoard";
 import { NewDefaultBoard } from "./pages/NewDefaultborads";
 import { AuthProvider } from "react-oidc-context";
+import { GameProvider } from "./context/gameContext";
 
 
 // const oidcConfig = {
@@ -97,7 +98,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "GameOver",
+    path: "gameOver",
     element: (
       <>
         <NavBar />
@@ -179,9 +180,11 @@ root.render(
   <React.StrictMode>
   <AuthProvider {...oidcConfig}>
     <QueryClientProvider client={queryClient}>
+      <GameProvider>
       <ErrorBoundary fallback={<ErrorPage />}>
         <RouterProvider router={router} />
       </ErrorBoundary>
+      </GameProvider>
     </QueryClientProvider>
 
     </AuthProvider>
