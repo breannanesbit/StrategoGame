@@ -34,10 +34,6 @@ const initialBoardState: string[][] = [
   ["", "", "", "", "", "", "", "", "", "Flag"],
 ];
 
-// const initialPlayers: Game[] = [
-//   { id: "1", Player1: "Player1", Player2: "Player2", Player1Points: 0, Player2Points:0 , board: initialBoardState },
-//   // { id: "2", userName: "Player2", points: 500, board: initialBoardState , gamesPlayed: 0},
-// ];
 //show game id.--------
 // identify which player view it is currently
 //when game first starts the board will flip it with the players pieces,
@@ -60,8 +56,6 @@ export const PlayGame = () => {
   const { board, Player1, Player1Points, Player2, Player2Points } = game;
   const [gameOver, setGameOver] = useState<boolean>(false);
 
-  // const [board, setBoard] = useState(initialBoardState);
-  // const [players, setPlayers] = useState<Game[]>(initialPlayers);
   const [selectedCell, setSelectedCell] = useState<{
     row: number;
     col: number;
@@ -71,8 +65,6 @@ export const PlayGame = () => {
     row: number;
     col: number;
   } | null>(null);
-  // const [currentPlayer, setCurrentPlayer] = useState<User | number | null>();
-  // const [isPlayer1Turn, setIsPlayer1Turn] = useState(true);
 
   useEffect(() => {
     if (selectedPiece) {
@@ -87,29 +79,6 @@ export const PlayGame = () => {
   }, [isPlayer1Turn]);
 
   useEffect(() => {
-    // const getUsers = async () => {
-    //   try {
-    //     const response = await axios.get("api/user/board");
-    //     if (response.data && response.data.length >= 2) {
-    //       const fetchedPlayers = response.data.slice(0, 2).map((user: any) => ({
-    //         id: user.id,
-    //         userName: user.userName,
-    //         points: user.points,
-    //         board: user.board,
-    //       }));
-    //       setPlayers(fetchedPlayers);
-    //       setCurrentPlayer(
-    //         isPlayer1Turn ? fetchedPlayers[1] : fetchedPlayers[0]
-    //       );
-    //       console.log("Got players", response);
-    //     }
-    //   } catch (error) {
-    //     console.log("Getting users had a problem");
-    //     console.error("Error fetching users:", error);
-    //     setCurrentPlayer(1);
-    //   }
-    // };
-
     const combinedBoard = () => {
       const player1LastHalf = flipAndInvertBoard(player1board).slice(
         0,
@@ -163,10 +132,6 @@ export const PlayGame = () => {
     console.clear();
     console.log("navigate away");
     navigate('/gameOver');
-    // <Route path="/gameOver"/>
-            
-
-          
   }
   const movePiece = async (directionRow: number, directionCol: number) => {
     if (selectedPiece) {
@@ -258,7 +223,7 @@ export const PlayGame = () => {
   };
 
   const updateScores = (
-    outcome: string /*attackingPiece: string, defendingPiece: string*/
+    outcome: string 
   ) => {
     const currentPlayerNumber = isPlayer1Turn? "1": "2"
     const currentPlayerPieces = board.flat().filter(piece => piece.includes(currentPlayerNumber));
@@ -331,14 +296,7 @@ export const PlayGame = () => {
       <div className="row">
         <h1 className="col col-7">Game {game.id} in Progress</h1>
         <div className="col col-5 d-flex justify-content-end">
-          {/* <button className="btn btn-outline-danger mx-5">
-            <Link
-              style={{ textDecoration: "none", color: "red" }}
-              to={"/gameOver"}
-            >
-              Game Over
-            </Link>
-          </button> */}
+
         </div>
       </div>
       <div className=" row d-flex justify-content-start">
