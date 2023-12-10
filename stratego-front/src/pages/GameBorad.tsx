@@ -19,7 +19,7 @@ const GameBoard: React.FC = () => {
 
   const { data: userBoards } = useUserInforQuery(user);
   const postBoardMutation = useMutationPostBoard1();
-  const { game, player1board, setGame } = useGameContext();
+  const { game, setGame } = useGameContext();
   const navigate = useNavigate();
 
   useEffect(() => {

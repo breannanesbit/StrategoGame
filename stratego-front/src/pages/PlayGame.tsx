@@ -7,30 +7,6 @@ import { GameContext } from "../context/gameContext";
 const numRows = 10;
 const _numCols = 10;
 
-// const initialBoardState: string[][] = [
-//   ["", "", "", "", "", "", "", "", "", ""],
-//   ["", "", "", "", "", "", "", "", "", ""],
-//   ["", "", "", "", "", "", "", "", "", ""],
-//   ["", "", "", "", "", "", "", "", "", ""],
-//   ["", "", "", "", "", "", "", "", "", ""],
-//   ["", "", "", "", "", "", "", "", "", ""],
-//   [
-//     "Scout",
-//     "Scout",
-//     "Scout",
-//     "Scout",
-//     "Scout",
-//     "Bomb",
-//     "Bomb",
-//     "Bomb",
-//     "Bomb",
-//     "Bomb",
-//   ],
-//   ["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],
-//   ["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],
-//   ["", "", "", "", "", "", "", "", "", "Flag"],
-// ];
-
 //show game id.--------
 // identify which player view it is currently
 //when game first starts the board will flip it with the players pieces,
@@ -50,7 +26,7 @@ export const PlayGame = () => {
   } = useContext(GameContext);
   const navigate = useNavigate();
 
-  const { board, Player1, Player1Points, Player2, Player2Points } = game;
+  const { board } = game;
   const [_gameOver, setGameOver] = useState<boolean>(false);
 
   const [selectedCell, setSelectedCell] = useState<{
