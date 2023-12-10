@@ -10,54 +10,6 @@ app.use(express.json());
 
 app.use(cors());
 
-app.post('/stratego-api', (req: Request, res: Response) => {
-  const key = req.query.key as string;
-  const value = req.body;
-
-  if (!key) return res.status(400).send('Key is required as a query parameter');
-
-  let data: { [key: string]: any } = {};
-
-  if (fs.existsSync(dataFile)) {
-    data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-  }
-
-  data[key] = value;
-
-  fs.writeFileSync(dataFile, JSON.stringify(data));
-  res.json({ message: 'Data stored successfully' });
-});
-
-app.get('/stratego-api', (req: Request, res: Response) => {
-  const key = req.query.key as string;
-
-  if (!key) return res.status(400).send('Key is required');
-
-  if (fs.existsSync(dataFile)) {
-    const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-    if (data[key]) {
-      return res.json(data[key]);
-    }
-  }
-  res.status(404).send('Key not found');
-});
-
-app.delete('/stratgeo-api', (req: Request, res: Response) => {
-  const key = req.query.key as string;
-
-  if (!key) return res.status(400).send('Key is required');
-
-  if (fs.existsSync(dataFile)) {
-    let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-    if (data[key]) {
-      delete data[key];
-      fs.writeFileSync(dataFile, JSON.stringify(data));
-      return res.send('Data deleted successfully');
-    }
-  }
-
-  res.status(404).send('Key not found');
-});
 
 app.post('/stratego-api/:user/board/:gameID', (req: Request, res: Response) => {
   const { user, gameID } = req.params;
@@ -84,11 +36,12 @@ app.post('/stratego-api/:user/board/:gameID', (req: Request, res: Response) => {
 });
 
 // Endpoint to save a default board
-app.post('/stratego-api/:user/default/:boardName', (req, res) => {
-  const { user, boardName } = req.params;
+app.post('/stratego-api/default', (req, res) => {
+  //const { user } = req.params;
+  const key = req.query.key as string;
   const boards = req.body.boards;
 
-  if (!user || !boardName || !boards) {
+  if (!boards) {
     return res.status(400).send('Invalid request data');
   }
 
@@ -98,11 +51,8 @@ app.post('/stratego-api/:user/default/:boardName', (req, res) => {
   //   data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
   // }
 
-  if (!data[user]) {
-    data[user] = {};
-  }
 
-  data[user][boardName] = { boards };
+  data[key] = { boards };
   fs.writeFileSync(dataFile, JSON.stringify(data));
   res.json({ message: 'Default board saved successfully' });
 });
@@ -125,6 +75,56 @@ app.get('/stratego-api/:user/default', (req, res) => {
   const userBoards = data[user] || {};
   res.json(userBoards);
 });
+
+app.post('/stratego-api/user', (req: Request, res: Response) => {
+  const key = req.query.key as string;
+  const value = req.body;
+
+  if (!key) return res.status(400).send('Key is required as a query parameter');
+
+  let data: { [key: string]: any } = {};
+
+  if (fs.existsSync(dataFile)) {
+    data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+  }
+
+  data[key] = value;
+
+  fs.writeFileSync(dataFile, JSON.stringify(data));
+  res.json({ message: 'Data stored successfully' });
+});
+
+app.get('/stratego-api/user', (req: Request, res: Response) => {
+  const key = req.query.key as string;
+
+  if (!key) return res.status(400).send('Key is required');
+
+  if (fs.existsSync(dataFile)) {
+    const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+    if (data[key]) {
+      return res.json(data[key]);
+    }
+  }
+  res.status(404).send('Key not found');
+});
+
+app.delete('/stratego-api/user', (req: Request, res: Response) => {
+  const key = req.query.key as string;
+
+  if (!key) return res.status(400).send('Key is required');
+
+  if (fs.existsSync(dataFile)) {
+    let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+    if (data[key]) {
+      delete data[key];
+      fs.writeFileSync(dataFile, JSON.stringify(data));
+      return res.send('Data deleted successfully');
+    }
+  }
+
+  res.status(404).send('Key not found');
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://0.0.0.0:${port}`);

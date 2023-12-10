@@ -17,24 +17,46 @@ const Navbar = () => {
 
   const LogIn = () => {
     try {
-      auth.signinRedirect()
+      auth.signinRedirect();
+    } catch (e) {
+      console.error('Error fetching user information:', e);
+    }
+  };
 
-      if (username && !userInfo.data) {
+  useEffect(() => {
+    const addUserOnLogin = async () => {
+      console.log(userInfo.data)
+      if (auth.isAuthenticated && username && !userInfo.data) {
         const randomUniqueId = uuidv4();
         const user: User = {
           id: randomUniqueId,
           userName: username,
           points: 0,
           gamesPlayed: 0,
-        };
-        mutateUser.mutate({ user: user });
-        console.log("made it")
-      }
+          imageBase64: '',
+          boards: [],
 
-    } catch (e) {
-      console.error('Error fetching user information:', e);
-    }
-  }; 
+        };
+        await mutateUser.mutate({ user: user });
+        console.log("User added successfully");
+      }
+    };
+
+    addUserOnLogin(); // Trigger on initial mount
+
+    // Set up a listener for changes in auth.isAuthenticated
+    const handleAuthChange = () => {
+      addUserOnLogin();
+    };
+
+    // Attach the event listener
+    auth.events.addUserLoaded(handleAuthChange);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      auth.events.removeUserLoaded(handleAuthChange);
+    };
+  }, [auth.isAuthenticated, username, userInfo.data, mutateUser, auth.events]);
 
 
   const checkIsMobile = () => {

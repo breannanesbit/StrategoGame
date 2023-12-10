@@ -9,7 +9,7 @@ interface Acheivements {
   conditionValue: number; //how many games, points
 }
 export const examplePlayerList: User[] = [
-  {id: "0" ,userName: "toby", points: 50, gamesPlayed: 50},
+  {id: "0" ,userName: "toby", points: 50, gamesPlayed: 50, imageBase64: '', boards: []},
 ];
 export const exampleAcheivmentList = [
   { title: "acheivment 1", description: "description of acheivement 1", conditionVariable: "points", conditionValue: 5 },

@@ -66,7 +66,7 @@
   - [x] Home page w/ start the game button
   - [x] rules page
   - [x] decide your borad
-  - [/] play
+  - [x] play
   - [x] leader borad
   - [x] gameover showing who won
   - [x] saved defualt borads
@@ -89,5 +89,7 @@
   - [x]   leader board
   - [x]   achievements
   - [ ]   Making Player for initial start and edit
-- [/] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
+  
+- [x] authentication and user account support - we will have the ability to login and out of our gaming site. This way users know who they are playing against and can have the saved borads and achivements 
   - [x] admin pages and public pages - our admin pages will be a settings page to add new achivements people can achive. Most other pages will be for users
+
