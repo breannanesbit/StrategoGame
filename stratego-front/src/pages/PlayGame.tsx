@@ -69,7 +69,7 @@ export const PlayGame = () => {
     };
     //   getUsers();
     combinedBoard();
-  }, [player1board, player2board, setGame]);
+  }, []);
 
   const flipAndInvertBoard = (originalBoard: string[][]) => {
     const flippedv = originalBoard.slice().reverse();
@@ -238,7 +238,6 @@ export const PlayGame = () => {
     const isPlayer1Piece = piece.includes("1")
     const isPlayer2Piece = piece.includes("2")
 
-    console.log("isSelected loaded", isSelected);
     return (
       <button
       className={`rounded-1 ${isPlayer1Piece ? "btn btn-primary" : isPlayer2Piece? "btn btn-danger": "btn"}`}

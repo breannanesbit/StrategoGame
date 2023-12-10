@@ -58,22 +58,19 @@ export const GameProvider: React.FC<{
   const [game, setGame] = React.useState(initialGame);
   const [isPlayer1Turn, setIsPlayer1Turn] =
   React.useState(initialIsPlayer1Turn);
-  console.log("sentboard",player1board)
 
     const updatePlayerBoardNumber = (originalBoard: string[][], playerNumber: string) => {
-      console.log(originalBoard)
       const updatedBoard = originalBoard.map(row =>
         row.map(piece => (piece !== ""? `${piece}${playerNumber}`: ""))
         );
-        console.log("updated player board", updatedBoard)
         return updatedBoard
     }
 
   const value: GameContextType = {
     game,
     isPlayer1Turn,
-    player1board: updatePlayerBoardNumber(player1board || emptyBoard1, '1') ,
-    player2board: updatePlayerBoardNumber(player2board || emptyBoard, '2'),
+    player1board: updatePlayerBoardNumber(player1board ?? emptyBoard1, '1') ,
+    player2board: updatePlayerBoardNumber(player2board ?? emptyBoard, '2'),
     setGame,
     setIsPlayer1Turn,
   };
