@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import "../styles/gameover.css";
-import { Game } from "../models/game";
 import { GameContext } from "../context/gameContext";
 
 // const initialBoardState: string[][] = [
@@ -13,7 +12,7 @@ import { GameContext } from "../context/gameContext";
 
 export const GameOver = () => {
   const{game} = useContext(GameContext);
-  const {Player1, Player1Points, Player2, Player2Points} = game;
+  //const {Player1, Player1Points, Player2, Player2Points} = game;
   const [winningPlayer, setWinningPlayer] = useState<number | null>(null);
 
   const whoWins = useCallback(() => {
@@ -27,7 +26,7 @@ export const GameOver = () => {
     else{
       console.log("both groups win")}
       setWinningPlayer(null);
-  },[])
+  },[game.Player1Points, game.Player2Points])
   useEffect (()=> {
     whoWins();
   }, [winningPlayer,whoWins])

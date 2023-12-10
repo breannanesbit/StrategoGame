@@ -9,11 +9,11 @@ import { GenericRadioInput, useCustomRadioControl } from "../component/GenericRa
 
 const GameBoard: React.FC = () => {
   const [boardoption, setBoardOptions] = useState<string[]>([]);
-  const [selectedBoard, setSelectedBoard] = useState<string>(''); 
+  const [selectedBoard, _setSelectedBoard] = useState<string>(''); 
   const auth = useAuth();
   const user = auth.user?.profile.preferred_username || '';
 
-  const { data: userBoards, isLoading, isError } = useUserInforQuery(user);
+  const { data: userBoards } = useUserInforQuery(user);
   const postBoardMutation = useMutationPostBoard1();
   const navigate = useNavigate();
 
@@ -43,7 +43,8 @@ const GameBoard: React.FC = () => {
 
   const SubmitDefaultBoard = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault(); // Prevent default form submission
-    const selectedBoardData = userBoards?.boards.find(board => board.title === selectedBoard);
+    const _selectedBoardData = userBoards?.boards.find(board => board.title === selectedBoard);
+  
     // Do something with selectedBoardData
   }
 
