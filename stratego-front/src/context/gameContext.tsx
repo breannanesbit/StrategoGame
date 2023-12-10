@@ -17,7 +17,7 @@ export interface GameContextType {
   setIsPlayer1Turn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const emptyBoard: string[][] = [
-    ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["","","","","","","","","","",],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "Bomb", "", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
+    ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["","","","","","","","","","",],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", "Flag"],
 ];
 // const emptyBoard1: string[][] = [
 //   ["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["", "", "", "", "", "", "", "", "", ""],["Flag","Scout","Scout","Scout","Scout","Bomb","Bomb","Bomb","Bomb","Bomb",],["Scout", "Scout", "Scout", "Miner", "Miner", "", "", "", "", ""],["", "", "", "", "Miner", "Bomb", "Spy", "", "", ""],["", "", "", "", "", "", "", "", "", ""],
@@ -29,8 +29,8 @@ const emptyBoard1: string[][] = [
 
 const defaultGame: Game = {
   id: "",
-  Player1: "",
-  Player2: "",
+  Player1: "Player1",
+  Player2: "Player2",
   Player1Points: 0,
   Player2Points: 0,
   board: [],
@@ -60,23 +60,25 @@ export const GameProvider: React.FC<{
   player2board?: string[][] | undefined;
   initialIsPlayer1Turn?: boolean;
 }> = ({ children, initialGame = defaultGame, player1board, player2board, initialIsPlayer1Turn = true }) => {
-    
   const [game, setGame] = React.useState(initialGame);
   const [isPlayer1Turn, setIsPlayer1Turn] =
-    React.useState(initialIsPlayer1Turn);
+  React.useState(initialIsPlayer1Turn);
+  console.log("sentboard",player1board)
 
     const updatePlayerBoardNumber = (originalBoard: string[][], playerNumber: string) => {
+      console.log(originalBoard)
       const updatedBoard = originalBoard.map(row =>
         row.map(piece => (piece !== ""? `${piece}${playerNumber}`: ""))
         );
+        console.log("updated player board", updatedBoard)
         return updatedBoard
     }
 
   const value: GameContextType = {
     game,
     isPlayer1Turn,
-    player1board: updatePlayerBoardNumber(player1board ?? emptyBoard1, '1') ,
-    player2board: updatePlayerBoardNumber(player1board ?? emptyBoard, '2'),
+    player1board: updatePlayerBoardNumber(player1board || emptyBoard1, '1') ,
+    player2board: updatePlayerBoardNumber(player2board || emptyBoard, '2'),
     setGame,
     setIsPlayer1Turn,
   };
