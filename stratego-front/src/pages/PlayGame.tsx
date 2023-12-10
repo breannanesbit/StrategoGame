@@ -262,9 +262,13 @@ export const PlayGame = () => {
       ? selectedCell.row === row && selectedCell.col === col
       : false;
 
+    const isPlayer1Piece = piece.includes("1")
+    const isPlayer2Piece = piece.includes("2")
+
     console.log("isSelected loaded", isSelected);
     return (
       <button
+      className={`rounded-1 ${isPlayer1Piece ? "btn btn-primary" : isPlayer2Piece? "btn btn-danger": "btn"}`}
         key={`${row}-${col}`}
         onClick={() => handleCellClick(row, col)}
         disabled={!!selectedPiece}
@@ -292,7 +296,7 @@ export const PlayGame = () => {
     );
   };
   return (
-    <div>
+    <div className="container-fluid px-5">
       <div className="row">
         <h1 className="col col-7">Game {game.id} in Progress</h1>
         <div className="col col-5 d-flex justify-content-end">
