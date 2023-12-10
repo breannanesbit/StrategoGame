@@ -293,7 +293,7 @@ export const PlayGame = () => {
     );
   };
   return (
-    <div className="container-fluid px-5">
+    <div className=" px-5">
       <div className="row">
         <h1 className="col col-7">Game {game.id} in Progress</h1>
         <div className="col col-5 d-flex justify-content-end">
