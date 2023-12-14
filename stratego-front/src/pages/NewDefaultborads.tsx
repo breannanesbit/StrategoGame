@@ -55,6 +55,9 @@ export const NewDefaultBoard = () => {
         initialValue: boardName,
     })
 
+
+    
+
     return (
         <div className="container">
             <div className="row">

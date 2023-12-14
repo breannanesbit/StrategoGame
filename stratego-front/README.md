@@ -53,7 +53,7 @@
 ## Extra
 
 # 
-- [ ] Use of Local Storage - we plan to save players information localy before it gets saved to the api
+- [x] Use of Local Storage - we plan to save players information localy before it gets saved to the api
 - [/] Client side state stores (e.g. redux or context)- We'll use redux to keep track of the game state and context possibly for settings.
 - [x] Toasts / global notifications or alerts - most toasts can be found in the apiService  
 - [x] Error handling (both on api requests and render errors) - api request have try catches and toasted raised then rendering errors is handled by the error-page.jsx that is rendered in the index.tsx for the errorboundary
