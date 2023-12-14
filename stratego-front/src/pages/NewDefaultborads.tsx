@@ -26,7 +26,7 @@ export const NewDefaultBoard = () => {
 
     const handleSubmitBoard = async (newBoard: string[][]) => {
         try {
-            setBoardName(inputControl.value);
+            setBoardName(inputNameControl.value);
 
             // Assuming the User interface includes a 'boards' property
             const randomUniqueId = uuidv4();
@@ -49,14 +49,14 @@ export const NewDefaultBoard = () => {
         }
     };
 
-    const inputControl = useCustomInputControl({
+    const inputNameControl = useCustomInputControl({
         label: "Name",
         validatemessage: "valid",
         initialValue: boardName,
     })
 
 
-    
+
 
     return (
         <div className="container">
@@ -64,7 +64,7 @@ export const NewDefaultBoard = () => {
                 <div className="col-md-6">
                     <div style={{ margin: '2%' }}>
                         <h2>Create a new Board</h2>
-                        <GenericTextInput control={inputControl} />
+                        <GenericTextInput control={inputNameControl} />
                     </div>
                 </div>
                 <div className="row">
