@@ -69,7 +69,7 @@ export const PlayGame = () => {
     };
     //   getUsers();
     combinedBoard();
-  }, []);
+  }, [player1board, player2board, setGame]);
 
   const flipAndInvertBoard = (originalBoard: string[][]) => {
     const flippedv = originalBoard.slice().reverse();
